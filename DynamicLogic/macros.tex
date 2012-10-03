@@ -4,8 +4,13 @@
 
 \newcommand{\txt}[1]{\textit{#1}} % italic
 \newcommand{\defeq}{\doteq} % equal by definition
+\newcommand{\logeq}{\equiv} % logical equivalence
+
+
 
 \newcommand{\trr}[1]{#1} % this one does not do anything
+
+\newcommand{\Types}{\text{T}} % Types
 
 %------------------------------------------------------------------------------------
 % New Commands: Frameworks
@@ -25,6 +30,10 @@
 \newcommand{\D}{\mathbf{D}} % discourse
 \renewcommand{\S}{\mathbf{S}} % sentence
 
+\newcommand{\tr}[1]{\overline{#1}} % dynamizing
+\newcommand{\ttr}[1]{ \overline{#1}^*} 
+\newcommand{\etr}[1]{ \widetilde{#1}} % non-conventional dynamic term
+
 %------------------------------------------------------------------------------------
 % New Commands: Lambda Calculus
 %------------------------------------------------------------------------------------
@@ -35,9 +44,11 @@
 
 %------------------------------------------------------------------------------------
 % New Commands: 
-% Contractions for distinguishing variables for static and dynamic cases.
+% Abbreviations for distinguishing variables for static and dynamic cases.
 % E.g.: \x1 - static, \x2 - dynamic
 %------------------------------------------------------------------------------------
+\newcommand{\A}[1]{\ifcase #1 \or \AAA\or\AB\or\AC\fi}
+\newcommand{\B}[1]{\ifcase #1 \or \BA\or\BB\or\BC\fi}
 \newcommand{\R}[1]{\ifcase #1 \or \RA\or\RB\or\RC\fi}
 \newcommand{\Q}[1]{\ifcase #1 \or \QA\or\QB\or\QC\fi}
 \renewcommand{\P}[1]{\ifcase #1 \or \PA\or\PB\or\PC\fi}
@@ -45,6 +56,23 @@
 \newcommand{\Y}[1]{\ifcase #1 \or \YA\or\YB\or\YC\fi}
 \newcommand{\x}[1]{\ifcase #1 \or \xA\or\xB\or\xC\fi}
 \newcommand{\y}[1]{\ifcase #1 \or \yA\or\yB\or\yC\fi}
+\newcommand{\z}[1]{\ifcase #1 \or \zA\or\zB\or\zC\fi}
+\renewcommand{\t}[1]{\ifcase #1 \or \tA\or\tB\or\tC\fi}
+\newcommand{\h}[1]{\ifcase #1 \or \hA\or\hB\or\hC\fi}
+\renewcommand{\v}[1]{\ifcase #1 \or \vA\or\vB\or\vC\fi}
+\renewcommand{\u}[1]{\ifcase #1 \or \uA\or\uB\or\uC\fi}
+\newcommand{\w}[1]{\ifcase #1 \or \wA\or\wB\or\wC\fi}
+
+%------------------------------------------------------------------------------------
+
+\newcommand{\AAA}{\mathrm{A}}
+\newcommand{\AB}{\mathbf{A}}
+\newcommand{\AC}{\varmathbb{A}}
+
+\newcommand{\BA}{\mathrm{B}}
+\newcommand{\BB}{\mathbf{B}}
+\newcommand{\BC}{\varmathbb{B}}
+
 
 \newcommand{\RA}{\mathrm{R}}
 \newcommand{\RB}{\mathbf{R}}
@@ -73,6 +101,68 @@
 \newcommand{\yA}{y}
 \newcommand{\yB}{\mathbf{y}}
 \newcommand{\yC}{\mathbf{y}}
+
+\newcommand{\zA}{z}
+\newcommand{\zB}{\mathbf{z}}
+\newcommand{\zC}{\mathbf{z}}
+
+\newcommand{\tA}{t}
+\newcommand{\tB}{\mathbf{t}}
+\newcommand{\tC}{\mathbf{t}}
+
+\newcommand{\hA}{h}
+\newcommand{\hB}{\mathbf{h}}
+\newcommand{\hC}{\mathbf{h}}
+
+\newcommand{\vA}{v}
+\newcommand{\vB}{\mathbf{v}}
+\newcommand{\vC}{\mathbf{v}}
+
+\newcommand{\uA}{u}
+\newcommand{\uB}{\mathbf{u}}
+\newcommand{\uC}{\mathbf{u}}
+
+\newcommand{\wA}{w}
+\newcommand{\wB}{\mathbf{w}}
+\newcommand{\wC}{\mathbf{w}}
+
+%------------------------------------------------------------------------------------
+% New Commands: Abbreviations for logical constants
+%------------------------------------------------------------------------------------
+
+
+\renewcommand{\ex}[1]{\ifcase #1 \or \existsA\or\existsB\or\existsC\fi}
+\newcommand{\all}[1]{\ifcase #1 \or \forallA\or\forallB\or\forallC\fi}
+\newcommand{\imp}[1]{\ifcase #1 \or \impA\or\impB\or\impC\fi}
+\newcommand{\dsj}[1]{\ifcase #1 \or \lorA\or\lorB\or\lorC\fi}
+\newcommand{\n}[1]{\ifcase #1 \or \negA\or\negB\or\negC\fi}
+\newcommand{\cnj}[1]{\ifcase #1 \or \landA\or\landB\or\landC\fi}
+
+%------------------------------------------------------------------------------------
+\newcommand{\existsA}{\exists}
+\newcommand{\existsB}{\Sigma} 
+\newcommand{\existsC}{\Xi}  
+
+\newcommand{\forallA}{\exists}
+\newcommand{\forallB}{\Pi}  
+\newcommand{\forallC}{\amalg}  
+
+\newcommand{\impA}{\rightarrow}
+\newcommand{\impB}{\Rightarrow}
+\newcommand{\impC}{\Rrightarrow}
+
+\newcommand{\negA}{\neg}
+\newcommand{\negB}{\sim}
+\newcommand{\negC}{\natural}
+
+\newcommand{\landA}{\land}
+\newcommand{\landB}{\curlywedge}
+\newcommand{\landC}{\curlywedgeuparrow}
+
+\newcommand{\lorA}{\lor}
+\newcommand{\lorB}{\curlyvee} 
+\newcommand{\lorC}{\curlyveedownarrow}
+
 
 %------------------------------------------------------------------------------------
 % New Commands: Non-logical constants
