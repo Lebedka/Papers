@@ -1,1 +1,85 @@
 %
+
+\newcommand{\I}[1]{[\![#1]\!]}  % interpretation
+
+\newcommand{\txt}[1]{\textit{#1}} % italic
+\newcommand{\defeq}{\doteq} % equal by definition
+
+\newcommand{\trr}[1]{#1} % this one does not do anything
+
+%------------------------------------------------------------------------------------
+% New Commands: Frameworks
+%------------------------------------------------------------------------------------
+
+\newcommand{\G}{G$_0$} % framework introduced in SALT 2006 paper
+\newcommand{\GN}{G} % first order framework
+\newcommand{\GL}{GL} % higher order framework
+
+%------------------------------------------------------------------------------------
+% New Commands: Dynamic Logic
+%------------------------------------------------------------------------------------
+
+\newcommand{\upii}[2]{#1 ::  #2}  % list constructor
+\newcommand{\sel}{\mathsf{sel} } % selection function
+\newcommand{\updt}{\mathsf{upd}}  % discourse update
+\newcommand{\D}{\mathbf{D}} % discourse
+\renewcommand{\S}{\mathbf{S}} % sentence
+
+%------------------------------------------------------------------------------------
+% New Commands: Lambda Calculus
+%------------------------------------------------------------------------------------
+\newcommand{\bconv}{\rightarrow_\beta}  %beta conversion
+\newcommand{\bred}{\rightarrow^{*}_\beta} %beta reduction
+\newcommand{\econv}{\rightarrow_\eta} %eta conversion 
+
+
+%------------------------------------------------------------------------------------
+% New Commands: 
+% Contractions for distinguishing variables for static and dynamic cases.
+% E.g.: \x1 - static, \x2 - dynamic
+%------------------------------------------------------------------------------------
+\newcommand{\R}[1]{\ifcase #1 \or \RA\or\RB\or\RC\fi}
+\newcommand{\Q}[1]{\ifcase #1 \or \QA\or\QB\or\QC\fi}
+\renewcommand{\P}[1]{\ifcase #1 \or \PA\or\PB\or\PC\fi}
+\newcommand{\X}[1]{\ifcase #1 \or \XA\or\XB\or\XC\fi}
+\newcommand{\Y}[1]{\ifcase #1 \or \YA\or\YB\or\YC\fi}
+\newcommand{\x}[1]{\ifcase #1 \or \xA\or\xB\or\xC\fi}
+\newcommand{\y}[1]{\ifcase #1 \or \yA\or\yB\or\yC\fi}
+
+\newcommand{\RA}{\mathrm{R}}
+\newcommand{\RB}{\mathbf{R}}
+\newcommand{\RC}{\varmathbb{R}}
+
+\newcommand{\QA}{\mathrm{Q}}
+\newcommand{\QB}{\mathbf{Q}}
+\newcommand{\QC}{\varmathbb{Q}}
+
+\newcommand{\PA}{\mathrm{P}}
+\newcommand{\PB}{\mathbf{P}}
+\newcommand{\PC}{\varmathbb{P}}
+
+\newcommand{\XA}{\mathrm{X}}
+\newcommand{\XB}{\mathbf{X}}
+\newcommand{\XC}{\varmathbb{X}}
+
+\newcommand{\YA}{\mathrm{Y}}
+\newcommand{\YB}{\mathbf{Y}}
+\newcommand{\YC}{\varmathbb{Y}}
+
+\newcommand{\xA}{x}
+\newcommand{\xB}{\mathbf{x}}
+\newcommand{\xC}{\mathbf{x}}
+
+\newcommand{\yA}{y}
+\newcommand{\yB}{\mathbf{y}}
+\newcommand{\yC}{\mathbf{y}}
+
+%------------------------------------------------------------------------------------
+% New Commands: Non-logical constants
+%------------------------------------------------------------------------------------
+
+\newcommand{\cfarmer}{\textbf{f} }
+\newcommand{\cdonkey}{\textbf{d} }
+\newcommand{\cown}{\textbf{o} }
+\newcommand{\cbeat}{\textbf{b} }
+
