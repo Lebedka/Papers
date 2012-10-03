@@ -46,6 +46,43 @@
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 
+%------------------------------------------------------------------------------------
+% New Commands: Abbreviations for logical constants
+%------------------------------------------------------------------------------------
+
+
+\renewcommand{\ex}[1]{\ifcase #1 \or \existsA\or\existsB \fi}
+\newcommand{\all}[1]{\ifcase #1 \or \forallA\or\forallB \fi}
+\newcommand{\imp}[1]{\ifcase #1 \or \impA\or\impB \fi}
+\newcommand{\dsj}[1]{\ifcase #1 \or \lorA\or\lorB \fi}
+\newcommand{\n}[1]{\ifcase #1 \or \negA\or\negB \fi}
+\newcommand{\cnj}[1]{\ifcase #1 \or \landA\or\landB \fi}
+
+%------------------------------------------------------------------------------------
+\newcommand{\existsA}{\exists}
+\newcommand{\existsB}{\dynexists} 
+
+\newcommand{\forallA}{\exists}
+\newcommand{\forallB}{\dynall}  
+
+\newcommand{\impA}{\rightarrow}
+\newcommand{\impB}{\dynimplies}
+
+\newcommand{\negA}{\neg}
+\newcommand{\negB}{\dynneg}
+
+\newcommand{\landA}{\land}
+\newcommand{\landB}{\dynand}
+
+\newcommand{\lorA}{\lor}
+\newcommand{\lorB}{\dynor} 
+
+
+%------------------------------------------------------------------------------------
+% New Commands: Miscelaneous abbreviations
+%------------------------------------------------------------------------------------
+
+
 \newcommand{\I}[1]{[\![#1]\!]}  % interpretation
 
 \newcommand{\txt}[1]{\textit{#1}} % italic
@@ -161,42 +198,6 @@
 \newcommand{\wB}{\mathbf{w}}
 \newcommand{\wC}{\mathbf{w}}
 
-%------------------------------------------------------------------------------------
-% New Commands: Abbreviations for logical constants
-%------------------------------------------------------------------------------------
-
-
-\renewcommand{\ex}[1]{\ifcase #1 \or \existsA\or\existsB\or\existsC\fi}
-\newcommand{\all}[1]{\ifcase #1 \or \forallA\or\forallB\or\forallC\fi}
-\newcommand{\imp}[1]{\ifcase #1 \or \impA\or\impB\or\impC\fi}
-\newcommand{\dsj}[1]{\ifcase #1 \or \lorA\or\lorB\or\lorC\fi}
-\newcommand{\n}[1]{\ifcase #1 \or \negA\or\negB\or\negC\fi}
-\newcommand{\cnj}[1]{\ifcase #1 \or \landA\or\landB\or\landC\fi}
-
-%------------------------------------------------------------------------------------
-\newcommand{\existsA}{\exists}
-\newcommand{\existsB}{\Sigma} 
-\newcommand{\existsC}{\Xi}  
-
-\newcommand{\forallA}{\exists}
-\newcommand{\forallB}{\Pi}  
-\newcommand{\forallC}{\amalg}  
-
-\newcommand{\impA}{\rightarrow}
-\newcommand{\impB}{\Rightarrow}
-\newcommand{\impC}{\Rrightarrow}
-
-\newcommand{\negA}{\neg}
-\newcommand{\negB}{\sim}
-\newcommand{\negC}{\natural}
-
-\newcommand{\landA}{\land}
-\newcommand{\landB}{\curlywedge}
-\newcommand{\landC}{\curlywedgeuparrow}
-
-\newcommand{\lorA}{\lor}
-\newcommand{\lorB}{\curlyvee} 
-\newcommand{\lorC}{\curlyveedownarrow}
 
 
 %------------------------------------------------------------------------------------
@@ -207,4 +208,14 @@
 \newcommand{\cdonkey}{\textbf{d} }
 \newcommand{\cown}{\textbf{o} }
 \newcommand{\cbeat}{\textbf{b} }
+
+%------------------------------------------------------------------------------------
+% New Commands: Frameworks
+%------------------------------------------------------------------------------------
+
+\newcommand{\G}{G$_0$} % framework introduced in SALT 2006 paper
+\newcommand{\GN}{G} % first order framework
+\newcommand{\GL}{GL} % higher order framework
+
+
 
