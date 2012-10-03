@@ -1,4 +1,4 @@
-\section{The underlying dynamic logic}
+\section{The underlying dynamic logic} \label{sec:dyn_log}
 
 Although compositional dynamic framework {\G}, introduced in~\cite{deGroote:2006:Towards-a-Montagovian-Account-of-Dynamics} and reviewed in the previous section, have shown itself to be promising by successfully handling donkey anaphora, its interpretations look complex and the computation of the meaning can be difficult to understand. In his later talks, de~Groote proposed an improvement of framework {\G}, called here framework {\GN}, that represents his semantics in a more concise and systematic way. To do so, de~Groote defined a continuation-based dynamic logic and this section presents this logic.
 
@@ -184,7 +184,7 @@ Dynamic conjunction is defined as a composition of two dynamic terms. The logica
 \end{definition}
 Equation~\eqref{def:DTerms-FO-P} defines the dynamization of a proposition $\P1 \t1_1 \dots \t1_n $ of type $o$ by adding a $\lambda$-abstraction with two arguments  $e$ and $\phi$  (of types $\gamma$ and $(\gamma \rightarrow o)$ respectively) and a conjunct $\phi e$. Therefore, the resulting dynamic term is of type $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o )$, the type of a dynamic proposition. Equations~\ref{def:DTerms-FO-neg},~\ref{def:DTerms-FO-cnj} and~\ref{def:DTerms-FO-ex} extend dynamization to non-atomic formulas.
 
-Note that Definitions~\ref{def:DLCnst-FO} and~\ref{def:DTerms-FO} allow representing de~Groote's~\cite{deGroote:2006:Towards-a-Montagovian-Account-of-Dynamics} (Section~\ref{sec:2006}) dynamic terms in a compact way.  While interpretations in~\cite{deGroote:2006:Towards-a-Montagovian-Account-of-Dynamics} explicitly show extra parameters, i.e. contexts and continuations, these new definitions make it possible to hide these parameters. Moreover, the resulting compact dynamic terms are structurally analogous to their original static counterparts and, hence, are more intuitive.
+Note that Definitions~\ref{def:DLCnst-FO} and~\ref{def:DTerms-FO} allow representing de~Groote's~\cite{deGroote:2006:Towards-a-Montagovian-Account-of-Dynamics} (Section~\ref{sec:cont_based_dyn}) dynamic terms in a compact way.  While interpretations in~\cite{deGroote:2006:Towards-a-Montagovian-Account-of-Dynamics} explicitly show extra parameters, i.e. contexts and continuations, these new definitions make it possible to hide these parameters. Moreover, the resulting compact dynamic terms are structurally analogous to their original static counterparts and, hence, are more intuitive.
 
 \begin{remark} In equations below, terms on the left side of $\defeq$ abbreviate respective terms on the right side:
 \begin{align} 
@@ -313,7 +313,6 @@ Note that the type of every dynamic term is analogous to its static type. The on
 \bred \ &  \all2 (\lambda \x1. (\tr{\textbf{f}} \x1  \cnj2     \ex2 (\lambda \z1.   \tr{\textbf{d}}   \z1  \cnj2      \tr{\textbf{o}}  \x1  \z1 ))    \imp2    (\lambda e \phi. \tr{\textbf{b}}  \x1 ( \sel_{it} e ) e \phi ) )  \label{eq:FO-donkey-int1} \\
 \bred \ & \lambda e \phi. \forall (\lambda \x1. \cfarmer \x1  \rightarrow \forall  (\lambda \z1.  (\cdonkey  \z1 \land \cown  \x1 \z1 )   \rightarrow  \cbeat  \x1 ( \sel_{it}  (\upii{\x1}{\upii{\z1}{e}}) )))\land \phi e  \label{eq:FO-donkey-int1-equiv}
 \end{align}
-
 
 
 Resulting term~\eqref{eq:FO-donkey-int1-equiv} is equivalent to~\eqref{eq:donkey-nf-meaning-2-2006} obtained in framework {\G} interpretations. Indeed, framework {\GN} is equivalent to de Groote's~\cite{deGroote:2006:Towards-a-Montagovian-Account-of-Dynamics} framework {\G}. However, it is advantageous over {\G} due to the compact notations for dynamic terms. These notations significantly systematize the framework and make the interpretations more concise and intuitive. Moreover, the systematic translations of static terms into dynamic terms makes it possible to prove a conservation result~\ref{th:conservation:FO} for {\GN}, that guarantees that static and dynamic interpretations are satisfied in the same models. 
