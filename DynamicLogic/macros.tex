@@ -1,1 +1,45 @@
-%
+% Dynamic connectives and quantifiers
+
+\newcommand{\dynexists}{\mathord{\reflectbox{$\mathds{E}$}}}
+
+\newcommand{\dynall}{\mathord{%
+\raisebox{\depth}{\rotatebox{180}{$\mathds{A}$}}}}
+
+\newcommand{\dynor}{\mathbin{\mathds{V}}}
+
+\newcommand{\dynand}{\mathbin{%
+\reflectbox{\raisebox{\depth}{\rotatebox{180}{${\dynor}$}}}}}
+
+\newcommand{\dynimplies}{\mathbin{%
+\mbox{\raisebox{.28ex}{\rule{1.7ex}{.15ex}}%
+\hspace{-1.7ex}\raisebox{.73ex}{\rule{1.7ex}{.15ex}}%
+\hspace{-.4ex}\raisebox{-.01ex}{\rotatebox{45}{\rule{.83ex}{.15ex}}}%
+\hspace{-.69ex}\raisebox{.58ex}{\rotatebox{135}{\rule{.83ex}{.15ex}}}}
+}}
+
+\newcommand{\dynneg}{\mathop{%
+\mbox{\raisebox{.68ex}{\rule{1.2ex}{.15ex}}%
+\hspace{-.15ex}\raisebox{.2ex}{\rule{.15ex}{.63ex}}%
+\hspace{.25ex}\raisebox{.2ex}{\rule{.15ex}{.63ex}}}
+}}
+
+% lambda-terms
+
+\newif\ifinnerapp \newif\ifinnerabs
+
+\def\abs#1#2%
+{\ifinnerabs%
+(\lambda #1 . \,%
+\innerappfalse\innerabsfalse #2)%
+\else%
+\lambda #1 . \,%
+\innerappfalse\innerabsfalse #2%
+\fi\innerappfalse\innerabsfalse}
+
+\def\app#1#2% 
+{\ifinnerapp%
+(\innerappfalse\innerabstrue #1 \, \innerapptrue\innerabstrue #2)%
+\else%
+\innerappfalse\innerabstrue #1 \, \innerapptrue\innerabstrue #2%
+\fi\innerappfalse\innerabsfalse}
+
