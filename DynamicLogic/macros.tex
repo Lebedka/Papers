@@ -114,7 +114,7 @@
 %------------------------------------------------------------------------------------
 % New Commands: Lambda Calculus
 %------------------------------------------------------------------------------------
-\newcommand{\bconv}{\rightarrow_\beta}  %beta conversion
+\newcommand{\bconv}{\rightarrow_\beta}  %one-step beta reduction
 \newcommand{\bred}{\rightarrow^{*}_\beta} %beta reduction
 \newcommand{\econv}{\rightarrow_\eta} %eta conversion 
 
@@ -218,9 +218,49 @@
 % New Commands: Frameworks
 %------------------------------------------------------------------------------------
 
+\newcommand{\expn}{\chi}  % exception
+
 \newcommand{\G}{G$_0$} % framework introduced in SALT 2006 paper
 \newcommand{\GN}{G} % first order framework
 \newcommand{\GL}{GL} % higher order framework
+\newcommand{\GLex}{GL$\expn$} % dynamic logic with exceptions
 
 
+%------------------------------------------------------------------------------------
+% New Commands: Colorful symbols for the comparison with DPL
+%------------------------------------------------------------------------------------
+
+
+
+\newcommand{\ntodl}{h_G}
+%\newcommand{trntog}{$h_g$}
+
+\newcommand{\ntodpl}{h_{\textit{DPL}}}
+
+\newcommand{\dpltos}{s_{DPL}}
+\newcommand{\mdpltos}[1]{ ( #1 )_{s_\textit{DPL}}}
+
+\newcommand{\dltos}{\textcolor{red}{s_{G}}}
+\newcommand{\mdltos}[1]{ \textcolor{red}{(} #1 \textcolor{red}{)_{s_{G}}}}
+
+\newcommand{\dplstodls}{\textcolor{blue}{\lceil \cdot \rceil_S}}
+\newcommand{\mdplstodls}[1]{\textcolor{blue}{\lceil}  #1 \textcolor{blue}{\rceil_S}}
+
+\newcommand{\dplstodpll}{\textcolor{cyan}{t^{\lambda}_\textit{DPL}}}
+\newcommand{\mdplstodpll}[1]{\textcolor{cyan}{(} #1 \textcolor{cyan}{ )_{t^{\lambda}_\textit{DPL}}}}
+
+\newcommand{\dpltodl}{\textcolor{cyan}{t^{G}_\textit{DPL}}}
+\newcommand{\mdpltodl}[1]{\textcolor{cyan}{(} #1 \textcolor{cyan}{ )_{t^{G}_\textit{DPL}}}}
+
+
+\newcommand{\dpllstodl}{\textcolor{blue}{\lceil \cdot \rceil_L}}
+\newcommand{\mdpllstodl}[1]{\textcolor{blue}{\lceil} #1 \textcolor{blue}{\rceil_L}}
+
+\newcommand{\newDPL}{\textit{DPL}^\lambda_L}
+
+\newcommand{\statesDPL}{\textit{DPL}_{S}}
+\newcommand{\statesDL}{\GN_S}
+
+\newcommand{\langDPL}{\textit{DPL}_L}
+\newcommand{\langDL}{\GN_L}
 
