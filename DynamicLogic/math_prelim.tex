@@ -5,7 +5,7 @@
 
 In this section, based on~\cite{Barendregt:1981:The-Lambda-Calculus:-Its-Syntax-and-Semantics},~\cite{Barendregt:1992:Lambda-Calculi-with-Types} and~\cite{HindleySeldin:2008:Lambda-Calculus-and-Combinators-an-Introduction}, the basic definitions and theorems of type-free (\ref{sec:A1}) and simply-typed (\ref{sec:A2}) lambda calculus are presented. 
 
-\section{Type-free Lambda Calculus} \label{sec:A1}
+\subsection{Type-free Lambda Calculus} \label{sec:A1}
 
 \begin{definition}[$\lambda$-terms] The set of \textbf{$\lambda$-terms} $\Lambda$ constructed from an enumerable set of variables $V = \{ v, v_1 ,v_2, \dots\}$ is defined inductively as follows:
 \begin{center}
@@ -293,7 +293,7 @@ The notion of $\beta$-reduction is very important, because it characterizes prov
 
 The Church-Rosser theorem says that for two $\beta$-convertible terms, there is a term to which they both $\beta$-reduce, as illustrated in Figure~\ref{fig:diamond}. The property described in the theorem, that if a term can be reduced to two different terms, then these two terms can be further reduced to one term, is called the \textbf{diamond property} or \textbf{confluence}. The theorem states that $\beta$-reduction is confluent.
 
-\section{Simply-typed Lambda Calculus}  \label{sec:A2}
+\subsection{Simply-typed Lambda Calculus}  \label{sec:A2}
 
 Lambda terms can be assigned expressions, called ``types'', to denote their intended input and output sets. There exists two typing paradigms: 
 \`{a} la Curry, sometimes called \textbf{implicit}, and \`{a} la Church, sometimes called \textbf{explicit}. This section first recalls the basics of Curry-style approach and then briefly compares it with the Church-style.
