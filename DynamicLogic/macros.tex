@@ -20,43 +20,160 @@
 \newcommand{\dynneg}{\mathop{%
 \mbox{\raisebox{.68ex}{\rule{1.2ex}{.15ex}}%
 \hspace{-.15ex}\raisebox{.2ex}{\rule{.15ex}{.63ex}}%
-\hspace{.25ex}\raisebox{.2ex}{\rule{.15ex}{.63ex}}}
+\hspace{.25ex}\raisebox{.2ex}{\rule{.15ex}{.63ex}}\hspace{.15ex}}
 }}
 
-% lambda-terms
+%%%%% lambda-terms
 
-\newif\ifinnerapp \newif\ifinnerabs
+\newif\ifatomic
+\newif\ifoperator
+\newif\ifconj
+\newif\ifdisj
+\newif\ifdconj
+\newif\ifddisj
+
+\def\reset{\atomicfalse\operatorfalse\conjfalse\disjfalse\dconjfalse\ddisjfalse}
+
+% abstraction
 
 \def\abs#1#2%
-{\ifinnerabs%
-(\lambda #1 . \,%
-\innerappfalse\innerabsfalse #2)%
+{\ifatomic%
+(\lambda #1 . \, \reset #2)%
 \else%
-\lambda #1 . \,%
-\innerappfalse\innerabsfalse #2%
-\fi\innerappfalse\innerabsfalse}
+\lambda #1 . \, \reset #2%
+\fi\reset}
 
-\def\app#1#2% 
-{\ifinnerapp%
-(\innerappfalse\innerabstrue #1 \, \innerapptrue\innerabstrue #2)%
+% application
+
+\def\app#1#2%
+{\ifoperator%
+\reset\atomictrue\operatortrue #1 \, \reset\atomictrue #2%
 \else%
-\innerappfalse\innerabstrue #1 \, \innerapptrue\innerabstrue #2%
-\fi\innerappfalse\innerabsfalse}
+\ifatomic%
+(\reset\atomictrue\operatortrue #1 \, \reset\atomictrue #2)%
+\else%
+\reset\atomictrue\operatortrue #1 \, \reset\atomictrue #2%
+\fi%
+\fi\reset}
+
+% universal quantification
+
+\def\uquant#1#2%
+{\ifatomic%
+(\forall #1 . \, \reset #2)%
+\else%
+\forall #1 . \, \reset #2%
+\fi\reset}
+
+% existential quantification
+
+\def\equant#1#2%
+{\ifatomic%
+(\exists #1 . \, \reset #2)%
+\else%
+\exists #1 . \, \reset #2%
+\fi\reset}
+
+% implication
+
+\def\imp#1#2%
+{\ifatomic%
+(\reset\atomictrue #1 \rightarrow \reset\atomictrue #2)%
+\else%
+\reset\atomictrue #1 \rightarrow \reset\atomictrue #2%
+\fi\reset}
+
+% conjunction
+
+\def\conj#1#2%
+{\ifconj%
+\reset\atomictrue\conjtrue #1 \wedge \reset\atomictrue\conjtrue #2%
+\else%
+\ifatomic%
+(\reset\atomictrue\conjtrue #1 \wedge \reset\atomictrue\conjtrue #2)%
+\else%
+\reset\atomictrue\conjtrue #1 \wedge \reset\atomictrue\conjtrue #2%
+\fi%
+\fi\reset}
+
+% disjunction
+
+\def\disj#1#2%
+{\ifdisj%
+\reset\atomictrue\disjtrue #1 \vee \reset\atomictrue\disjtrue #2%
+\else%
+\ifatomic%
+(\reset\atomictrue\disjtrue #1 \vee \reset\atomictrue\disjtrue #2)%
+\else%
+\reset\atomictrue\disjtrue #1 \vee \reset\atomictrue\disjtrue #2%
+\fi%
+\fi\reset}
+
+% negation
+
+\def\nega#1%
+{\neg \reset\atomictrue #1\reset}
+
+% dynamic universal quantification
+
+\def\duquant#1#2%
+{\ifatomic%
+(\dynall #1 . \, \reset #2)%
+\else%
+\dynall #1 . \, \reset #2%
+\fi\reset}
+
+% dynamic existential quantification
+
+\def\dequant#1#2%
+{\ifatomic%
+(\dynexists #1 . \, \reset #2)%
+\else%
+\dynexists #1 . \, \reset #2%
+\fi\reset}
+
+% dynamic implication
+
+\def\dimp#1#2%
+{\ifatomic%
+(\reset\atomictrue #1 \dynimplies \reset\atomictrue #2)%
+\else%
+\reset\atomictrue #1 \dynimplies \reset\atomictrue #2%
+\fi\reset}
+
+% dynamic conjunction
+
+\def\dconj#1#2%
+{\ifdconj%
+\reset\atomictrue\dconjtrue #1 \dynand \reset\atomictrue\dconjtrue #2%
+\else%
+\ifatomic%
+(\reset\atomictrue\dconjtrue #1 \dynand \reset\atomictrue\dconjtrue #2)%
+\else%
+\reset\atomictrue\dconjtrue #1 \dynand \reset\atomictrue\dconjtrue #2%
+\fi%
+\fi\reset}
+
+% dynamic disjunction
+
+\def\ddisj#1#2%
+{\ifddisj%
+\reset\atomictrue\ddisjtrue #1 \dynor \reset\atomictrue\ddisjtrue #2%
+\else%
+\ifatomic%
+(\reset\atomictrue\ddisjtrue #1 \dynor \reset\atomictrue\ddisjtrue #2)%
+\else%
+\reset\atomictrue\ddisjtrue #1 \dynor \reset\atomictrue\ddisjtrue #2%
+\fi%
+\fi\reset}
+
+% dynamic negation
+
+\def\dnega#1%
+{\dynneg \reset\atomictrue #1\reset}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-
-%------------------------------------------------------------------------------------
-% New Commands: Abbreviations for logical constants
-%------------------------------------------------------------------------------------
-
-
-\renewcommand{\ex}[1]{\ifcase #1 \or \existsA\or\existsB \fi}
-\newcommand{\all}[1]{\ifcase #1 \or \forallA\or\forallB \fi}
-\newcommand{\imp}[1]{\ifcase #1 \or \impA\or\impB \fi}
-\newcommand{\dsj}[1]{\ifcase #1 \or \lorA\or\lorB \fi}
-\newcommand{\n}[1]{\ifcase #1 \or \negA\or\negB \fi}
-\newcommand{\cnj}[1]{\ifcase #1 \or \landA\or\landB \fi}
 
 %------------------------------------------------------------------------------------
 \newcommand{\existsA}{\exists}
@@ -81,7 +198,6 @@
 %------------------------------------------------------------------------------------
 % New Commands: Miscelaneous abbreviations
 %------------------------------------------------------------------------------------
-
 
 \newcommand{\I}[1]{[\![#1]\!]}  % interpretation
 
@@ -225,6 +341,12 @@
 \newcommand{\GL}{GL} % higher order framework
 \newcommand{\GLex}{GL$\expn$} % dynamic logic with exceptions
 
+\renewcommand{\ex}[1]{\ifcase #1 \or \existsA\or\existsB\or\existsC\fi}
+\newcommand{\all}[1]{\ifcase #1 \or \forallA\or\forallB\or\forallC\fi}
+\newcommand{\impK}[1]{\ifcase #1 \or \impA\or\impB\or\impC\fi}
+\newcommand{\dsj}[1]{\ifcase #1 \or \lorA\or\lorB\or\lorC\fi}
+\newcommand{\n}[1]{\ifcase #1 \or \negA\or\negB\or\negC\fi}
+\newcommand{\cnj}[1]{\ifcase #1 \or \landA\or\landB\or\landC\fi}
 
 %------------------------------------------------------------------------------------
 % New Commands: Colorful symbols for the comparison with DPL

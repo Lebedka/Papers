@@ -188,7 +188,7 @@ Note that Definitions~\ref{def:DLCnst-FO} and~\ref{def:DTerms-FO} allow represen
 
 \begin{remark} In equations below, terms on the left side of $\defeq$ abbreviate respective terms on the right side:
 \begin{align} 
-\A2 \imp2 \B2 \defeq \ & \n2 (\A2 \cnj2 \n2 \B2) \\
+\A2 \impK2 \B2 \defeq \ & \n2 (\A2 \cnj2 \n2 \B2) \\
 \all2( \lambda \x1. \P2[\x1]) \defeq \ & \n2 \ex2 ( \lambda \x1. \n2 \P2 [\x1] )
 \end{align}
 \end{remark}
@@ -310,7 +310,7 @@ Note that the type of every dynamic term is analogous to its static type. The on
  Taking these dynamic interpretations to compute the meaning of Sentence~\eqref{donkey-every-FO}, term~\eqref{eq:FO-donkey-int0} $\beta$-reduces to term~\eqref{eq:FO-donkey-int1}, which normalizes to~\eqref{eq:FO-donkey-int1-equiv}:
 \begin{align}
 & \tr{\I{beats}}  \ \etr{\I{it}} (\tr{\I{every}}  ((\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) ) ) \tr{\I{farmer}}  ))  \label{eq:FO-donkey-int0} \\
-\bred \ &  \all2 (\lambda \x1. (\tr{\textbf{f}} \x1  \cnj2     \ex2 (\lambda \z1.   \tr{\textbf{d}}   \z1  \cnj2      \tr{\textbf{o}}  \x1  \z1 ))    \imp2    (\lambda e \phi. \tr{\textbf{b}}  \x1 ( \sel_{it} e ) e \phi ) )  \label{eq:FO-donkey-int1} \\
+\bred \ &  \all2 (\lambda \x1. (\tr{\textbf{f}} \x1  \cnj2     \ex2 (\lambda \z1.   \tr{\textbf{d}}   \z1  \cnj2      \tr{\textbf{o}}  \x1  \z1 ))    \impK2    (\lambda e \phi. \tr{\textbf{b}}  \x1 ( \sel_{it} e ) e \phi ) )  \label{eq:FO-donkey-int1} \\
 \bred \ & \lambda e \phi. \forall (\lambda \x1. \cfarmer \x1  \rightarrow \forall  (\lambda \z1.  (\cdonkey  \z1 \land \cown  \x1 \z1 )   \rightarrow  \cbeat  \x1 ( \sel_{it}  (\upii{\x1}{\upii{\z1}{e}}) )))\land \phi e  \label{eq:FO-donkey-int1-equiv}
 \end{align}
 
@@ -345,7 +345,7 @@ Resulting term~\eqref{eq:FO-donkey-int1-equiv} is equivalent to~\eqref{eq:donkey
     \txt{donkey} &  $\tr{\iota} \rightarrow \tr{o}$ &  $\tr{\textbf{d}}$  \\
    \txt{owns} & $((\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) \rightarrow ((\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) \rightarrow \tr{o}$  & $ \lambda \Y2 \X2. \X2 ( \lambda \x1. \Y2 (\lambda \y1.  \tr{\textbf{o}}  \x1 \y1 ))$ \\
       \txt{beats} & $((\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) \rightarrow ((\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) \rightarrow \tr{o}$  & $ \lambda \Y2 \X2. \X2 ( \lambda \x1. \Y2 (\lambda \y1.  \tr{\textbf{b}}  \x1 \y1 ))$ \\
-   \txt{every} & $(\tr{\iota} \rightarrow \tr{o}) \rightarrow ( (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) $ & $\lambda \P2 \Q2. \all2 (\lambda \x1.  \P2 \x1  \imp2 \Q2 \x1 ) $ \\
+   \txt{every} & $(\tr{\iota} \rightarrow \tr{o}) \rightarrow ( (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) $ & $\lambda \P2 \Q2. \all2 (\lambda \x1.  \P2 \x1  \impK2 \Q2 \x1 ) $ \\
     \txt{a} &  $(\tr{\iota} \rightarrow \tr{o}) \rightarrow ( (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) $  & $ \lambda \P2 \Q2. \ex2 (\lambda \x1.  \P2 \x1  \cnj2   \Q2 \x1 )$ \\
    \txt{who} & $( ( (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o} ) \rightarrow \tr{o}  )  \rightarrow (\tr{\iota} \rightarrow \tr{o})  \rightarrow (\tr{\iota} \rightarrow \tr{o}) $ & $\lambda \R2 \Q2 \x1. \Q2 \x1  \cnj2  \R2 (\lambda \P2. \P2 \x1 ) $\\
       \txt{it} & $ \lambda \P2. \lambda e \phi. \P2 ( \sel_{it} e ) e \phi $ \\ 
