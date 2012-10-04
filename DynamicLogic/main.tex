@@ -1,18 +1,54 @@
 \documentclass[a4paper,12pt]{article}
 
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{stmaryrd}
 \usepackage{mathrsfs,cmll}
 \usepackage[sans]{dsfont}
 \usepackage{graphicx}
 
+\usepackage{lingmacros} % linguistic macros for enumerating sentences
+\usepackage{bussproofs} 
+\EnableBpAbbreviations
+
 \input{macros}
+
+
+\newcommand{\qex}{\qed}
+%
+%       Italized theorem-like environments
+%
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{principle}[theorem]{Principle}
+%
+%       Non-italized theorem-like environments:
+%
+\newtheorem{@definition}[theorem]{Definition}
+\newenvironment{definition}{\begin{@definition}\upshape}{\end{@definition}}
+\newtheorem{@remark}[theorem]{Remark}
+\newenvironment{remark}{\begin{@remark}\upshape}{\end{@remark}}
+\newtheorem{@notation}[theorem]{Notation}
+\newenvironment{notation}{\begin{@notation}\upshape}{\end{@notation}}
+\newtheorem{@example}[theorem]{Example}
+\newenvironment{example}{\begin{@example}\upshape }{ \qex\end{@example}}
+\newtheorem{@convention}[theorem]{Convention}
+\newenvironment{convention}{\begin{@convention}\upshape}{\end{@convention}}
+\newtheorem{@note}[theorem]{Note}
+\newenvironment{note}{\begin{@note}\upshape}{\end{@note}}
+
 
 \title{The title of the paper}
 \author{Philippe de~Groote
 \and
 Ekaterina Lebedeva}
 \date{}
+
 
 
 \begin{document}
