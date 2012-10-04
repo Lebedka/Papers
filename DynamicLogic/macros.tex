@@ -341,9 +341,9 @@
 \newcommand{\GL}{GL} % higher order framework
 \newcommand{\GLex}{GL$\expn$} % dynamic logic with exceptions
 
-\newcommand{\ex}[1]{\ifcase #1 \or \existsA\or\existsB\or\existsC\fi}
+\renewcommand{\ex}[1]{\ifcase #1 \or \existsA\or\existsB\or\existsC\fi}
 \newcommand{\all}[1]{\ifcase #1 \or \forallA\or\forallB\or\forallC\fi}
-%\newcommand{\imp}[1]{\ifcase #1 \or \impA\or\impB\or\impC\fi}
+\newcommand{\impK}[1]{\ifcase #1 \or \impA\or\impB\or\impC\fi}
 \newcommand{\dsj}[1]{\ifcase #1 \or \lorA\or\lorB\or\lorC\fi}
 \newcommand{\n}[1]{\ifcase #1 \or \negA\or\negB\or\negC\fi}
 \newcommand{\cnj}[1]{\ifcase #1 \or \landA\or\landB\or\landC\fi}
