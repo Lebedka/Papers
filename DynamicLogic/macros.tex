@@ -202,27 +202,7 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-%------------------------------------------------------------------------------------
-\newcommand{\existsA}{\exists}
-\newcommand{\existsB}{\dynexists} 
-
-\newcommand{\forallA}{\exists}
-\newcommand{\forallB}{\dynall}  
-
-\newcommand{\impA}{\rightarrow}
-\newcommand{\impB}{\dynimplies}
-
-\newcommand{\negA}{\neg}
-\newcommand{\negB}{\dynneg}
-
-\newcommand{\landA}{\land}
-\newcommand{\landB}{\dynand}
-
-\newcommand{\lorA}{\lor}
-\newcommand{\lorB}{\dynor} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %------------------------------------------------------------------------------------
@@ -240,12 +220,9 @@
 \newcommand{\congr}{=_{\alpha}} % alpha-congruent
 \newcommand{\ncongr}{\neq_{\alpha}} % alpha non-congruent
 
-
-
 \newcommand{\trr}[1]{#1} % this one does not do anything
 
 \newcommand{\Types}{\text{T}} % Types
-
 
 \newcommand{\upii}[2]{#1 ::  #2}  % list constructor
 \newcommand{\selK}{\mathsf{sel} } % selection function
@@ -270,85 +247,68 @@
 % Abbreviations for distinguishing variables for static and dynamic cases.
 % E.g.: \x1 - static, \x2 - dynamic
 %------------------------------------------------------------------------------------
-\newcommand{\A}[1]{\ifcase #1 \or \AAA\or\AB\or\AC\fi}
-\newcommand{\B}[1]{\ifcase #1 \or \BA\or\BB\or\BC\fi}
-\newcommand{\R}[1]{\ifcase #1 \or \RA\or\RB\or\RC\fi}
-\newcommand{\Q}[1]{\ifcase #1 \or \QA\or\QB\or\QC\fi}
-\renewcommand{\P}[1]{\ifcase #1 \or \PA\or\PB\or\PC\fi}
-\newcommand{\X}[1]{\ifcase #1 \or \XA\or\XB\or\XC\fi}
-\newcommand{\Y}[1]{\ifcase #1 \or \YA\or\YB\or\YC\fi}
-\newcommand{\x}[1]{\ifcase #1 \or \xA\or\xB\or\xC\fi}
-\newcommand{\y}[1]{\ifcase #1 \or \yA\or\yB\or\yC\fi}
-\newcommand{\z}[1]{\ifcase #1 \or \zA\or\zB\or\zC\fi}
-\renewcommand{\t}[1]{\ifcase #1 \or \tA\or\tB\or\tC\fi}
-\newcommand{\h}[1]{\ifcase #1 \or \hA\or\hB\or\hC\fi}
-\renewcommand{\v}[1]{\ifcase #1 \or \vA\or\vB\or\vC\fi}
-\renewcommand{\u}[1]{\ifcase #1 \or \uA\or\uB\or\uC\fi}
-\newcommand{\w}[1]{\ifcase #1 \or \wA\or\wB\or\wC\fi}
+\newcommand{\A}[1]{\ifcase #1 \or \AAA\or\AB\fi}
+\newcommand{\B}[1]{\ifcase #1 \or \BA\or\BB\fi}
+\newcommand{\R}[1]{\ifcase #1 \or \RA\or\RB\fi}
+\newcommand{\Q}[1]{\ifcase #1 \or \QA\or\QB\fi}
+\renewcommand{\P}[1]{\ifcase #1 \or \PA\or\PB\fi}
+\newcommand{\X}[1]{\ifcase #1 \or \XA\or\XB\fi}
+\newcommand{\Y}[1]{\ifcase #1 \or \YA\or\YB\fi}
+\newcommand{\x}[1]{\ifcase #1 \or \xA\or\xB\fi}
+\newcommand{\y}[1]{\ifcase #1 \or \yA\or\yB\fi}
+\newcommand{\z}[1]{\ifcase #1 \or \zA\or\zB\fi}
+\renewcommand{\t}[1]{\ifcase #1 \or \tA\or\tB\fi}
+\newcommand{\h}[1]{\ifcase #1 \or \hA\or\hB\fi}
+\renewcommand{\v}[1]{\ifcase #1 \or \vA\or\vB\fi}
+\renewcommand{\u}[1]{\ifcase #1 \or \uA\or\uB\fi}
+\newcommand{\w}[1]{\ifcase #1 \or \wA\or\wB\fi}
 
 %------------------------------------------------------------------------------------
 
 \newcommand{\AAA}{\mathrm{A}}
 \newcommand{\AB}{\mathbf{A}}
-\newcommand{\AC}{\varmathbb{A}}
 
 \newcommand{\BA}{\mathrm{B}}
 \newcommand{\BB}{\mathbf{B}}
-\newcommand{\BC}{\varmathbb{B}}
-
 
 \newcommand{\RA}{\mathrm{R}}
 \newcommand{\RB}{\mathbf{R}}
-\newcommand{\RC}{\varmathbb{R}}
 
 \newcommand{\QA}{\mathrm{Q}}
 \newcommand{\QB}{\mathbf{Q}}
-\newcommand{\QC}{\varmathbb{Q}}
 
 \newcommand{\PA}{\mathrm{P}}
 \newcommand{\PB}{\mathbf{P}}
-\newcommand{\PC}{\varmathbb{P}}
 
 \newcommand{\XA}{\mathrm{X}}
 \newcommand{\XB}{\mathbf{X}}
-\newcommand{\XC}{\varmathbb{X}}
 
 \newcommand{\YA}{\mathrm{Y}}
 \newcommand{\YB}{\mathbf{Y}}
-\newcommand{\YC}{\varmathbb{Y}}
 
 \newcommand{\xA}{x}
 \newcommand{\xB}{\mathbf{x}}
-\newcommand{\xC}{\mathbf{x}}
 
 \newcommand{\yA}{y}
 \newcommand{\yB}{\mathbf{y}}
-\newcommand{\yC}{\mathbf{y}}
 
 \newcommand{\zA}{z}
 \newcommand{\zB}{\mathbf{z}}
-\newcommand{\zC}{\mathbf{z}}
 
 \newcommand{\tA}{t}
 \newcommand{\tB}{\mathbf{t}}
-\newcommand{\tC}{\mathbf{t}}
 
 \newcommand{\hA}{h}
 \newcommand{\hB}{\mathbf{h}}
-\newcommand{\hC}{\mathbf{h}}
 
 \newcommand{\vA}{v}
 \newcommand{\vB}{\mathbf{v}}
-\newcommand{\vC}{\mathbf{v}}
 
 \newcommand{\uA}{u}
 \newcommand{\uB}{\mathbf{u}}
-\newcommand{\uC}{\mathbf{u}}
 
 \newcommand{\wA}{w}
 \newcommand{\wB}{\mathbf{w}}
-\newcommand{\wC}{\mathbf{w}}
-
 
 
 %------------------------------------------------------------------------------------
@@ -371,18 +331,34 @@
 \newcommand{\GL}{GL} % higher order framework
 \newcommand{\GLex}{GL$\expn$} % dynamic logic with exceptions
 
-\renewcommand{\ex}[1]{\ifcase #1 \or \existsA\or\existsB\or\existsC\fi}
-\newcommand{\all}[1]{\ifcase #1 \or \forallA\or\forallB\or\forallC\fi}
-\newcommand{\impK}[1]{\ifcase #1 \or \impA\or\impB\or\impC\fi}
-\newcommand{\dsj}[1]{\ifcase #1 \or \lorA\or\lorB\or\lorC\fi}
-\newcommand{\n}[1]{\ifcase #1 \or \negA\or\negB\or\negC\fi}
-\newcommand{\cnj}[1]{\ifcase #1 \or \landA\or\landB\or\landC\fi}
+\renewcommand{\ex}[1]{\ifcase #1 \or \existsA\or\existsB\fi}
+\newcommand{\all}[1]{\ifcase #1 \or \forallA\or\forallB\fi}
+\newcommand{\impK}[1]{\ifcase #1 \or \impA\or\impB\fi}
+\newcommand{\dsj}[1]{\ifcase #1 \or \lorA\or\lorB\fi}
+\newcommand{\n}[1]{\ifcase #1 \or \negA\or\negB\fi}
+\newcommand{\cnj}[1]{\ifcase #1 \or \landA\or\landB\fi}
+
+\newcommand{\existsA}{\exists}
+\newcommand{\existsB}{\dynexists} 
+
+\newcommand{\forallA}{\exists}
+\newcommand{\forallB}{\dynall}  
+
+\newcommand{\impA}{\rightarrow}
+\newcommand{\impB}{\dynimplies}
+
+\newcommand{\negA}{\neg}
+\newcommand{\negB}{\dynneg}
+
+\newcommand{\landA}{\land}
+\newcommand{\landB}{\dynand}
+
+\newcommand{\lorA}{\lor}
+\newcommand{\lorB}{\dynor} 
 
 %------------------------------------------------------------------------------------
 % New Commands: Colorful symbols for the comparison with DPL
 %------------------------------------------------------------------------------------
-
-
 
 \newcommand{\ntodl}{h_G}
 %\newcommand{trntog}{$h_g$}
@@ -416,3 +392,20 @@
 \newcommand{\langDPL}{\textit{DPL}_L}
 \newcommand{\langDL}{\GN_L}
 
+
+%------------------------------------------------------------------------------------
+% TODO Comments
+% \TODO{comment} appears within the text
+% \todo{comment} appears on the margin side of a page
+%------------------------------------------------------------------------------------
+\newif\ifcomments
+\commentstrue
+%\commentsfalse   % gobble comments, set for final version
+
+\ifcomments
+ \newcommand{\TODO}[1]{\par\noindent{ \color{red} \sf  TODO: #1}\par\medskip}
+ \newcommand{\todo}[1]{\marginpar{ \color{red} \footnotesize{\sf TODO: #1}}}
+\else
+ \newcommand{\todo}[1]{}
+ \newcommand{\TODO}[1]{}
+\fi
