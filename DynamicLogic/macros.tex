@@ -201,7 +201,18 @@
 
 %%%%% Interpreatations and translations
 
-\def\dplsem#1{\llbracket #1 \rrbracket_{\mbox{\scriptsize\textsc{dpl}}}}
+\def\dplsem#1{\llbracket #1 \rrbracket^{\mbox{\scriptsize\textsc{dpl}}}}
+
+\def\tdlsem#1#2{\llbracket #2 \rrbracket^{\mbox{\scriptsize\textsc{tdl}}}_{#1}}
+
+\def\synlift#1{\lceil#1\rceil^{\mbox{\scriptsize\textsc{syn}}}}
+
+\def\semlift#1{\lceil#1\rceil^{\mbox{\scriptsize\textsc{sem}}}}
+
+%%%%% Sets of environments and continuations
+
+\def\env{\mathbb{E}}
+\def\cont{\mathbb{C}}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%

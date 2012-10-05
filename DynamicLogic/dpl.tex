@@ -1,10 +1,18 @@
 \section{Comparison with related work} \label{sec:dpl}
 
-$\mathscr{M} = \langle M, \mathcal{I}\, \rangle$
+Constants, variables, reference markers: $\mathsf{C}, \mathsf{V}, \mathsf{M}$
+
+model: $\mathscr{M} = \langle D, \mathcal{I}\, \rangle$
+
+left contexts : $\env = D^{\mathsf{M}}$
+
+continuations : $\cont = 2^\env$ 
+
+nota: a tdl term may contain ref. markers (this stands for $\sel{}$)
 
 \begin{align*}
 \dplsem{\app{\app{\app{R}{t_1}}{\ldots}}{t_n}} &= 
-\{\langle g,h\rangle : 
+\{\langle g,h\rangle  :
 h=g \,\wedge\, 
 \langle 
 \llbracket t_1 \rrbracket_{g},
@@ -14,7 +22,7 @@ h=g \,\wedge\,
 \}
 \\
 \dplsem{\conj{P}{Q}} &= 
-\{\langle g,h\rangle : 
+\{\langle g,h\rangle  : 
 \equant{k}{
 \langle g,k\rangle\in \dplsem{P}
 \,\wedge\,
@@ -22,20 +30,83 @@ h=g \,\wedge\,
 }\}
 \\
 \dplsem{\nega{P}} &=
-\{\langle g,h\rangle : 
+\{\langle g,h\rangle  : 
 h=g \,\wedge\, 
 \uquant{k}{\langle g,k \rangle\not\in\dplsem{P}}
 \}
 \\
 \dplsem{\equant{\mathbf{i}}{P}} &=
-\{\langle g,h\rangle : 
+\{\langle g,h\rangle  : 
 \equant{k}{
 k[\mathbf{i}]g \,\wedge\,
 \langle k,h \rangle \in \dplsem{P}
 }\} 
 \end{align*}
 
+\begin{align*}
+\synlift{c}_e &= c\\
+\synlift{x}_e &= x\\
+\synlift{\mathbf{i}}_e &= \app{\mathsf{sel}_i}{e}\\
+\end{align*}
 
+\begin{align*}
+\synlift{\app{\app{\app{R}{t_1}}{\ldots}}{t_n}} &= 
+\abs{e\phi}{\conj{
+\app{\app{\app{R}{
+\synlift{t_1}_e
+}}{\ldots}}{
+\synlift{t_n}_e}
+}{\app{\phi}{e}}}
+\\
+\synlift{\conj{P}{Q}} &= 
+\dconj{\synlift{P}}{\synlift{Q}}
+\\
+\synlift{\nega{P}} &= \dnega{\synlift{P}}
+\\
+\synlift{\equant{\mathbf{i}}{P}} &=
+\dynexists_{\mathbf{i}} x.\,\synlift{P[\mathbf{i}{:=}x]}
+\end{align*}
+
+\begin{align*}
+\tdlsem{\eta}{\app{\app{\app{R}{t_1}}{\ldots}}{t_n}} &= 
+\{\langle g,H\rangle   :
+g \in H \, \wedge \,
+\langle 
+\llbracket t_1 \rrbracket_{\eta,g},
+\dots,
+\llbracket t_n \rrbracket_{\eta,g}
+\rangle \in \mathcal{I}(R)
+\}
+\\
+\tdlsem{\eta}{\dconj{P}{Q}} &= 
+\{\langle g,H\rangle  :
+\langle g, 
+\{h : \langle h, H\rangle \in \tdlsem{\eta}{Q}\}
+\rangle\in\tdlsem{\eta}{P}
+\}
+\\
+\tdlsem{\eta}{\dnega{P}} &=
+\{\langle g,H\rangle  :
+g \in H \, \wedge \,
+\langle g,\env\rangle\not\in \tdlsem{\eta}{P}
+\}
+\\
+\tdlsem{\eta}{\dynexists_{\mathbf{i}} x.\, P} &=
+\{\langle g,H\rangle  :
+\equant{a}{\langle g[\mathbf{i}{:=}a],H\rangle\in\tdlsem{\eta[x{:=}a]}{P}}
+\} 
+\end{align*}
+
+$$
+\semlift{\mathrm{R}} = \{\langle a,B\rangle : 
+\equant{b}{\conj{b\in B}{\langle a,b\rangle\in R}}\}
+$$
+
+
+
+$$
+\semlift{\dplsem{P}} = \tdlsem{\eta}{\synlift{P}}
+$$
 
 
 
