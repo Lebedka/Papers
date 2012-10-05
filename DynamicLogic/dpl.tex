@@ -1,5 +1,50 @@
 \section{Comparison with related work} \label{sec:dpl}
 
+$\mathscr{M} = \langle M, \mathcal{I}\, \rangle$
+
+\begin{align*}
+\dplsem{\app{\app{\app{R}{t_1}}{\ldots}}{t_n}} &= 
+\{\langle g,h\rangle : 
+h=g \,\wedge\, 
+\langle 
+\llbracket t_1 \rrbracket_{g},
+\dots,
+\llbracket t_n \rrbracket_{g}
+\rangle \in \mathcal{I}(R)
+\}
+\\
+\dplsem{\conj{P}{Q}} &= 
+\{\langle g,h\rangle : 
+\equant{k}{
+\langle g,k\rangle\in \dplsem{P}
+\,\wedge\,
+\langle k,h\rangle\in \dplsem{Q}
+}\}
+\\
+\dplsem{\nega{P}} &=
+\{\langle g,h\rangle : 
+h=g \,\wedge\, 
+\uquant{k}{\langle g,k \rangle\not\in\dplsem{P}}
+\}
+\\
+\dplsem{\equant{\mathbf{i}}{P}} &=
+\{\langle g,h\rangle : 
+\equant{k}{
+k[\mathbf{i}]g \,\wedge\,
+\langle k,h \rangle \in \dplsem{P}
+}\} 
+\end{align*}
+
+
+
+
+
+
+
+
+
+----------------------------------------------
+
 DPL, at least as it is presented in~\cite{GroenendijkStokhof:1991:Dynamic-Predicate-Logic} does not provide a translation from natural language to the language of DPL. In contrast, this dissertation is focused exactly on providing a translation from natural language to the language of continuation based-dynamic logic. This makes it impossible to make a direct comparison between DPL and {\GLex} (as well as its predecessors {\GN} and {\GL}). Nevertheless, it is still possible to compare the frameworks by defining certain translations between their different levels. Since, among {\GN}, {\GL} and {\GLex}, the closest to DPL w.r.t. expressive power is {\GN}, translations between {\GN} and DPL are defined subsequently.
 
 Consider Figure~\ref{DPLscheme}. The missing translation $\ntodpl$ of natural language into the language of DPL is represented by the dashed arrow. The translation $\ntodl$ of natural language into the language $\langDL$ of continuation-based dynamic logic is represented by the green arrow.
