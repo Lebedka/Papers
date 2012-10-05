@@ -1,4 +1,4 @@
-% Dynamic connectives and quantifiers
+%%%%% Dynamic connectives and quantifiers
 
 \newcommand{\dynexists}{\mathord{\reflectbox{$\mathds{E}$}}}
 
@@ -31,8 +31,10 @@
 \newif\ifdisj
 \newif\ifdconj
 \newif\ifddisj
+\newif\ifcons
 
-\def\reset{\atomicfalse\operatorfalse\conjfalse\disjfalse\dconjfalse\ddisjfalse}
+\def\reset{%
+\atomicfalse\operatorfalse\conjfalse\disjfalse\dconjfalse\ddisjfalse\consfalse}
 
 % abstraction
 
@@ -172,6 +174,34 @@
 \def\dnega#1%
 {\dynneg \reset\atomictrue #1\reset}
 
+% closure
+\def\close#1%
+{{\diamond} \reset\atomictrue #1\reset}
+
+% environment
+
+\def\nil{\mathsf{nil}}
+
+\def\sel#1{\app{\mathsf{sel}}{#1}}
+
+\def\cons#1#2%
+{\ifcons%
+\reset\atomictrue #1 \mathbin{{::}} \reset\atomictrue\construe #2%
+\else%
+\ifatomic%
+(\reset\atomictrue #1 \mathbin{{::}} \reset\atomictrue\construe #2)%
+\else%
+\reset\atomictrue #1 \mathbin{{::}} \reset\atomictrue\construe #2%
+\fi%
+\fi\reset}
+
+%%%%% definitional equality
+
+
+\newcommand{\defeq}{\stackrel{{\scriptstyle\triangle}}{=}}
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -202,7 +232,7 @@
 \newcommand{\I}[1]{[\![#1]\!]}  % interpretation
 
 \newcommand{\txt}[1]{\textit{#1}} % italic
-\newcommand{\defeq}{\doteq} % equal by definition
+%\newcommand{\defeq}{\doteq} % equal by definition
 \newcommand{\logeq}{\equiv} % logical equivalence
 \newcommand{\seq}{=_s} % syntactic equality
 \newcommand{\nseq}{\neq_s} % syntactic non-equality
