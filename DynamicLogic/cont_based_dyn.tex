@@ -157,7 +157,7 @@ To cope with anaphora, the context has to be accessed. This can be accomplished 
 
 As Example~\ref{ex:2006:HeSmilesAtHer} shows, Sentence~\eqref{HeSmilesAtHer-2006} is meaningful in the sense that it has an interpretation~\eqref{eq:2006:HeSmilesAtHer}. However, the function $\selK$ can return individuals for \txt{he} and \txt{her} only when the sentence is evaluated over some context containing the corresponding antecedents. This happens when the sentence is uttered in a discourse. The pronominal anaphora can then be resolved during the update of the meaning of the discourse with the meaning of the sentence. 
 
-Discourses in~\cite{deGroote:2006:Towards-a-Montagovian-Account-of-Dynamics} are, like sentences, interpreted as terms of type $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o)$.  The update of a discourse interpreted as $\D$ with a sentence interpreted as $\S$ results in interpretation $\updt \ \D \ \S$ of a new discourse. This interpretation is defined by the following equation:
+Discourses can, like sentences, be interpreted as terms of type $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o)$.  The update of a discourse interpreted as $\D$ with a sentence interpreted as $\S$ results in interpretation $\updt \ \D \ \S$ of a new discourse. This interpretation is defined by the following equation:
 \begin{align}
 \updt \ \D \ \S \defeq \overbrace{\lambda e^{\gamma} \phi^{\gamma \rightarrow o}. \overbrace{ \overbrace{\D^{\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o}  e}^{(\gamma \rightarrow o) \rightarrow o} (\overbrace{\lambda e'^{\gamma}. \overbrace{\overbrace{\S^{\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o}  e'}^{ (\gamma \rightarrow o) \rightarrow o} \phi}^{o}}^{\gamma \rightarrow o})}^{o}}^{\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o} \label{eq:updtDS:2006}
 \end{align}
@@ -173,13 +173,14 @@ Now interpretations~\eqref{eq:2006:JohnLovesMary} and~\eqref{eq:2006:HeSmilesAtH
 \end{align}
 \end{example}
 
-Interpretation~\eqref{int:JLMHeSH:2006} of the discourse consisting of the utterance of~\eqref{sen:JLMHeSH:2006} is computed in a compositional manner. Note that the context of the interpretation of the first sentence is passed to $\selK$ operators of the interpretation of the second sentence. Assuming that an anaphora resolution mechanism is implemented in $\selK$, the following semantic representation of~\eqref{sen:JLMHeSH:2006} is obtained: 
+%Interpretation~\eqref{int:JLMHeSH:2006} of the discourse consisting of the utterance of~\eqref{sen:JLMHeSH:2006} is computed in a compositional manner. 
+Note that in the resulting interpretation~\eqref{int:JLMHeSH:2006}, the context of the interpretation of the first sentence is passed to $\selK$ operators of the interpretation of the second sentence. Assuming that an anaphora resolution mechanism is implemented in $\selK$, the following semantic representation of~\eqref{sen:JLMHeSH:2006} is obtained: 
 \begin{align}
 \lambda e \phi.\textbf{love} \  \textbf{j} \ \textbf{m} \land    \textbf{smile}  \ \textbf{j} \ \textbf{m} \land \phi  (\upii{\textbf{j}}{\upii{\textbf{m}}{e} }) \label{int:JLMHeSH:2006-2}
 \end{align}
-The context $(\upii{\textbf{j}}{\upii{\textbf{m}}{e} })$ in~\eqref{int:JLMHeSH:2006} (and hence in~\eqref{int:JLMHeSH:2006-2})  is accessible for future computation. This means that the individuals $\textbf{j}$ and $\textbf{m}$ can serve as ancestors for anaphoric pronouns in the following sentences. However, this is not always the case. For example, assuming accessibility constraint requirements of DRT, the individuals introduced by quantifiers in Sentence~\eqref{donkey-every-2006} should not be accessible for anaphoric triggers outside of the sentence. However, they clearly should be accessible for anaphoric pronouns within the sentence. 
+The context $(\upii{\textbf{j}}{\upii{\textbf{m}}{e} })$ in~\eqref{int:JLMHeSH:2006} (and hence in~\eqref{int:JLMHeSH:2006-2}) being the argument of the continuation $\phi$ is accessible for future computation. This means that the individuals $\textbf{j}$ and $\textbf{m}$ can serve as ancestors for anaphoric pronouns in the following sentences. However, this is not always the case. For example, assuming accessibility constraint requirements of DRT, the individuals introduced by quantifiers in Sentence~\eqref{donkey-every-2006} should not be accessible for anaphoric triggers outside of the sentence. However, they clearly should be accessible for anaphoric pronouns within the sentence. 
 \enumsentence{ \txt{Every farmer who owns a donkey beats it.} \label{donkey-every-2006}}
-This accessibility constraint can also be implemented in de~Groote's approach. For example, lexical items of~\eqref{donkey-every-2006} can be assigned meanings shown in Table~\ref{tbl:donkey-lexical-2006} that lead to the desirable interpretation of the sentence, as demonstrated below. Since the lexical interpretations are dynamic, the resulting dynamic meaning of the donkey sentence does not suffer the drawbacks of the static meaning.
+This accessibility constraint can also be implemented in the continuation-based dynamic approach. For example, lexical items of~\eqref{donkey-every-2006} can be assigned meanings, shown in Table~\ref{tbl:donkey-lexical-2006}, that lead to the desirable interpretation of the sentence, as demonstrated in Example~\ref{ex:donkeysentence}. %Since the lexical interpretations are dynamic, the resulting dynamic meaning of the donkey sentence does not suffer the drawbacks of the static meaning.
 
 \begin{table}
 \begin{footnotesize}
@@ -201,7 +202,7 @@ This accessibility constraint can also be implemented in de~Groote's approach. F
 \end{table}
 
 
-\begin{example}[\txt{Every farmer who owns a donkey beats it}]
+\begin{example}[\txt{Every farmer who owns a donkey beats it}] \label{ex:donkeysentence}
 The meaning of the noun phrase \txt{a donkey} is computed by reducing the term $\trr{\I{a}} \trr{\I{donkey}} $:
 \begin{align}
  \trr{\I{a}} \trr{\I{donkey}} 
@@ -212,7 +213,7 @@ The meaning of the noun phrase \txt{a donkey} is computed by reducing the term $
 \bred \  & \lambda  \Q2. \lambda e \phi. \exists (\lambda \y1.  \cdonkey \y1  \land  ( \lambda e'. \Q2 \y1  (\upii{\y1}{e'}) \phi ) e )  \notag \\ 
 \bconv \  &  \lambda  \Q2. \lambda e \phi. \exists (\lambda \y1.  \cdonkey \y1  \land  \Q2 \y1  (\upii{\y1}{e}) \phi )  \label{eq:adonkey-nf-computed-2006}
 \end{align}
-Note that in Equation~\eqref{eq:adonkey-nf-computed-2006} the environment passed as an argument to $\Q2$ contains the variable $\y1$ introduced by the existential quantifier. This means that this variable is available to the formula $\Q2$. 
+Note that in Equation~\eqref{eq:adonkey-nf-computed-2006} the context passed as an argument to $\Q2$ contains the variable $\y1$ introduced by the existential quantifier. This means that this variable is available to the formula $\Q2$. 
 Note also that the continuation $\phi$ of the term~\eqref{eq:adonkey-nf-computed-2006}  is within the scope of the existential quantifier. 
 
 The meaning of the verb phrase \txt{owns a donkey} is computed by $\beta$-reducing the term $  \trr{\I{owns}}  (\trr{\I{a}} \trr{\I{donkey}} )  $:
@@ -235,7 +236,7 @@ The dynamic meaning of the relative clause \txt{who owns a donkey} is computed a
 \bconv \ &  \lambda  \Q2 \x1. \lambda e \phi. \Q2 \x1 e (\lambda e'.  ( \lambda e \phi. \exists (\lambda \y1.  \cdonkey \y1  \land  \cown \x1 \y1 \land \phi (\upii{\y1}{e}) )  )     e' \phi) \notag \\
 \bred \ &  \lambda  \Q2 \x1. \lambda e \phi. \Q2 \x1 e (\lambda e'.  \exists (\lambda \y1.  \cdonkey \y1  \land  \cown \x1 \y1 \land \phi (\upii{\y1}{e'}) )  )    \label{eq:whoownsadonkey-nf-2006}
 \end{align}
-The meaning of \txt{farmer who owns a donkey} is computed by applying the $\lambda$-term~\eqref{eq:whoownsadonkey-nf-2006} to the lexical interpretation of \txt{farmer}:
+The meaning of \txt{farmer who owns a donkey} is computed by applying the lambda-term~\eqref{eq:whoownsadonkey-nf-2006} to the lexical interpretation of \txt{farmer}:
 \begin{align*}
 & (\trr{\I{who}}  (\trr{\I{owns}}  (\trr{\I{a}}  \trr{\I{donkey}} ) ) )\trr{\I{farmer}} \\
  = \ &  (  \lambda  \Q2 \x1. \lambda e \phi. \Q2 \x1 e (\lambda e'.  \exists (\lambda \y1.  \cdonkey \y1  \land  \cown \x1 \y1 \land \phi (\upii{\y1}{e'}) )  ) ) \trr{\I{farmer}}  \\
@@ -264,7 +265,7 @@ The dynamic meaning of the noun phrase \txt{every farmer who owns a donkey} is c
 \end{align}
 
 
-Note that in Equation~\eqref{eq:everyfarmerwhoownsadonkey-nf-2006} the environment containing all the individuals with their properties collected during the computation is locally passed to the formula $\Q2$. The continuation $\phi$ receives only the environment $e$ that is passed to the term as an argument; therefore, all individuals collected during the computation of the meaning of \txt{every farmer who owns a donkey} are not available outside the logical formula interpreting this phrase.
+Note that in Equation~\eqref{eq:everyfarmerwhoownsadonkey-nf-2006} the context containing all the individuals with their properties collected during the computation is locally passed to the formula $\Q2$. The continuation $\phi$ receives only the context $e$ that is passed to the term as an argument; therefore, all individuals collected during the computation of the meaning of \txt{every farmer who owns a donkey} are not available outside the logical formula interpreting this phrase.
 
 The meaning of the verb phrase \txt{beats it} is computed as follows:
 \begin{align}
@@ -297,19 +298,22 @@ The resulting dynamic interpretation~\eqref{eq:donkey-nf-meaning-2006} of the do
 \begin{align}
  \lambda e \phi. \forall ( \lambda \x1.  \cfarmer \x1  \rightarrow    \forall ( \lambda \y1.  ( \cdonkey \y1 \land  \cown \x1 \y1 ) \rightarrow   \cbeat \x1  ( \selK_{it} (\y1 :: \x1 :: e))  )  ) )  \land \phi e  \label{eq:donkey-nf-meaning-2-2006}
 \end{align}
-Note that, in accordance with DRT's accessibility constraint, the individuals bound by quantifiers are not accessible outside the sentence. 
-\end{example}
+
 
 %The dynamic formula~\eqref{eq:donkey-nf-meaning-2-2006}, computed using the dynamic lexical interpretations, does not have the drawbacks of the static formula~\eqref{eq:donkey-st-meaning}, computed using the static lexical interpretations. 
 
-First of all, the second argument of $\cbeat$, standing for the anaphoric pronoun, is not a free dummy variable, but a term $( \selK_{it} (\y1 :: \x1 :: e))$. This term consists of the selection function $\selK$ that takes as argument a context containing the available individuals ``collected'' during the computation. Thus, in contrast to the static case, the second argument of $\cbeat$ is self-sufficient: the function $\selK$, which implements an anaphora resolution algorithm, selects a required individual from the context. In the current case, the selection function returns the individual $\y1$, leading to the final dynamic meaning~\eqref{eq:donkey-nf-meaning-3-2006} of Sentence~\eqref{donkey-every-2006}:
+Note that the second argument of $\cbeat$, standing for the anaphoric pronoun, is not a free dummy variable, but a term $( \selK_{it} (\y1 :: \x1 :: e))$. This term consists of the selection function $\selK$ that takes as argument a context containing the available individuals ``collected'' during the computation. The function $\selK$, which implements an anaphora resolution algorithm, selects a required individual from the context, which, in the current case, is the individual $\y1$. This  leads to the final dynamic meaning~\eqref{eq:donkey-nf-meaning-3-2006} of Sentence~\eqref{donkey-every-2006}:
 \begin{align}
-\lambda e \phi. \forall ( \lambda \x1.  \cfarmer \x1  \rightarrow    \forall ( \lambda \y1.  ( \cdonkey \y1 \land  \cown \x1 \y1 ) \rightarrow   \cbeat \x1 \y1  ) )  \land \phi e  \label{eq:donkey-nf-meaning-3-2006}
+\lambda e \phi. \forall ( \lambda \x1.  \cfarmer \x1  \rightarrow  \forall ( \lambda \y1.  ( \cdonkey \y1 \land  \cown \x1 \y1 ) \rightarrow   \cbeat \x1 \y1  ) )  \land \phi e  \label{eq:donkey-nf-meaning-3-2006}
 \end{align}
 
-Moreover, in the dynamic interpretation, unlike in the static one, the formula $\cbeat \x1 \y1 $ is within the scope of the quantifier binding the variable $y$, exactly as desired.  Furthermore, the quantifier binding $y$ has been changed during the computation from existential to universal, which is also impossible in the static approach. These improvements are the consequences of employing a continuation-passing technique. 
+Moreover, the formula $\cbeat \x1 \y1 $ is within the scope of the quantifier binding the variable $y$, exactly as desired.  Furthermore, the quantifier binding $y$ has been changed during the computation from existential to universal. This is achieved by employing a continuation-passing technique. 
 
-The list below summarizes the advantages that de~Groote's approach brought to compositional semantics:
+Finally, in accordance with DRT's accessibility constraint, the individuals bound by quantifiers are not accessible outside the sentence, because the continuation $\phi$ of the term simply receives non-updated context $e$ as an argument.
+
+\end{example}
+
+The list below summarizes the advantages of the continuation-based approach:
 
 \begin{itemize}
 
