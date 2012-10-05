@@ -37,7 +37,7 @@ FV(c) = \ & \{ \} \\
 %FV(M \land N) = \ & FV(M) \cup FV(N)  \\
 %FV(\neg M) =  \ & FV(M) \\
 %FV( \updtfo (M,x)) = \ &  FV(M) \cup FV(x)  \\
-%FV(\sel(M)) = \ & FV(M) \\
+%FV(\sel{}(M)) = \ & FV(M) \\
 FV(M N) = \ & FV(M) \cup FV(N)  \\
 FV( \lambda x. M) = \ & FV(M) - \{ x \}
 \end{align*}
@@ -86,7 +86,7 @@ Typing rules define typing relations between terms and types:
 
 \begin{prooftree}
 \AXC{} %\RightLabel{axiom}
-\UIC{$\Gamma, c: \gamma \vdash \sel \ c:  \iota $}
+\UIC{$\Gamma, c: \gamma \vdash \sel{} \ c:  \iota $}
 \end{prooftree}
 
 \begin{prooftree}
@@ -141,7 +141,7 @@ where $c_{tv}$,  $c_{iv}$, $c_{n}$, $c_{np}$ and $c_{rp}$ are constants standing
 
 \end{definition}
 
-The first axiom and the two rules (application and abstraction) are standard typing relations in simply-typed lambda calculus. The second axiom determines the type of the logical $\top$ symbol. The constant $\sel$ has type $(\gamma \rightarrow \iota)$ and the constant $::$ has type $(\iota \rightarrow \gamma \rightarrow \gamma)$. 
+The first axiom and the two rules (application and abstraction) are standard typing relations in simply-typed lambda calculus. The second axiom determines the type of the logical $\top$ symbol. The constant $\sel{}$ has type $(\gamma \rightarrow \iota)$ and the constant $::$ has type $(\iota \rightarrow \gamma \rightarrow \gamma)$. 
 
 Each static type can be dynamized in the following way:
 \begin{definition}[Dynamization of types]\label{def:DTypes-FO} Let $\iota$ and $o$ be atomic types, $\gamma$ be a type parameter, $\alpha$ and $\beta$ be arbitrary types. Then the types are \textbf{dynamized} in the following way:
@@ -305,13 +305,13 @@ The conservation theorem proves that a static proposition and its dynamic versio
 
 Tables~\ref{tbl:stat-FO-donkey} and~\ref{tbl:dyn-FO-donkey} show respectively static and dynamic (according to {\GN}) interpretations for the lexical items in the donkey sentence~\eqref{donkey-every-FO}:
 \enumsentence{ \txt{Every farmer who owns a donkey beats it.} \label{donkey-every-FO}}
-Note that the type of every dynamic term is analogous to its static type. The only difference is that each atomic type of a dynamic term is dynamized according to Definition~\ref{def:DTypes-FO}. All terms in Table~\ref{tbl:dyn-FO-donkey}, except the interpretation of the pronoun \txt{it}, are dynamized following the rules in Definition~\ref{def:DTerms-FO}. These rules allow the presentation of dynamic terms in a compact way. They ensure that dynamic terms are structurally analogous to their static counterparts and, therefore, are more intuitive. The dynamic interpretation of \txt{it} is constructed not by directly following the dynamization rules, because \txt{it} is a unconventional lexical item: there is an anaphor to be solved. Therefore, $\etr{\I{\txt{it}}}$\footnote{Here and further on, dynamic interpretations of unconventional lexical items are marked with tilde.} contains the selection function $\sel$ that takes a context (from which a referent has to be chosen) as an argument.
+Note that the type of every dynamic term is analogous to its static type. The only difference is that each atomic type of a dynamic term is dynamized according to Definition~\ref{def:DTypes-FO}. All terms in Table~\ref{tbl:dyn-FO-donkey}, except the interpretation of the pronoun \txt{it}, are dynamized following the rules in Definition~\ref{def:DTerms-FO}. These rules allow the presentation of dynamic terms in a compact way. They ensure that dynamic terms are structurally analogous to their static counterparts and, therefore, are more intuitive. The dynamic interpretation of \txt{it} is constructed not by directly following the dynamization rules, because \txt{it} is a unconventional lexical item: there is an anaphor to be solved. Therefore, $\etr{\I{\txt{it}}}$\footnote{Here and further on, dynamic interpretations of unconventional lexical items are marked with tilde.} contains the selection function $\sel{}$ that takes a context (from which a referent has to be chosen) as an argument.
 
  Taking these dynamic interpretations to compute the meaning of Sentence~\eqref{donkey-every-FO}, term~\eqref{eq:FO-donkey-int0} $\beta$-reduces to term~\eqref{eq:FO-donkey-int1}, which normalizes to~\eqref{eq:FO-donkey-int1-equiv}:
 \begin{align}
 & \tr{\I{beats}}  \ \etr{\I{it}} (\tr{\I{every}}  ((\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) ) ) \tr{\I{farmer}}  ))  \label{eq:FO-donkey-int0} \\
-\bred \ &  \all2 (\lambda \x1. (\tr{\textbf{f}} \x1  \cnj2     \ex2 (\lambda \z1.   \tr{\textbf{d}}   \z1  \cnj2      \tr{\textbf{o}}  \x1  \z1 ))    \impK2    (\lambda e \phi. \tr{\textbf{b}}  \x1 ( \sel_{it} e ) e \phi ) )  \label{eq:FO-donkey-int1} \\
-\bred \ & \lambda e \phi. \forall (\lambda \x1. \cfarmer \x1  \rightarrow \forall  (\lambda \z1.  (\cdonkey  \z1 \land \cown  \x1 \z1 )   \rightarrow  \cbeat  \x1 ( \sel_{it}  (\upii{\x1}{\upii{\z1}{e}}) )))\land \phi e  \label{eq:FO-donkey-int1-equiv}
+\bred \ &  \all2 (\lambda \x1. (\tr{\textbf{f}} \x1  \cnj2     \ex2 (\lambda \z1.   \tr{\textbf{d}}   \z1  \cnj2      \tr{\textbf{o}}  \x1  \z1 ))    \impK2    (\lambda e \phi. \tr{\textbf{b}}  \x1 ( \sel{}_{it} e ) e \phi ) )  \label{eq:FO-donkey-int1} \\
+\bred \ & \lambda e \phi. \forall (\lambda \x1. \cfarmer \x1  \rightarrow \forall  (\lambda \z1.  (\cdonkey  \z1 \land \cown  \x1 \z1 )   \rightarrow  \cbeat  \x1 ( \sel{}_{it}  (\upii{\x1}{\upii{\z1}{e}}) )))\land \phi e  \label{eq:FO-donkey-int1-equiv}
 \end{align}
 
 
@@ -348,7 +348,7 @@ Resulting term~\eqref{eq:FO-donkey-int1-equiv} is equivalent to~\eqref{eq:donkey
    \txt{every} & $(\tr{\iota} \rightarrow \tr{o}) \rightarrow ( (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) $ & $\lambda \P2 \Q2. \all2 (\lambda \x1.  \P2 \x1  \impK2 \Q2 \x1 ) $ \\
     \txt{a} &  $(\tr{\iota} \rightarrow \tr{o}) \rightarrow ( (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) $  & $ \lambda \P2 \Q2. \ex2 (\lambda \x1.  \P2 \x1  \cnj2   \Q2 \x1 )$ \\
    \txt{who} & $( ( (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o} ) \rightarrow \tr{o}  )  \rightarrow (\tr{\iota} \rightarrow \tr{o})  \rightarrow (\tr{\iota} \rightarrow \tr{o}) $ & $\lambda \R2 \Q2 \x1. \Q2 \x1  \cnj2  \R2 (\lambda \P2. \P2 \x1 ) $\\
-      \txt{it} & $ \lambda \P2. \lambda e \phi. \P2 ( \sel_{it} e ) e \phi $ \\ 
+      \txt{it} & $ \lambda \P2. \lambda e \phi. \P2 ( \sel{}_{it} e ) e \phi $ \\ 
    \end{tabular}
 \caption{Dynamic lexical interpretations in framework {\GN}.} \label{tbl:dyn-FO-donkey}
 \end{table}

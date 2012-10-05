@@ -131,10 +131,10 @@ Then the interpretation of \txt{loves} is as follows:
 \end{align}
 \end{example}
 
-To cope with anaphora, the context has to be accessed. This is accomplished by a special function $\sel$ of type $(\gamma \rightarrow \iota)$ that takes a context and returns an individual. The function $\sel$ is assumed to implement an anaphora resolution algorithm and to work as an oracle always retrieving the correct antecedent. This allows to interpret pronouns as shown, for example, for \txt{he} below:
+To cope with anaphora, the context has to be accessed. This is accomplished by a special function $\sel{}$ of type $(\gamma \rightarrow \iota)$ that takes a context and returns an individual. The function $\sel{}$ is assumed to implement an anaphora resolution algorithm and to work as an oracle always retrieving the correct antecedent. This allows to interpret pronouns as shown, for example, for \txt{he} below:
 \begin{align}
-\I{he} =  \overbrace{\lambda \P2^{^\iota \rightarrow \gamma \rightarrow (\gamma \rightarrow o) \rightarrow o}. \lambda e^{\gamma} \phi^{\gamma \rightarrow o}. \overbrace{\overbrace{\overbrace{\P2 ( \overbrace{\sel_{he} e}^{\iota} )}^{\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o} e}^{ (\gamma \rightarrow o) \rightarrow o} \ \phi }^{o}}^{(\iota \rightarrow \gamma \rightarrow (\gamma \rightarrow o) \rightarrow o) \rightarrow \gamma \rightarrow (\gamma \rightarrow o) \rightarrow o}  \label{eq:he:2006}
-%\I{he} = \lambda \P2. \lambda e \phi. \P2 (\sel_{he}e)e\phi
+\I{he} =  \overbrace{\lambda \P2^{^\iota \rightarrow \gamma \rightarrow (\gamma \rightarrow o) \rightarrow o}. \lambda e^{\gamma} \phi^{\gamma \rightarrow o}. \overbrace{\overbrace{\overbrace{\P2 ( \overbrace{\sel{}_{he} e}^{\iota} )}^{\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o} e}^{ (\gamma \rightarrow o) \rightarrow o} \ \phi }^{o}}^{(\iota \rightarrow \gamma \rightarrow (\gamma \rightarrow o) \rightarrow o) \rightarrow \gamma \rightarrow (\gamma \rightarrow o) \rightarrow o}  \label{eq:he:2006}
+%\I{he} = \lambda \P2. \lambda e \phi. \P2 (\sel{}_{he}e)e\phi
 \end{align}
 
 \begin{example}[$\S$, \txt{He smiles at her}] \label{ex:2006:HeSmilesAtHer} The meaning of the sentence~\eqref{HeSmilesAtHer-2006} computed in accordance with the parse-tree shown in Figure~\ref{fig:ptS3-2006}  is as follows:
@@ -144,14 +144,14 @@ To cope with anaphora, the context has to be accessed. This is accomplished by a
  = \ & (\lambda \Y2 \X2. \X2( \lambda \x1. \Y2 (\lambda \y1. ( \lambda e' \phi. \textbf{smile} \x1 \y1 \land \phi e' ))) )  \I{her} \I{he} \notag \\
 \bconv \ & (\lambda  \X2. \X2( \lambda \x1.  \I{her}  (\lambda \y1. ( \lambda e' \phi. \textbf{smile} \x1 \y1 \land \phi e' ))) ) \I{he} \notag \\
 \bconv \ &   \I{he} ( \lambda \x1.  \I{her}  (\lambda \y1. ( \lambda e' \phi. \textbf{smile} \x1 \y1 \land \phi e' ))) \notag  \\
-= \ &   \I{he} ( \lambda \x1.  (\lambda \P2. \lambda e \phi. \P2 (\sel_{her}e)e\phi)  (\lambda \y1. ( \lambda e' \phi. \textbf{smile} \x1 \y1 \land \phi e' ))) \notag \\
- \bconv \ &   \I{he} ( \lambda \x1.  (\lambda e \phi.  (\lambda \y1. ( \lambda e' \phi. \textbf{smile} \x1 \y1 \land \phi e' )) (\sel_{her}e)e\phi) ) \notag \\
-  \bconv \ &   \I{he} ( \lambda \x1.  (\lambda e \phi.   ( \lambda e' \phi. \textbf{smile} \x1  (\sel_{her}e) \land \phi e' ) e\phi) ) \notag \\
- \bred \ &   \I{he} ( \lambda \x1.  (\lambda e \phi.  \textbf{smile} \x1  (\sel_{her}e) \land \phi e) ) \notag \\
-  = \ &  (\lambda \P2. \lambda e \phi. \P2 (\sel_{he}e)e\phi) ( \lambda \x1.  (\lambda e \phi.  \textbf{smile} \x1  (\sel_{her}e) \land \phi e) ) \notag \\
-\bconv \ & \lambda e \phi. ( \lambda \x1.  (\lambda e \phi.  \textbf{smile} \x1  (\sel_{her}e) \land \phi e) )  (\sel_{he}e)e\phi \notag \\
-\bconv \ & \lambda e \phi.   (\lambda e \phi.  \textbf{smile}  (\sel_{he}e)  (\sel_{her}e) \land \phi e) e\phi \notag \\
-\bred \ & \lambda e \phi.   \textbf{smile}  (\sel_{he}e)  (\sel_{her}e) \land \phi e \label{eq:2006:HeSmilesAtHer}
+= \ &   \I{he} ( \lambda \x1.  (\lambda \P2. \lambda e \phi. \P2 (\sel{}_{her}e)e\phi)  (\lambda \y1. ( \lambda e' \phi. \textbf{smile} \x1 \y1 \land \phi e' ))) \notag \\
+ \bconv \ &   \I{he} ( \lambda \x1.  (\lambda e \phi.  (\lambda \y1. ( \lambda e' \phi. \textbf{smile} \x1 \y1 \land \phi e' )) (\sel{}_{her}e)e\phi) ) \notag \\
+  \bconv \ &   \I{he} ( \lambda \x1.  (\lambda e \phi.   ( \lambda e' \phi. \textbf{smile} \x1  (\sel{}_{her}e) \land \phi e' ) e\phi) ) \notag \\
+ \bred \ &   \I{he} ( \lambda \x1.  (\lambda e \phi.  \textbf{smile} \x1  (\sel{}_{her}e) \land \phi e) ) \notag \\
+  = \ &  (\lambda \P2. \lambda e \phi. \P2 (\sel{}_{he}e)e\phi) ( \lambda \x1.  (\lambda e \phi.  \textbf{smile} \x1  (\sel{}_{her}e) \land \phi e) ) \notag \\
+\bconv \ & \lambda e \phi. ( \lambda \x1.  (\lambda e \phi.  \textbf{smile} \x1  (\sel{}_{her}e) \land \phi e) )  (\sel{}_{he}e)e\phi \notag \\
+\bconv \ & \lambda e \phi.   (\lambda e \phi.  \textbf{smile}  (\sel{}_{he}e)  (\sel{}_{her}e) \land \phi e) e\phi \notag \\
+\bred \ & \lambda e \phi.   \textbf{smile}  (\sel{}_{he}e)  (\sel{}_{her}e) \land \phi e \label{eq:2006:HeSmilesAtHer}
 \end{align}
 \end{example}
 
@@ -161,7 +161,7 @@ To cope with anaphora, the context has to be accessed. This is accomplished by a
 \caption{Syntactic parse tree of sentence \txt{He smiles at her}.} \label{fig:ptS3-2006}
 \end{figure}
 
-As Example~\ref{ex:2006:HeSmilesAtHer} shows, Sentence~\eqref{HeSmilesAtHer-2006} is meaningful in de~Groote's approach in the sense that it has an interpretation~\eqref{eq:2006:HeSmilesAtHer}. However, the function $\sel$ can return individuals for \txt{he} and \txt{her} only when the sentence is evaluated over some context containing the corresponding antecedents. This can be done when the sentence is uttered in a discourse and the representation of this discourse is already computed. When the meaning of the discourse is updated with the meaning of the sentence, the pronominal anaphora is resolved. 
+As Example~\ref{ex:2006:HeSmilesAtHer} shows, Sentence~\eqref{HeSmilesAtHer-2006} is meaningful in de~Groote's approach in the sense that it has an interpretation~\eqref{eq:2006:HeSmilesAtHer}. However, the function $\sel{}$ can return individuals for \txt{he} and \txt{her} only when the sentence is evaluated over some context containing the corresponding antecedents. This can be done when the sentence is uttered in a discourse and the representation of this discourse is already computed. When the meaning of the discourse is updated with the meaning of the sentence, the pronominal anaphora is resolved. 
 
 Discourses in~\cite{deGroote:2006:Towards-a-Montagovian-Account-of-Dynamics} are, like sentences, interpreted as terms of type $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o)$.  The update of a discourse interpreted as $\D$ with a sentence interpreted as $\S$ results in interpretation $\updt \ \D \ \S$ of a new discourse. This interpretation is defined by the following equation:
 \begin{align}
@@ -172,14 +172,14 @@ Discourses in~\cite{deGroote:2006:Towards-a-Montagovian-Account-of-Dynamics} are
 Now interpretations~\eqref{eq:2006:JohnLovesMary} and~\eqref{eq:2006:HeSmilesAtHer} can be composed through equation~\eqref{eq:updtDS:2006}, regarding~\eqref{sent:JlovesM-2006} as the discourse updated with the sentence~\eqref{HeSmilesAtHer-2006}. This leads to the interpretation of the piece of discourse~\eqref{sen:JLMHeSH:2006}:
 \enumsentence{\txt{John loves Mary. He smiles at her.} \label{sen:JLMHeSH:2006}}
 \begin{align}
-& \lambda e \phi. (\overbrace{\lambda e \phi.  \textbf{love}  \textbf{j} \textbf{m} \land   \phi (\upii{\textbf{j}}{\upii{\textbf{m}}{e} }) }^{\D}  ) e (\lambda e'. (\overbrace{\lambda e \phi.   \textbf{smile}  (\sel_{he}e)  (\sel_{her}e) \land \phi e}^{\S}) e' \phi ) \notag \\
-\bred \ & \lambda e \phi. (\lambda e \phi.  \textbf{love}  \textbf{j} \textbf{m} \land   \phi (\upii{\textbf{j}}{\upii{\textbf{m}}{e} }) ) e (\lambda e'.  \textbf{smile}  (\sel_{he}e')  (\sel_{her}e') \land \phi e' ) \notag \\
-\bred \ & \lambda e \phi.\textbf{love}  \textbf{j} \textbf{m} \land    (\lambda e'.  \textbf{smile}  (\sel_{he}e')  (\sel_{her}e') \land \phi e' )  (\upii{\textbf{j}}{\upii{\textbf{m}}{e} }) \notag \\
-\bconv \ & \lambda e \phi.\textbf{love}  \textbf{j} \textbf{m} \land    \textbf{smile}  (\sel_{he}(\upii{\textbf{j}}{\upii{\textbf{m}}{e} }))  (\sel_{her}(\upii{\textbf{j}}{\upii{\textbf{m}}{e} })) \land \phi  (\upii{\textbf{j}}{\upii{\textbf{m}}{e} }) \label{int:JLMHeSH:2006}
+& \lambda e \phi. (\overbrace{\lambda e \phi.  \textbf{love}  \textbf{j} \textbf{m} \land   \phi (\upii{\textbf{j}}{\upii{\textbf{m}}{e} }) }^{\D}  ) e (\lambda e'. (\overbrace{\lambda e \phi.   \textbf{smile}  (\sel{}_{he}e)  (\sel{}_{her}e) \land \phi e}^{\S}) e' \phi ) \notag \\
+\bred \ & \lambda e \phi. (\lambda e \phi.  \textbf{love}  \textbf{j} \textbf{m} \land   \phi (\upii{\textbf{j}}{\upii{\textbf{m}}{e} }) ) e (\lambda e'.  \textbf{smile}  (\sel{}_{he}e')  (\sel{}_{her}e') \land \phi e' ) \notag \\
+\bred \ & \lambda e \phi.\textbf{love}  \textbf{j} \textbf{m} \land    (\lambda e'.  \textbf{smile}  (\sel{}_{he}e')  (\sel{}_{her}e') \land \phi e' )  (\upii{\textbf{j}}{\upii{\textbf{m}}{e} }) \notag \\
+\bconv \ & \lambda e \phi.\textbf{love}  \textbf{j} \textbf{m} \land    \textbf{smile}  (\sel{}_{he}(\upii{\textbf{j}}{\upii{\textbf{m}}{e} }))  (\sel{}_{her}(\upii{\textbf{j}}{\upii{\textbf{m}}{e} })) \land \phi  (\upii{\textbf{j}}{\upii{\textbf{m}}{e} }) \label{int:JLMHeSH:2006}
 \end{align}
 \end{example}
 
-Interpretation~\eqref{int:JLMHeSH:2006} of the discourse consisting of the utterance of~\eqref{sen:JLMHeSH:2006} is computed in a compositional manner. Note that the context of the interpretation of the first sentence is passed to $\sel$ operators of the interpretation of the second sentence. Assuming that an anaphora resolution mechanism is implemented in $\sel$, the following semantic representation of~\eqref{sen:JLMHeSH:2006} is obtained: 
+Interpretation~\eqref{int:JLMHeSH:2006} of the discourse consisting of the utterance of~\eqref{sen:JLMHeSH:2006} is computed in a compositional manner. Note that the context of the interpretation of the first sentence is passed to $\sel{}$ operators of the interpretation of the second sentence. Assuming that an anaphora resolution mechanism is implemented in $\sel{}$, the following semantic representation of~\eqref{sen:JLMHeSH:2006} is obtained: 
 \begin{align}
 \lambda e \phi.\textbf{love} \  \textbf{j} \ \textbf{m} \land    \textbf{smile}  \ \textbf{j} \ \textbf{m} \land \phi  (\upii{\textbf{j}}{\upii{\textbf{m}}{e} }) \label{int:JLMHeSH:2006-2}
 \end{align}
@@ -200,7 +200,7 @@ This accessibility constraint can also be implemented in de~Groote's approach. F
     \txt{a} &  n $\rightarrow$ np & $ \lambda \P2 \Q2. \lambda e \phi. \exists (\lambda \x1. \P2  \x1 e ( \lambda e'. \Q2 \x1  (\upii{\x1}{e'}) \phi ) ) $ \\
     \txt{every} & n $\rightarrow$ np & $ \lambda \P2 \Q2. \lambda e \phi. (\forall \x1. \neg (\P2 \x1 e (\lambda e'. \neg (\Q2 \x1 (\upii{\x1}{e'})  (\lambda e'''. \top)  ))))  \land \phi e$ \\
    \txt{who} & (np~$\rightarrow$~s)~$\rightarrow$~n~$\rightarrow$~n & $\lambda \R2 \Q2 \x1. \lambda e \phi. \Q2 \x1 e (\lambda e'. \R2 (\lambda \P2. \P2 \x1) e' \phi)$ \\
-   \txt{it} & np & $ \lambda \P2. \lambda e \phi. \P2 ( \sel_{it} e) e \phi  $  
+   \txt{it} & np & $ \lambda \P2. \lambda e \phi. \P2 ( \sel{}_{it} e) e \phi  $  
    \end{tabular}
 \caption{Continuation-based interpretations of lexical items of the sentence \txt{Every farmer who owns a donkey beats it} in framework {\G}.} \label{tbl:donkey-lexical-2006}
 \end{footnotesize}
@@ -277,38 +277,38 @@ The meaning of the verb phrase \txt{beats it} is computed as follows:
  \trr{\I{beats}}  \trr{\I{it}}  
  = \ &  (\lambda \Y2 \X2. \X2 ( \lambda \x1. \Y2 (\lambda \y1. ( \lambda e' \phi. \cbeat \x1 \y1 \land \phi e')))) \trr{\I{it}}   \notag \\
  \bconv \ & \lambda  \X2. \X2 ( \lambda \x1. \trr{\I{it}}  (\lambda \y1. ( \lambda e' \phi. \cbeat \x1 \y1 \land \phi e')))   \notag \\
- = \ & \lambda  \X2. \X2 ( \lambda \x1. (  \lambda \P2. \lambda e \phi. \P2 ( \sel_{it} e) e \phi )  (\lambda \y1. ( \lambda e' \phi. \cbeat \x1 \y1 \land \phi e')))   \notag \\
- \bconv \ & \lambda  \X2. \X2 ( \lambda \x1. \lambda e \phi. (\lambda \y1. ( \lambda e' \phi. \cbeat \x1 \y1 \land \phi e')) ( \sel_{it} e) e \phi )    \notag \\
- \bconv \ &  \lambda  \X2. \X2 ( \lambda \x1. \lambda e \phi.  ( \lambda e' \phi. \cbeat \x1  ( \sel_{it} e)  \land \phi e') e \phi )    \notag \\
-  \bred \ &  \lambda  \X2. \X2 ( \lambda \x1. \lambda e \phi.   \cbeat \x1  ( \sel_{it} e)  \land \phi e )  \label{eq:beatsit-nf-2006}
+ = \ & \lambda  \X2. \X2 ( \lambda \x1. (  \lambda \P2. \lambda e \phi. \P2 ( \sel{}_{it} e) e \phi )  (\lambda \y1. ( \lambda e' \phi. \cbeat \x1 \y1 \land \phi e')))   \notag \\
+ \bconv \ & \lambda  \X2. \X2 ( \lambda \x1. \lambda e \phi. (\lambda \y1. ( \lambda e' \phi. \cbeat \x1 \y1 \land \phi e')) ( \sel{}_{it} e) e \phi )    \notag \\
+ \bconv \ &  \lambda  \X2. \X2 ( \lambda \x1. \lambda e \phi.  ( \lambda e' \phi. \cbeat \x1  ( \sel{}_{it} e)  \land \phi e') e \phi )    \notag \\
+  \bred \ &  \lambda  \X2. \X2 ( \lambda \x1. \lambda e \phi.   \cbeat \x1  ( \sel{}_{it} e)  \land \phi e )  \label{eq:beatsit-nf-2006}
 \end{align}
 Finally, the dynamic meaning of the sentence is computed by applying the \\ term~\eqref{eq:beatsit-nf-2006} to the term~\eqref{eq:everyfarmerwhoownsadonkey-nf-2006}:
 \begin{align}
 & \trr{\I{beats}}  \trr{\I{it}} (\trr{\I{every}}  ((\trr{\I{who}}  (\trr{\I{owns}}  (\trr{\I{a}}  \trr{\I{donkey}} ) ) ) \trr{\I{farmer}}  )) \notag \\
-= \ & ( \lambda  \X2. \X2 ( \lambda \x1. \lambda e \phi.   \cbeat \x1  ( \sel_{it} e)  \land \phi e )) \notag \\
+= \ & ( \lambda  \X2. \X2 ( \lambda \x1. \lambda e \phi.   \cbeat \x1  ( \sel{}_{it} e)  \land \phi e )) \notag \\
 &  (\trr{\I{every}}  ((\trr{\I{who}}  (\trr{\I{owns}}  (\trr{\I{a}}  \trr{\I{donkey}} ) ) ) \trr{\I{farmer}}  )) \notag \\
-\bconv \ &   (\trr{\I{every}}  ((\trr{\I{who}}  (\trr{\I{owns}}  (\trr{\I{a}}  \trr{\I{donkey}} ) ) ) \trr{\I{farmer}}  ))  ( \lambda \x1. \lambda e \phi.   \cbeat \x1  ( \sel_{it} e)  \land \phi e ) \notag \\
+\bconv \ &   (\trr{\I{every}}  ((\trr{\I{who}}  (\trr{\I{owns}}  (\trr{\I{a}}  \trr{\I{donkey}} ) ) ) \trr{\I{farmer}}  ))  ( \lambda \x1. \lambda e \phi.   \cbeat \x1  ( \sel{}_{it} e)  \land \phi e ) \notag \\
 = \ &    ( \lambda  \Q2. \lambda e \phi. (\forall \x1. \neg ( \cfarmer \x1 \land   \exists (\lambda \y1.  \cdonkey \y1  \land  \cown \x1 \y1 \land  \neg (\Q2 \x1 (\upii{\x1}{\upii{\y1}{e}})  (\lambda e'''. \top)  ) ) ))  \land \phi e ) \notag \\
-&  ( \lambda \x1. \lambda e \phi.   \cbeat \x1  ( \sel_{it} e)  \land \phi e ) \notag \\
+&  ( \lambda \x1. \lambda e \phi.   \cbeat \x1  ( \sel{}_{it} e)  \land \phi e ) \notag \\
 \bconv \ &    \lambda e \phi. (\forall \x1. \neg ( \cfarmer \x1 \land   \exists (\lambda \y1.  \cdonkey \y1  \land  \cown \x1 \y1 \land \notag \\
-& \phantom{aaaaaaaaaa}  \neg (( \lambda \x1. \lambda e \phi.   \cbeat \x1  ( \sel_{it} e)  \land \phi e ) \x1 (\upii{\x1}{\upii{\y1}{e}})  (\lambda e'''. \top)  ) ) ))  \land \phi e    \notag \\
+& \phantom{aaaaaaaaaa}  \neg (( \lambda \x1. \lambda e \phi.   \cbeat \x1  ( \sel{}_{it} e)  \land \phi e ) \x1 (\upii{\x1}{\upii{\y1}{e}})  (\lambda e'''. \top)  ) ) ))  \land \phi e    \notag \\
 \bconv \ &  \lambda e \phi. (\forall \x1. \neg ( \cfarmer \x1 \land   \exists (\lambda \y1.  \cdonkey \y1  \land  \cown \x1 \y1 \land \notag \\
-& \phantom{aaaaaaa} \neg (( \lambda e \phi.   \cbeat \x1  ( \sel_{it} e)  \land \phi e ) (\upii{\x1}{\upii{\y1}{e}})  (\lambda e'''. \top)  ) ) ))  \land \phi e    \notag \\
+& \phantom{aaaaaaa} \neg (( \lambda e \phi.   \cbeat \x1  ( \sel{}_{it} e)  \land \phi e ) (\upii{\x1}{\upii{\y1}{e}})  (\lambda e'''. \top)  ) ) ))  \land \phi e    \notag \\
 \bred \ &  \lambda e \phi. (\forall \x1. \neg ( \cfarmer \x1 \land   \exists (\lambda \y1.  \cdonkey \y1  \land  \cown \x1 \y1 \land \notag \\
-& \phantom{aaaaaaa} \neg (  \cbeat \x1  ( \sel_{it}  (\upii{\x1}{\upii{\y1}{e}}))  \land (\lambda e'''. \top)  (\upii{\x1}{\upii{\y1}{e}})   ) ) ))  \land \phi e    \notag \\
-\bconv \ &\lambda e \phi. (\forall \x1. \neg ( \cfarmer \x1 \land   \exists (\lambda \y1.  \cdonkey \y1  \land  \cown \x1 \y1 \land  \neg (  \cbeat \x1  ( \sel_{it}  (\upii{\x1}{\upii{\y1}{e}}))  \land  \top  ) ) ))  \land \phi e     \label{eq:donkey-nf-meaning-2006}
+& \phantom{aaaaaaa} \neg (  \cbeat \x1  ( \sel{}_{it}  (\upii{\x1}{\upii{\y1}{e}}))  \land (\lambda e'''. \top)  (\upii{\x1}{\upii{\y1}{e}})   ) ) ))  \land \phi e    \notag \\
+\bconv \ &\lambda e \phi. (\forall \x1. \neg ( \cfarmer \x1 \land   \exists (\lambda \y1.  \cdonkey \y1  \land  \cown \x1 \y1 \land  \neg (  \cbeat \x1  ( \sel{}_{it}  (\upii{\x1}{\upii{\y1}{e}}))  \land  \top  ) ) ))  \land \phi e     \label{eq:donkey-nf-meaning-2006}
 \end{align}
 
 The resulting dynamic interpretation~\eqref{eq:donkey-nf-meaning-2006} of the donkey sentence is logically equivalent to~\eqref{eq:donkey-nf-meaning-2-2006}:
 \begin{align}
- \lambda e \phi. \forall ( \lambda \x1.  \cfarmer \x1  \rightarrow    \forall ( \lambda \y1.  ( \cdonkey \y1 \land  \cown \x1 \y1 ) \rightarrow   \cbeat \x1  ( \sel_{it} (\y1 :: \x1 :: e))  )  ) )  \land \phi e  \label{eq:donkey-nf-meaning-2-2006}
+ \lambda e \phi. \forall ( \lambda \x1.  \cfarmer \x1  \rightarrow    \forall ( \lambda \y1.  ( \cdonkey \y1 \land  \cown \x1 \y1 ) \rightarrow   \cbeat \x1  ( \sel{}_{it} (\y1 :: \x1 :: e))  )  ) )  \land \phi e  \label{eq:donkey-nf-meaning-2-2006}
 \end{align}
 Note that, in accordance with DRT's accessibility constraint, the individuals bound by quantifiers are not accessible outside the sentence. 
 \end{example}
 
 %The dynamic formula~\eqref{eq:donkey-nf-meaning-2-2006}, computed using the dynamic lexical interpretations, does not have the drawbacks of the static formula~\eqref{eq:donkey-st-meaning}, computed using the static lexical interpretations. 
 
-First of all, the second argument of $\cbeat$, standing for the anaphoric pronoun, is not a free dummy variable, but a term $( \sel_{it} (\y1 :: \x1 :: e))$. This term consists of the selection function $\sel$ that takes as argument a context containing the available individuals ``collected'' during the computation. Thus, in contrast to the static case, the second argument of $\cbeat$ is self-sufficient: the function $\sel$, which implements an anaphora resolution algorithm, selects a required individual from the context. In the current case, the selection function returns the individual $\y1$, leading to the final dynamic meaning~\eqref{eq:donkey-nf-meaning-3-2006} of Sentence~\eqref{donkey-every-2006}:
+First of all, the second argument of $\cbeat$, standing for the anaphoric pronoun, is not a free dummy variable, but a term $( \sel{}_{it} (\y1 :: \x1 :: e))$. This term consists of the selection function $\sel{}$ that takes as argument a context containing the available individuals ``collected'' during the computation. Thus, in contrast to the static case, the second argument of $\cbeat$ is self-sufficient: the function $\sel{}$, which implements an anaphora resolution algorithm, selects a required individual from the context. In the current case, the selection function returns the individual $\y1$, leading to the final dynamic meaning~\eqref{eq:donkey-nf-meaning-3-2006} of Sentence~\eqref{donkey-every-2006}:
 \begin{align}
 \lambda e \phi. \forall ( \lambda \x1.  \cfarmer \x1  \rightarrow    \forall ( \lambda \y1.  ( \cdonkey \y1 \land  \cown \x1 \y1 ) \rightarrow   \cbeat \x1 \y1  ) )  \land \phi e  \label{eq:donkey-nf-meaning-3-2006}
 \end{align}
