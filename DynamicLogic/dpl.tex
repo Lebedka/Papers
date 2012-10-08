@@ -15,9 +15,9 @@ nota: a tdl term may contain ref. markers (this stands for $\sel{}$)
 \{\langle g,h\rangle  :
 h=g \,\wedge\, 
 \langle 
-\llbracket t_1 \rrbracket_{g},
+\llbracket t_1 \rrbracket_{\eta,g},
 \dots,
-\llbracket t_n \rrbracket_{g}
+\llbracket t_n \rrbracket_{\eta,g}
 \rangle \in \mathcal{I}(R)
 \}
 \\
@@ -108,8 +108,28 @@ $$
 \semlift{\dplsem{P}} = \tdlsem{\eta}{\synlift{P}}
 $$
 
-
-
+\begin{lemma}
+Let $t$ be a term, and let $x$ be a variable that does not occur in $t$.
+For all reference marker $\mathbf{i}$, all assignment $g$, and all valuation
+$\eta$, the following holds:
+$$
+\llbracket t \rrbracket_{\eta,g} =
+\llbracket t[\mathbf{i}{:=}x] \rrbracket_{\eta[x{:=}(\app{g}{\mathbf{i}})],g}
+$$
+\begin{proof}
+If $t$ is a constant or a reference marker different from $\mathbf{i}$,
+the result is immediate.
+If $t$ is a variable $y$, we have that $y\not= x$. Consequently,
+$\app{\eta}{y} = \app{\eta[x{:=}(\app{g}{i})]}{y}$.
+Finally, if $t$ is $\mathbf{i}$, we have
+$\llbracket \mathbf{i} \rrbracket_{\eta,g} =
+\app{g}{\mathbf{i}} = 
+\app{\eta[x{:=}(\app{g}{i})]}{x} = 
+\llbracket x \rrbracket_{\eta[x{:=}(\app{g}{\mathbf{i}})],g} =
+\llbracket\mathbf{i}[\mathbf{i}{:=}x] \rrbracket_{\eta[x{:=}(\app{g}{\mathbf{i}})],g}
+$.
+\end{proof}
+\end{lemma}
 
 
 
