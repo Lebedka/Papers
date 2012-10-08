@@ -11,7 +11,7 @@ continuations : $\cont = 2^\env$
 nota: a tdl term may contain ref. markers (this stands for $\sel{}$)
 
 \begin{align*}
-\dplsem{\app{\app{\app{R}{t_1}}{\ldots}}{t_n}} &= 
+\dplsem{\eta}{\app{\app{\app{R}{t_1}}{\ldots}}{t_n}} &= 
 \{\langle g,h\rangle  :
 h=g \,\wedge\, 
 \langle 
@@ -21,25 +21,25 @@ h=g \,\wedge\,
 \rangle \in \mathcal{I}(R)
 \}
 \\
-\dplsem{\conj{P}{Q}} &= 
+\dplsem{\eta}{\conj{P}{Q}} &= 
 \{\langle g,h\rangle  : 
 \equant{k}{
-\langle g,k\rangle\in \dplsem{P}
+\langle g,k\rangle\in \dplsem{\eta}{P}
 \,\wedge\,
-\langle k,h\rangle\in \dplsem{Q}
+\langle k,h\rangle\in \dplsem{\eta}{Q}
 }\}
 \\
-\dplsem{\nega{P}} &=
+\dplsem{\eta}{\nega{P}} &=
 \{\langle g,h\rangle  : 
 h=g \,\wedge\, 
-\uquant{k}{\langle g,k \rangle\not\in\dplsem{P}}
+\uquant{k}{\langle g,k \rangle\not\in\dplsem{\eta}{P}}
 \}
 \\
-\dplsem{\equant{\mathbf{i}}{P}} &=
+\dplsem{\eta}{\equant{\mathbf{i}}{P}} &=
 \{\langle g,h\rangle  : 
 \equant{k}{
 k[\mathbf{i}]g \,\wedge\,
-\langle k,h \rangle \in \dplsem{P}
+\langle k,h \rangle \in \dplsem{\eta}{P}
 }\} 
 \end{align*}
 
@@ -104,11 +104,7 @@ $$
 
 
 
-$$
-\semlift{\dplsem{P}} = \tdlsem{\eta}{\synlift{P}}
-$$
-
-\begin{lemma}
+\begin{lemma}\label{substlemma1}
 Let $t$ be a term, and let $x$ be a variable that does not occur in $t$.
 For all reference marker $\mathbf{i}$, all assignment $g$, and all valuation
 $\eta$, the following holds:
@@ -130,6 +126,44 @@ $\llbracket \mathbf{i} \rrbracket_{\eta,g} =
 $.
 \end{proof}
 \end{lemma}
+
+\begin{lemma}\label{substlemma2}
+Let $P$ be a DPL formula, and let $x$ be a variable that does not occur in $P$.
+For all reference marker $\mathbf{i}$, all pair of assignments 
+$\langle g, h \rangle$, and all valuation
+$\eta$, the following holds:
+$$
+\langle g,h\rangle \in \dplsem{\eta}{P}
+\mbox{ if and only if }
+\langle g,h\rangle \in 
+\dplsem{\eta[x{:=}(\app{g}{\mathbf{i}})]}{P[\mathbf{i}{:=}x]}
+$$
+\begin{proof}
+A straightforward induction on the structure of $P$, using 
+Lemma~\ref{substlemma1} for the base case.
+\end{proof}
+\end{lemma}
+
+\begin{lemma}\label{commutlemma}
+Let $P$ be a DPL formula, and $\eta$ be a valuation.
+Then, the following holds:
+$$
+\semlift{\dplsem{\eta}{P}} = \tdlsem{\eta}{\synlift{P}}
+$$
+\begin{proof}
+Xxx.
+\end{proof}
+\end{lemma}
+
+\begin{proposition}
+Let $P$ be a DPL formula, and $g$ be an assignment.  
+Then, $\dplvalid{g}{P}$
+if and only if
+$\tdlvalid{g}{P}$.
+\begin{proof}
+Xxx.
+\end{proof}
+\end{proposition}
 
 
 
