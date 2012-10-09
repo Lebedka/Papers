@@ -10,6 +10,8 @@ continuations : $\cont = 2^\env$
 
 nota: a tdl term may contain ref. markers (this stands for $\sel{}$)
 
+DPL formula vs extended  DPL formula.
+
 \begin{align*}
 \dplsem{\eta}{\app{\app{\app{R}{t_1}}{\ldots}}{t_n}} &= 
 \{\langle g,h\rangle  :
@@ -102,7 +104,9 @@ $$
 \equant{b}{\conj{b\in B}{\langle a,b\rangle\in R}}\}
 $$
 
-
+\begin{fact}\label{updateenvir}
+$h[\mathbf{i}]g$ iff $\equant{a}{h=g[\mathbf{i}{:=}a]}$
+\end{fact}
 
 \begin{lemma}\label{substlemma1}
 Let $t$ be a term, and let $x$ be a variable that does not occur in $t$.
@@ -128,7 +132,8 @@ $.
 \end{lemma}
 
 \begin{lemma}\label{substlemma2}
-Let $P$ be a DPL formula, and let $x$ be a variable that does not occur in $P$.
+Let $P$ be an extended DPL formula, and let $x$ be a variable that does not 
+occur in $P$.
 For all reference marker $\mathbf{i}$, all pair of assignments 
 $\langle g, h \rangle$, and all valuation
 $\eta$, the following holds:
@@ -145,13 +150,230 @@ Lemma~\ref{substlemma1} for the base case.
 \end{lemma}
 
 \begin{lemma}\label{commutlemma}
-Let $P$ be a DPL formula, and $\eta$ be a valuation.
+Let $P$ be an extended DPL formula, and $\eta$ be a valuation.
 Then, the following holds:
 $$
 \semlift{\dplsem{\eta}{P}} = \tdlsem{\eta}{\synlift{P}}
 $$
 \begin{proof}
-Xxx.
+By induction on the structure of $P$.
+
+\mbox{}
+
+\noindent
+1. $P \equiv \app{\app{\app{R}{t_1}}{\ldots}}{t_n}$.
+\begin{align*}
+&\semlift{\dplsem{\eta}{\app{\app{\app{R}{t_1}}{\ldots}}{t_n}}}\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{h}{\conj{h\in H}{\langle g,h\rangle\in 
+\dplsem{\eta}{\app{\app{\app{R}{t_1}}{\ldots}}{t_n}}}}\}
+\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{h}{
+\conj{h\in H}{
+\conj{h=g}{ 
+\langle 
+\llbracket t_1 \rrbracket_{\eta,g},
+\dots,
+\llbracket t_n \rrbracket_{\eta,g}
+\rangle \in \mathcal{I}(R)}
+}}\}
+\\
+&\quad=
+\{\langle g,H\rangle : 
+\conj{g\in H}{
+\langle 
+\llbracket t_1 \rrbracket_{\eta,g},
+\dots,
+\llbracket t_n \rrbracket_{\eta,g}
+\rangle \in \mathcal{I}(R)
+}\}
+\\
+&\quad=
+\tdlsem{\eta}{\app{\app{\app{R}{t_1}}{\ldots}}{t_n}}
+\\
+&\quad=
+\tdlsem{\eta}{\synlift{\app{\app{\app{R}{t_1}}{\ldots}}{t_n}}}
+\end{align*}
+
+\noindent
+2. $P \equiv \conj{P_1}{P_2}$.
+\begin{align*}
+&\semlift{\dplsem{\eta}{\conj{P_1}{P_2}}}\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{h}{\conj{h\in H}{\langle g,h\rangle\in
+\dplsem{\eta}{\conj{P_1}{P_2}}
+}}\}
+\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{h}{\conj{h\in H}{
+\equant{k}{
+\conj{\langle g,k\rangle\in \dplsem{\eta}{P_1}}{
+\langle k,h\rangle\in \dplsem{\eta}{P_2}}}}}\}
+\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{k}{
+\conj{\langle g,k\rangle\in \dplsem{\eta}{P_1}}{
+\equant{h}{ 
+\conj{h\in H}{
+\langle k,h\rangle\in \dplsem{\eta}{P_2}}}}}
+\}
+\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{k}{
+\conj{\langle g,k\rangle\in \dplsem{\eta}{P_1}}{
+\langle k,H\rangle\in \semlift{\dplsem{\eta}{P_2}}}
+}\}
+\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{k}{
+\conj{k\in\{k : \langle k,H\rangle\in \semlift{\dplsem{\eta}{P_2}}\}}{
+\langle g,k\rangle\in \dplsem{\eta}{P_1}}}
+\}
+\\
+&\quad=
+\{\langle g,H\rangle : 
+\langle g,
+\{k : \langle k,H\rangle\in \semlift{\dplsem{\eta}{P_2}}\}
+\rangle\in \semlift{\dplsem{\eta}{P_1}}
+\}
+\\
+&\quad=
+\{\langle g,H\rangle : 
+\langle g,
+\{k : \langle k,H\rangle\in \tdlsem{\eta}{\synlift{P_2}}\}
+\rangle\in \tdlsem{\eta}{\synlift{P_1}}
+\}
+\\
+&\quad=
+\tdlsem{\eta}{\dconj{\synlift{P_1}}{\synlift{P_2}}}
+\\
+&\quad=
+\tdlsem{\eta}{\synlift{\conj{P_1}{P_2}}}
+\end{align*}
+
+3. $P \equiv \nega{P_1}$.
+\begin{align*}
+&\semlift{\dplsem{\eta}{\nega{P_1}}}\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{h}{\conj{h\in H}{\langle g,h\rangle\in
+\dplsem{\eta}{\nega{P_1}}
+}}\}\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{h}{\conj{h\in H}{
+\conj{h=g}{
+\uquant{k}{\langle g,k \rangle\not\in\dplsem{\eta}{P_1}}}
+}}\}\\
+&\quad=
+\{\langle g,H\rangle : 
+\conj{g\in H}{
+\uquant{k}{\langle g,k \rangle\not\in\dplsem{\eta}{P_1}}
+}\}\\
+&\quad=
+\{\langle g,H\rangle : 
+\conj{g\in H}{
+\nega{\equant{k}{\conj{k\in\env}{\langle g,k \rangle\in\dplsem{\eta}{P_1}}}}
+}\}\\
+&\quad=
+\{\langle g,H\rangle : 
+\conj{g\in H}{
+\nega{\equant{k}{\conj{k\in\env}{\langle g,k \rangle\in\dplsem{\eta}{P_1}}}}
+}\}\\
+&\quad=
+\{\langle g,H\rangle : 
+\conj{g\in H}{
+\langle g,\env \rangle\not\in\semlift{\dplsem{\eta}{P_1}}
+}\}\\
+&\quad=
+\{\langle g,H\rangle : 
+\conj{g\in H}{
+\langle g,\env \rangle\not\in\tdlsem{\eta}{\synlift{P_1}}
+}\}\\
+&\quad=
+\tdlsem{\eta}{\dnega{\synlift{P_1}}}
+\\
+&\quad=
+\tdlsem{\eta}{\synlift{\nega{P_1}}}
+\end{align*}
+
+4. $P \equiv \equant{\mathbf{i}}{P_1}$.
+\begin{align*}
+&\semlift{\dplsem{\eta}{\equant{\mathbf{i}}{P_1}}}\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{h}{\conj{h\in H}{\langle g,h\rangle\in 
+\dplsem{\eta}{\equant{\mathbf{i}}{P_1}}
+}}\}\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{h}{\conj{h\in H}{
+\equant{k}{
+\conj{k[\mathbf{i}]g}{
+\langle k,h \rangle \in \dplsem{\eta}{P_1}}}
+}}\}\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{h}{\conj{h\in H}{
+\equant{k}{
+\conj{
+\equant{a}{k=g[\mathbf{i}{:=}a]}
+}{
+\langle k,h \rangle \in \dplsem{\eta}{P_1}}}
+}}\}\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{h}{\conj{h\in H}{
+\equant{k}{
+\equant{a}{\conj{
+k=g[\mathbf{i}{:=}a]
+}{
+\langle k,h \rangle \in \dplsem{\eta}{P_1}}}
+}}}\}\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{h}{\conj{h\in H}{
+\equant{a}{
+\langle g[\mathbf{i}{:=}a],h \rangle \in \dplsem{\eta}{P_1}}
+}}\}\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{h}{\conj{h\in H}{
+\equant{a}{
+\langle g[\mathbf{i}{:=}a],h \rangle \in 
+\dplsem{\eta[x{:=}a]}{P_1[\mathbf{i}{:=}x]}}
+}}\}\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{a}{\equant{h}{\conj{h\in H}{
+\langle g[\mathbf{i}{:=}a],h \rangle \in 
+\dplsem{\eta[x{:=}a]}{P_1[\mathbf{i}{:=}x]}}
+}}\}\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{a}{
+\langle g[\mathbf{i}{:=}a],H \rangle \in 
+\semlift{\dplsem{\eta[x{:=}a]}{P_1[\mathbf{i}{:=}x]}}
+}\}\\
+&\quad=
+\{\langle g,H\rangle : 
+\equant{a}{
+\langle g[\mathbf{i}{:=}a],H \rangle \in 
+\tdlsem{\eta[x{:=}a]}{\synlift{P_1[\mathbf{i}{:=}x]}}
+}\}\\
+&\quad=
+\tdlsem{\eta}{\dynexists_{\mathbf{i}} x.\,\synlift{P_1[\mathbf{i}{:=}x]}}\\
+&\quad=
+\tdlsem{\eta}{\synlift{\equant{\mathbf{i}}{P_1}}}
+\end{align*}
 \end{proof}
 \end{lemma}
 
@@ -159,9 +381,14 @@ Xxx.
 Let $P$ be a DPL formula, and $g$ be an assignment.  
 Then, $\dplvalid{g}{P}$
 if and only if
-$\tdlvalid{g}{P}$.
+$\tdlvalid{g}{\synlift{P}}$.
 \begin{proof}
-Xxx.
+By definition, $\dplvalid{g}{P}$ if and only if 
+$\equant{h\in \env}{\langle g, h\rangle \in \dplsem{}{P}}$.
+This is equivalent to $\langle g, \env\rangle \in \semlift{\dplsem{}{P}}$.
+Then, by Lemma~\ref{commutlemma}, we have
+$\langle g, \env\rangle \in \tdlsem{}{\synlift{P}}$.
+This is, by definition, $\tdlvalid{g}{\synlift{P}}$.
 \end{proof}
 \end{proposition}
 
