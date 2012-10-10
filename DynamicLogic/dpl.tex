@@ -252,6 +252,7 @@ By induction on the structure of $P$.
 \rangle\in \tdlsem{\eta}{\synlift{P_1}}
 \}
 \\
+&\makebox[.92\linewidth][r]{(by induction hypothesis)}\\
 &\quad=
 \tdlsem{\eta}{\dconj{\synlift{P_1}}{\synlift{P_2}}}
 \\
@@ -286,11 +287,6 @@ By induction on the structure of $P$.
 &\quad=
 \{\langle g,H\rangle : 
 \conj{g\in H}{
-\nega{\equant{k}{\conj{k\in\env}{\langle g,k \rangle\in\dplsem{\eta}{P_1}}}}
-}\}\\
-&\quad=
-\{\langle g,H\rangle : 
-\conj{g\in H}{
 \langle g,\env \rangle\not\in\semlift{\dplsem{\eta}{P_1}}
 }\}\\
 &\quad=
@@ -298,6 +294,7 @@ By induction on the structure of $P$.
 \conj{g\in H}{
 \langle g,\env \rangle\not\in\tdlsem{\eta}{\synlift{P_1}}
 }\}\\
+&\makebox[.92\linewidth][r]{(by induction hypothesis)}\\
 &\quad=
 \tdlsem{\eta}{\dnega{\synlift{P_1}}}
 \\
@@ -329,27 +326,22 @@ By induction on the structure of $P$.
 }{
 \langle k,h \rangle \in \dplsem{\eta}{P_1}}}
 }}\}\\
+&\makebox[.92\linewidth][r]{(by Fact \ref{updateenvir})}\\
 &\quad=
 \{\langle g,H\rangle : 
+\equant{a}{
 \equant{h}{\conj{h\in H}{
 \equant{k}{
-\equant{a}{\conj{
+\conj{
 k=g[\mathbf{i}{:=}a]
 }{
 \langle k,h \rangle \in \dplsem{\eta}{P_1}}}
 }}}\}\\
 &\quad=
 \{\langle g,H\rangle : 
-\equant{h}{\conj{h\in H}{
-\equant{a}{
-\langle g[\mathbf{i}{:=}a],h \rangle \in \dplsem{\eta}{P_1}}
-}}\}\\
-&\quad=
-\{\langle g,H\rangle : 
-\equant{h}{\conj{h\in H}{
-\equant{a}{
+\equant{a}{\equant{h}{\conj{h\in H}{
 \langle g[\mathbf{i}{:=}a],h \rangle \in 
-\dplsem{\eta[x{:=}a]}{P_1[\mathbf{i}{:=}x]}}
+\dplsem{\eta}{P_1}}
 }}\}\\
 &\quad=
 \{\langle g,H\rangle : 
@@ -357,6 +349,7 @@ k=g[\mathbf{i}{:=}a]
 \langle g[\mathbf{i}{:=}a],h \rangle \in 
 \dplsem{\eta[x{:=}a]}{P_1[\mathbf{i}{:=}x]}}
 }}\}\\
+&\makebox[.92\linewidth][r]{(by Lemma \ref{substlemma2})}\\
 &\quad=
 \{\langle g,H\rangle : 
 \equant{a}{
@@ -369,10 +362,11 @@ k=g[\mathbf{i}{:=}a]
 \langle g[\mathbf{i}{:=}a],H \rangle \in 
 \tdlsem{\eta[x{:=}a]}{\synlift{P_1[\mathbf{i}{:=}x]}}
 }\}\\
+&\makebox[.92\linewidth][r]{(by induction hypothesis)}\\
 &\quad=
 \tdlsem{\eta}{\dynexists_{\mathbf{i}} x.\,\synlift{P_1[\mathbf{i}{:=}x]}}\\
 &\quad=
-\tdlsem{\eta}{\synlift{\equant{\mathbf{i}}{P_1}}}
+\tdlsem{\eta}{\synlift{\equant{\mathbf{i}}{P_1}}}\\
 \end{align*}
 \end{proof}
 \end{lemma}
