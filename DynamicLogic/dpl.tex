@@ -2,48 +2,141 @@
 
 Constants, variables, reference markers: $\mathsf{C}, \mathsf{V}, \mathsf{M}$
 
-model: $\mathscr{M} = \langle D, \mathcal{I}\, \rangle$
-
-left contexts : $\env = D^{\mathsf{M}}$
-
 continuations : $\cont = 2^\env$ 
-
-nota: a tdl term may contain ref. markers (this stands for $\sel{}$)
 
 DPL formula vs extended  DPL formula.
 
+\subsection{Dynamic Predicate Logic}
+
+Groenendijk and Stokhof~\cite{xxx} introduced Dynamic Predicate Logic 
+(DPL, for short) as a compositional alternative to theories such as
+Kamp's DRT~\cite{xxx} or Heim's file change semantics~\cite{xxx}. 
+In fact, DPL may be seen as the dynamic logic that underlies DRT.
+Indeed, the relation between DPL and DRT is rather tight:
+DPL provides the same truth conditions and the same antecedent accessibility
+constraints as DRT.  For this reason, we restrict comparison with related
+theories to a technical comparison between Groenendijk and Stokhof's dynamic
+logic and ours. In particular, we will show how DPL can be faithfully embedded
+in TDL.
+
+The syntax of DPL is the one of ordinary first-order logic (without functional
+symbols).  A term is defined to be either an individual constant or a variable.
+An atomic formula, $\app{\app{\app{R}{t_1}}{\ldots}}{t_n}$, consists of a 
+$n$-ary relational symbol, $R$, applied to $n$ terms,  $t_1 \ldots t_n$.
+Then, formulas are built from atomic formulas by means of conjunction, negation,
+and existential quantification.\footnote{We consider disjunction, implication
+and universal quantification to be defined using de Morgan's laws.}
+
+A model of DPL, $\mathscr{M} = \langle D, \mathcal{I}\, \rangle$, is a usual
+first-order structure. It is made of an non-empty set of individuals, $D$, 
+and a function, $\mathcal{I}$, that yields an interpretation of the constants 
+and the relational symbols. Thus, for every individual constants $c$, 
+$\mathcal{I}(c) \in D$, and for every $n$-ary relational symbol $R$,
+$\mathcal{I}(R) \subset D^n$.
+
+Let $\mathsf{C}$ be the set of individual constants, and $\mathsf{M}$ be
+the set of variables.  In the sequel, we will call the elements of $\mathsf{M}$
+\textit{reference markers} in order not to confuse them with the 
+$\lambda$-variables.
+
+The set of environments (a.k.a., assignements) is defined to be 
+$\env = D^{\mathsf{M}}$. Thus, an environment is a function that assigns an 
+individual to each reference marker. Given such an environement, say $h$,
+the interpretation $[t]_h$ of a term $t$ is defined as follows:
+
 \begin{align*}
-\dplsem{\eta}{\app{\app{\app{R}{t_1}}{\ldots}}{t_n}} &= 
+[t]_h &=
+\left\{\!
+\begin{array}[c]{ll}
+\mathcal{I} (t) & \mbox{if } t\in\mathsf{C}\\
+h (t) & \mbox{if } t\in\mathsf{M}
+\end{array}
+\right.
+\end{align*}
+
+Given two environments $h, g \in \env$, and a reference marker $i\in\mathsf{M}$,
+the relation $g[i]h$ is defined as follows:
+$$
+g[i]h \;\mbox{ iff }\;
+\uquant{j\in\mathsf{M}}{\imp{j\not=i}{g(j)=h(j)}}
+$$
+
+Finally, the interpretation of a dynamic formula is defined to be a relation
+between environments as follows. It also explains why DPL 
+
+\begin{align*}
+\dplsem{\app{\app{\app{R}{t_1}}{\ldots}}{t_n}} &= 
 \{\langle g,h\rangle  :
 h=g \,\wedge\, 
 \langle 
-\llbracket t_1 \rrbracket_{\eta,g},
+[ t_1 ]_g,
 \dots,
-\llbracket t_n \rrbracket_{\eta,g}
+[ t_n ]_g
 \rangle \in \mathcal{I}(R)
 \}
 \\
-\dplsem{\eta}{\conj{P}{Q}} &= 
+\dplsem{\conj{P}{Q}} &= 
 \{\langle g,h\rangle  : 
 \equant{k}{
-\langle g,k\rangle\in \dplsem{\eta}{P}
+\langle g,k\rangle\in \dplsem{P}
 \,\wedge\,
-\langle k,h\rangle\in \dplsem{\eta}{Q}
+\langle k,h\rangle\in \dplsem{Q}
 }\}
 \\
-\dplsem{\eta}{\nega{P}} &=
+\dplsem{\nega{P}} &=
 \{\langle g,h\rangle  : 
 h=g \,\wedge\, 
-\uquant{k}{\langle g,k \rangle\not\in\dplsem{\eta}{P}}
+\uquant{k}{\langle g,k \rangle\not\in\dplsem{P}}
 \}
 \\
-\dplsem{\eta}{\equant{\mathbf{i}}{P}} &=
+\dplsem{\equant{i}{P}} &=
 \{\langle g,h\rangle  : 
 \equant{k}{
-k[\mathbf{i}]g \,\wedge\,
-\langle k,h \rangle \in \dplsem{\eta}{P}
+k[i]g \,\wedge\,
+\langle k,h \rangle \in \dplsem{P}
 }\} 
 \end{align*}
+
+Remark that the reference marker $i$ occurs free in the right-hand side of
+the last equation.  This shows that reference markers are not quite variables
+in the usual sense. It also explains why DPL has a problem of destructive 
+assignment.
+
+\subsection{Environments as left contexts}
+
+
+\begin{align*}
+\tdlsem{\eta}{\abs{e\phi}{\app{\app{\app{R}{t_1}}{\ldots}}{t_n}}} &= 
+\{\langle g,H\rangle   :
+g \in H \, \wedge \,
+\langle 
+\llbracket t_1 \rrbracket_{\eta[e{:=}g]},
+\dots,
+\llbracket t_n \rrbracket_{\eta[e{:=}g]}
+\rangle \in \mathcal{I}(R)
+\}
+\\
+\tdlsem{\eta}{\dconj{P}{Q}} &= 
+\{\langle g,H\rangle  :
+\langle g, 
+\{h : \langle h, H\rangle \in \tdlsem{\eta}{Q}\}
+\rangle\in\tdlsem{\eta}{P}
+\}
+\\
+\tdlsem{\eta}{\dnega{P}} &=
+\{\langle g,H\rangle  :
+g \in H \, \wedge \,
+\langle g,\env\rangle\not\in \tdlsem{\eta}{P}
+\}
+\\
+\tdlsem{\eta}{\dynexists_{i} x.\, P} &=
+\{\langle g,H\rangle  :
+\equant{a}{\langle g[i{:=}a],H\rangle\in\tdlsem{\eta[x{:=}a]}{P}}
+\} 
+\end{align*}
+
+
+\subsection{Syntactic and semantic translation}
 
 \begin{align*}
 \synlift{c}_e &= c\\
@@ -67,36 +160,6 @@ k[\mathbf{i}]g \,\wedge\,
 \\
 \synlift{\equant{\mathbf{i}}{P}} &=
 \dynexists_{\mathbf{i}} x.\,\synlift{P[\mathbf{i}{:=}x]}
-\end{align*}
-
-\begin{align*}
-\tdlsem{\eta}{\app{\app{\app{R}{t_1}}{\ldots}}{t_n}} &= 
-\{\langle g,H\rangle   :
-g \in H \, \wedge \,
-\langle 
-\llbracket t_1 \rrbracket_{\eta,g},
-\dots,
-\llbracket t_n \rrbracket_{\eta,g}
-\rangle \in \mathcal{I}(R)
-\}
-\\
-\tdlsem{\eta}{\dconj{P}{Q}} &= 
-\{\langle g,H\rangle  :
-\langle g, 
-\{h : \langle h, H\rangle \in \tdlsem{\eta}{Q}\}
-\rangle\in\tdlsem{\eta}{P}
-\}
-\\
-\tdlsem{\eta}{\dnega{P}} &=
-\{\langle g,H\rangle  :
-g \in H \, \wedge \,
-\langle g,\env\rangle\not\in \tdlsem{\eta}{P}
-\}
-\\
-\tdlsem{\eta}{\dynexists_{\mathbf{i}} x.\, P} &=
-\{\langle g,H\rangle  :
-\equant{a}{\langle g[\mathbf{i}{:=}a],H\rangle\in\tdlsem{\eta[x{:=}a]}{P}}
-\} 
 \end{align*}
 
 $$
