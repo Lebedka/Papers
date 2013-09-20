@@ -28,10 +28,10 @@ where  $e^*$ is the context obtained by updating $e$.
 Note the presence of the conjunct $\phi e^*$ in~\eqref{eq:ex:lovejm} that conveys that an updated context is passed as an argument to the continuation of a proposition, and is, therefore, accessible in the rest of the computation.  This kind of conjunct is a subterm of every proposition in the dynamic approach.
 
 Each object is interpreted as a variable (i.e. as a term of type $\iota$).  As a first approximation, sufficient for demonstrating the basic idea of the approach on handling cross-sentential and donkey anaphora,  $\gamma$ can be defined as a list of individuals:
-\begin{align}
-\gamma \defeq \texttt{ list of } [ \ \iota \ ] 
+\begin{align} \label{def:gammaislistofiota}
+\gamma \defeq \texttt{ list of } [ \ \iota \ ]  
 \end{align}
-According to this definition, the context stores only interpretations of objects that previously occurred in the discourse. When a new object is interpreted as an individual $x$, the current context $e$ is updated with $x$, resulting in $(x::e)$, where $::$ is a list constructor of type $(\iota \rightarrow \gamma \rightarrow \gamma)$ (i.e. it is a function that takes an individual and a context and returns an (updated) context).\footnote{Operation $::$ is right associative. For example, $(x::y::e)$ is equivalent to $(x::(y::e))$.}
+When defined as~\eqref{def:gammaislistofiota}, the context stores only interpretations of objects that previously occurred in the discourse. When a new object is interpreted as an individual $x$, the current context $e$ is updated with $x$, resulting in $(x::e)$, where $::$ is a list constructor of type $(\iota \rightarrow \gamma \rightarrow \gamma)$ (i.e. it is a function that takes an individual and a context and returns an (updated) context).\footnote{Operation $::$ is right associative. For example, $(x::y::e)$ is equivalent to $(x::(y::e))$.}
 
 Therefore, $e^*$ is $(\textbf{m} :: \textbf{j} ::{e})$ in Example~\ref{ex:2006-jlm}. Hence, the interpretation of Sentence~\eqref{sent:JlovesM-2006} is as follows:
 \begin{align}
