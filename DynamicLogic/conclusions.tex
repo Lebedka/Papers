@@ -1,1 +1,22 @@
 \section{Conclusions} \label{sec:conclusions}
+
+
+The list below summarizes the advantages of the continuation-based approach:
+
+\begin{itemize}
+
+\item The approach is independent of the intermediate language used to express meanings of the expressions. This allows to use mathematical and logical theories developed outside computational linguistics.\footnote{An extension of first logic language with $\lambda$ is used here because it is convenient and intuitive.} Therefore, natural language phenomena can be explained in terms of well-established and well-understood theories.
+
+\item Variables do not have any special status and are variables in the usual mathematical sense. Therefore, the notions of free and bound variables are standard.  
+
+\item There is no imperative dynamic notions as assignment functions, therefore destructive assignment problem does not hold. Meanings assigned to expressions are closed $\lambda$-terms. 
+
+\item There is no need for rules that artificially extend the scope of quantifiers.
+
+\item Context and content are regarded separately, but they do interact during the computation of the meaning of discourse.  
+
+\item The approach does not depend on any specific structure given to the context. In contrast, context is defined as a term of type parameter $\gamma$ and, therefore, its structure can be altered when necessary.
+
+\item The approach is truly compositional: the meaning of a complex expression is computed by $\beta$-reducing the composition of the meanings of its lexical items.
+
+\end{itemize}

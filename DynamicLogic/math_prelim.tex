@@ -1,10 +1,14 @@
-\section{Mathematical preliminaries} \label{tex:math_prelim}
+\section{Simply-typed lambda calculus with continuations} \label{tex:math_prelim}
 
-\cite{Church:1940:A-formulation-of-the-simple-theory-of-types}
 
-In this section the basic definitions and theorems of type-free (\ref{sec:A1}) and simply-typed (\ref{sec:A2}) lambda calculus, based on~\cite{Barendregt:1981:The-Lambda-Calculus:-Its-Syntax-and-Semantics},~\cite{Barendregt:1992:Lambda-Calculi-with-Types} and~\cite{HindleySeldin:2008:Lambda-Calculus-and-Combinators-an-Introduction}, are presented. The last subsection overviews the basic principles of the continuation-passing technique and illustrates them on simple programming examples.
+\cite{Church:1940:A-formulation-of-the-simple-theory-of-types},~\cite{Barendregt:1981:The-Lambda-Calculus:-Its-Syntax-and-Semantics},~\cite{Barendregt:1992:Lambda-Calculi-with-Types} and~\cite{HindleySeldin:2008:Lambda-Calculus-and-Combinators-an-Introduction}
 
-\subsection{Type-free Lambda Calculus} \label{sec:A1}
+%In this section the basic definitions and theorems of type-free (2.1) and
+%simply-typed (2.2) lambda calculus, based on [1], [2] and [10], are presented.
+%The last subsection overviews the basic principles of the continuation-passing
+%technique and illustrates them on simple programming examples
+
+\subsection{Simply-typed lambda calculus} \label{sec:STLC}
 
 \begin{definition}[$\lambda$-terms] The set of \textbf{$\lambda$-terms} $\Lambda$ constructed from an enumerable set of variables $V = \{ v, v_1 ,v_2, \dots\}$ is defined inductively as follows:
 \begin{center}
@@ -19,17 +23,6 @@ $
 \end{definition}
 
 In the term $ (\lambda x.M)$, called abstraction, the variable $x$ is the \textbf{argument} of the function and $M$ is the \textbf{body} of the function. %The variable $x$ is \textbf{bound} by $\lambda$ in  $ (\lambda x.M)$.
-
-\begin{example} \label{app:ex1} The following are $\lambda$-terms:
-\begin{align*}
-& x \\
-& (x_1x_2) \\
-& (\lambda x. (x_1 x_2)) \\
-& (\lambda x_1. (x_1 x_2)) \\
-& ((\lambda x. (x_1 x_2)) x_3 ) 
-\end{align*}
-\end{example}
-
 
 \begin{remark}[Parenthesis conventions] \label{rem:parcon}
 \begin{itemize}
@@ -46,23 +39,8 @@ $$(M) \seq M$$
 %application has a higher precedence than abstraction. 
 Note that according to the conventions on parentheses, term $\lambda x. MN$ is a more concise way of writing $\lambda x. (MN)$ and is not equivalent to $(\lambda x. M)N$. 
 
-\begin{example} According to Remark~\ref{rem:parcon}, the $\lambda$-terms in Example~\ref{app:ex1} can be written as follows:
-\begin{align*}
-& x \\
-& x_1x_2 \\
-& \lambda x. x_1 x_2 \\
-& \lambda x_1. x_1 x_2 \\
-& (\lambda x. x_1 x_2) x_3 
-\end{align*}
-\end{example}
-
-
-
 \begin{definition}[Free and bound variables] A variable $x$ is \textbf{free} in a $\lambda$-term $M$ if $x$ is not in the scope of $\lambda x$. If $x$ is in the scope of $\lambda x$, it is \textbf{bound}.
 \end{definition}
-
-\begin{example} In the term $ (\lambda x. x_1 x_2)$, the variables $x_1$ and $x_2$ are free. In the term $(\lambda x_1. x_1 x_2)$, the variable $x_1$ is bound and the variable $x_2$ is free. In the term $x(\lambda x.x)$, the variable occurs free in the subterm $x$ and bound in the subterm $\lambda x.x$. 
-\end{example}
 
 \begin{definition}[Closed $\lambda$-terms] \ 
 \begin{enumerate}
@@ -73,18 +51,7 @@ Note that according to the conventions on parentheses, term $\lambda x. MN$ is a
  FV(MN)  & = FV(M) \cup FV(N)
 \end{align*}
 \item M is \textbf{closed} or a \textbf{combinator}, if $FV(M) = \emptyset$
-%\item The result of \textbf{substitution} of $N$ for (the free occurrences of) $x$ in $M$, denoted $x[x:=N]$, is defined as follows ($x \neq y$):
-%\begin{center}
-%$
-%\begin{array}{rcl}
-%x[x:=N] & \defeq & N \\
-%y[x:=N] &  \defeq & y\\ 
-%(PQ)[x:=N]&  \defeq  & (P[x:=N])(Q[x:=N])\\
-%(\lambda y.P)[x:=N] & \defeq & \lambda y.(P[x:=N]) \\
-%(\lambda x.P)[x:=N] & \defeq & \lambda x.P
-%\end{array} 
-%$
-%\end{center}
+
 \end{enumerate}
 \end{definition}
 
@@ -130,10 +97,6 @@ or sometimes just by $M=N$.
 
 \end{definition}
 
-Importantly, substitution $[x:=N]$ in $M$, denoted $M[x:=N]$, is only applicable to the free occurrences of $x$ in $M$. For example,
-\begin{align*}
-(xy(\lambda x.x))[x:=N] = Ny(\lambda x.x)
-\end{align*}
 
 \begin{definition}[Substitution] The result of \textbf{substitution} of $N$ for the free occurences of $x$ in $M$, i.e. $M[x:=N]$, is defined inductively on the structure of $M$ as follows:
 \begin{align*}
@@ -164,14 +127,6 @@ may lead to a false result. For example, without renaming the bound variable $x$
 \begin{definition}[$\alpha$-congruency] $M$ and $N$ are \textbf{$\alpha$-congruent}, denoted $M \congr N$, if one can result from the other by a finite series of changes of bound variables.
 \end{definition}
 
-\begin{example}
-\begin{align*}
-& \lambda x.xy \congr \lambda z.zy \ncongr \lambda x.xx \\
-& \lambda xy.yx(\lambda x.x) \congr \lambda xy. yx(\lambda z.z)  \congr \lambda zy. yz(\lambda x.x) \\
-& \lambda xy.yx\congr  \lambda zy. yz \congr  \lambda zx. xz \congr \lambda yx. xy 
-\end{align*}
-\end{example}
-
 It is natural to identify the terms that are $\alpha$-congruent, as they represent the same processes. Moreover, the same processes can be represented by different terms. For example, $\lambda x.Mx$ and $M$ both lead to $MN$ when applied to $N$. Hence, the following rule can be introduced:
 \begin{definition}[Extensionality] \textbf{Extensionality} is the following derivation rule, provided $x \notin FV(MN)$:
 \begin{prooftree}
@@ -196,15 +151,6 @@ The extensionality rule allows to prove $\lambda x. Mx = M$. Alternatively,  $\l
 
 When $M$ is a $\beta$-normal form, it is often said that $M$ is in normal form.
 
-\begin{example} \
-\begin{enumerate}
-\item $\lambda x.x$ is in normal form.
-\item $(\lambda x.x)y$ has a normal form, namely $y$.
-\item $(\lambda xy.y)z$ has a normal form, namely $(\lambda y.y)$.
-\item $(\lambda xy.x)z$ has a normal form, namely $z$.
-\item $(\lambda x.xx)(\lambda y.yy)$ has no normal form.
-\end{enumerate}
-\end{example}
 
 A notion of reduction on $\Lambda$ is a binary relation on $\Lambda$. The classical notion of reduction $\beta$ is defined as follows:
 \begin{definition} $\beta = \{ ( (\lambda x. M)N , M[x:=N] ) | M, N \in \Lambda  \} $
@@ -241,10 +187,6 @@ $
 \end{center}
 
 
-%\begin{enumerate}
-%\item $(M,N) \in \beta$
-%\end{enumerate}
-
 \end{definition}
 
 The notions of $\beta$-redex and $\beta$-equality allow to give an alternative, more formal, definition of $\beta$-normal form:
@@ -255,28 +197,16 @@ The notions of $\beta$-redex and $\beta$-equality allow to give an alternative, 
 \end{enumerate}
 \end{definition}
 
-%\begin{definition}[$\beta$-contractum, $\beta$-redex] Any term of the form 
-%\begin{align*} (\lambda x.M)N
-%\end{align*}
-%is called a \textbf{$\beta$-redex} and the corresponding term
-%\begin{align*} M[x:=N]
-%\end{align*}
-%is called its \textbf{contractum}.
-%\end{definition}
-
-%
-%\begin{definition}[$\beta$-contracting, $\beta$-reducing]ff
-%\end{definition}
 
 The notion of $\beta$-reduction is very important, because it characterizes provability in $\lambda$ and it is Church-Rosser:
 
 \begin{proposition} $M =_{\beta} N$ iff $\lambda \vdash M = N$
 \end{proposition}
-\begin{proof} See~\cite[p.59]{Barendregt:1981:The-Lambda-Calculus:-Its-Syntax-and-Semantics}.
-%\begin{itemize}
-%\item Assume $\lambda \vdash M = N$. Use the induction on the length of the proof of $M=N$.
-%\item Assume $M =_{\beta} N$. Show by induction on the definition of the relations involved that
-%\end{itemize}
+\begin{proof} %See~\cite[p.59]{Barendregt:1981:The-Lambda-Calculus:-Its-Syntax-and-Semantics}.
+\begin{itemize}
+\item Assume $\lambda \vdash M = N$. Use the induction on the length of the proof of $M=N$.
+\item Assume $M =_{\beta} N$. Show by induction on the definition of the relations involved that
+\end{itemize}
 \end{proof}
 
 
@@ -292,10 +222,9 @@ The notion of $\beta$-reduction is very important, because it characterizes prov
 
 The Church-Rosser theorem says that for two $\beta$-convertible terms, there is a term to which they both $\beta$-reduce, as illustrated in Figure~\ref{fig:diamond}. The property described in the theorem, that if a term can be reduced to two different terms, then these two terms can be further reduced to one term, is called the \textbf{diamond property} or \textbf{confluence}. The theorem states that $\beta$-reduction is confluent.
 
-\subsection{Simply-typed Lambda Calculus}  \label{sec:A2}
-
 Lambda terms can be assigned expressions, called ``types'', to denote their intended input and output sets. There exists two typing paradigms: 
-\`{a} la Curry, sometimes called \textbf{implicit}, and \`{a} la Church, sometimes called \textbf{explicit}. This section first recalls the basics of Curry-style approach and then briefly compares it with the Church-style.
+\`{a} la Curry, sometimes called \textbf{implicit}, and \`{a} la Church, sometimes called \textbf{explicit}. Below the basics of Curry-style approach are overviewed, as this style is used subsequently in continuation-based dynamic logic developed in this paper.
+
 
 \begin{definition}[Simple types] Given a set $A$ of \textbf{atomic types}, the set of \textbf{types} $T$ is inductively defined as follows:
 \begin{center}
@@ -347,45 +276,6 @@ An atomic type is intended to denote some particular set. A function type $(\alp
 \end{definition}
 
 
-%\begin{definition}
-%
-%\medskip \noindent \textbf{Compatibility rules}:
-%
-%\begin{prooftree}
-%\AXC{} \RightLabel{if $x$ is a variable}
-%\UIC{$x \evalto x$}
-%\end{prooftree}
-%
-%\begin{prooftree}
-%\AXC{} \RightLabel{if $c$ is a constant}
-%\UIC{$c \evalto c$}
-%\end{prooftree}
-%
-%\begin{prooftree}
-%\AXC{$M \evalto N$}
-%\UIC{$\lambda x. M \evalto \lambda x.N $}
-%\end{prooftree}
-%
-%\begin{prooftree}
-%\AXC{$M \evalto \lambda x. K$}
-%\AXC{$Q \evalto N$}
-%\AXC{$K[x:=N] \evalto O$}
-%\TIC{$ MQ \evalto O$}
-%\end{prooftree}
-%
-%\begin{prooftree}
-%\AXC{$M \evalto x$}
-%\AXC{$Q \evalto N$}
-%\BIC{$ MQ \evalto xN$}
-%\end{prooftree}
-%
-%\begin{prooftree}
-%\AXC{$M \evalto OK$}
-%\AXC{$Q \evalto N$}
-%\BIC{$ MQ \evalto OKN$}
-%\end{prooftree}
-%\end{definition}
-
 \begin{lemma}[Substitution lemma for $\lambda\!\rightarrow$-Curry] \label{lem:substitution-Curry} \
 \begin{enumerate}
 \item If $\Gamma \vdash M:\sigma$, then $\Gamma[\alpha :=\tau] \vdash M:\sigma[\alpha :=\tau]$.
@@ -412,68 +302,13 @@ $
 \begin{proof} See~\cite[p.41]{Barendregt:1992:Lambda-Calculi-with-Types}.
 \end{proof}
 
-While in Curry's approach each term is assigned a type after the term has been built, in Church's approach, the type of a term is integrated in the term itself. For example, the term $\lambda x.x$ can be assigned a type according to the Curry and Church styles respectively as follows:
-\begin{align*}
-& \vdash_{Curry} \lambda x.x: (\sigma \rightarrow \sigma) \\
-& \vdash_{Church} \lambda x^\sigma.x: (\sigma \rightarrow \sigma) 
-\end{align*}
-The term $\lambda x^\sigma.x$ itself is annotated in a Church system by $\sigma$. This means that $\lambda x^\sigma.x$ takes the argument $x$ from the particular set denoted by $\sigma$. In contrast, a Curry system allows each term to have a polymorphic type. For example, the term $\lambda x.x:  (\sigma \rightarrow \sigma)$ denotes the operation of doing nothing regardless how $\sigma$ is instantiated: it can stand, for example, for integers or for booleans. 
+\subsection{Continuation}
 
-\begin{definition}[$T$-annotated $\lambda$-terms] Let $V$ be a set of variables, $T$ be a set of types. The set $\Lambda_T$ of $T$\textbf{-annotated} $\lambda$\textbf{-terms} is defined as follows:
-\begin{center}
-$
-\begin{array}{rcl}
-x \in V & \Longrightarrow & x \in \Lambda_T \\
-M, N \in  \Lambda_T& \Longrightarrow & MN \in \Lambda_T \\
-x \in V, M \in \Lambda_T, \sigma \in T & \Longrightarrow & \lambda x^\sigma.M \in \Lambda_T
-\end{array}
-$
-\end{center}
-\end{definition}
+Montague's program requires the meaning of an expression to be computed compositionally from meanings of its lexical constituents. Dynamics of natural language makes, however, this task non-trivial. A similar kind of problem occurred in the mathematical semantics of programming languages, particularly in formalizing full jumps (``goto'' statements) in a compositional way. To solve this problem, the method of continuations was introduced in~\cite{StracheyWadsworth:1974:Continuations:-A-Mathematical-Semantics-for-Handling-Full-Jumps} to extend the mathematical semantics of programming languages~\cite{ScottStrachey:1971:Toward-a-Mathematical-Semantics-for-Computer-Languages} with a general formalized notion of control of full jumps. According to this method, if the evaluation of a program is in a state $s$, and the following command is $c$, continuation represents the state transition which would be produced up to the end of the program (i.e. the rest of the computation) after performing the state transformation specified by $c$. Every function of a program written in continuation-passing style is given as an argument to the continuation of the program with respect to this function. 
 
-The typed lambda calculus  \`{a} la Church is defined similarly to the typed lambda calculus  \`{a} la Curry: an important difference is in the derivation rule corresponding to the abstraction: the abstracted variable is explicitly annotated with a type in the Church-style system.
-The explicit annotation of types in Church-style system makes it possible to decide whether a term has a certain type. This is an undecidable question for some Curry systems. On the other hand, a Curry-style system has more power and more flexibility than a Church-style system. For example, the easiest way to answer the question whether an untyped term $M$ has any typed analogues is to re-state the question in Curry's notation. Furthermore, Curry-style systems can be generalized in ways Church-style systems cannot. 
-
-Terms \`{a} la Church can be easily mapped into terms \`{a} la Curry. This is done simply by ``erasing'' all type annotations within the term \`{a} la Church:
-\begin{definition} $| \cdot |: \Lambda_T \rightarrow \Lambda$ is defined as follows:
-\begin{center}
-$
-\begin{array}{rcl}
-|x|& \defeq & x \\
-|MN|& \defeq & |M||N| \\
-|\lambda x^{\sigma}.M|& \defeq & \lambda x.|M|
-\end{array}
-$
-\end{center}
-\end{definition}
-The following proposition states that terms in the Church version project to terms in the Curry version of $\lambda\!\rightarrow$; and that terms in the Curry style can be ``lifted'' to terms in the Church style:
-\begin{proposition}  
-\ 
-\begin{enumerate}
-\item Let $M \in \Lambda_T$. Then
-\begin{align*}
-\Gamma \vdash_{Church} M:\sigma  \ \ \Longrightarrow \ \ & \Gamma \vdash_{Curry} |M|:\sigma
-\end{align*}
-\item Let $N\in \Lambda$. Then
-\begin{align*}
-\Gamma \vdash_{Curry} N:\sigma  \ \  \Longrightarrow \ \ & \text{exists } M  \in \Lambda_T  \\
-& \text{such that }  \Gamma \vdash_{Church}  M:\sigma \text{ and } |M| \congr N
-\end{align*}
-\end{enumerate}
-\end{proposition}
-\begin{proof} Both (1) and (2) are proved by induction on the given derivation.
-\end{proof}
-See~\cite{Barendregt:1992:Lambda-Calculi-with-Types}  and~\cite{HindleySeldin:2008:Lambda-Calculus-and-Combinators-an-Introduction} for profound introductions to the two typing styles and their detailed comparisons.
-
-
-\subsection{Continuation} \label{subsec:Continuation}
-
-Montague's program requires the meaning of an expression to be computed compositionally from meanings of its lexical constituents. Dynamics of natural language makes, however, this task non-trivial. A similar kind of problem occurred in the mathematical semantics of programming languages, particularly in formalizing full jumps (``goto'' statements) in a compositional way. To solve this problem, the method of continuations was introduced in~\cite{StracheyWadsworth:1974:Continuations:-A-Mathematical-Semantics-for-Handling-Full-Jumps} to extend the mathematical semantics of programming languages~\cite{ScottStrachey:1971:Toward-a-Mathematical-Semantics-for-Computer-Languages} with a general formalized notion of control of full jumps. According to this method, if the evaluation of a program is in a state $s$, and the following command is $c$, continuation represents the state transition which would be produced up to the end of the program (i.e. the rest of the computation) after performing the state transformation specified by $c$. Every function of a program written in continuation-passing style (CPS) is given as an argument to the continuation of the program with respect to this function. 
-
-\subsubsection{CPS Transformation}
 
 A program can be transformed from direct style to continuation-passing style (CPS).
-A possible way of CPS-transforming terms of typed lambda calculus was introduced in~\cite{Plotkin:1975:Call-by-Name-Call-by-Value-and-the-lambda-Calculus}. Plotkin's call-by-value transformation is shown in Definition~\ref{def:CPS-transformation}: 
+Plotkin~\cite{Plotkin:1975:Call-by-Name-Call-by-Value-and-the-lambda-Calculus} introduced a possible way of CPS-transforming terms of typed lambda calculus. Definition~\ref{def:CPS-transformation} shows Plotkin's call-by-value transformation: 
 %Moreover, they showed that for typed $\lambda$-calculus the original terms can be recovered from corresponding CPS-terms.
 %~\cite{MeyerWand:1985:Continuation-Semantics-in-Typed-Lambda-Calculi-Summary}
 \begin{definition}[CPS-transformation]\label{def:CPS-transformation} Let $o$ be a distinguished type. For each term $t$ of type $\rho$, it is possible to construct its CPS-transformation $\overline{t}$ of type $\overline{\rho}$ in the following way
@@ -484,9 +319,7 @@ A possible way of CPS-transforming terms of typed lambda calculus was introduced
 \overline{M^{\alpha \rightarrow \beta}N^\alpha} & = \lambda \phi^{\beta' \rightarrow o}. \overline{M}^{\overline{\alpha \rightarrow \beta} }(\lambda m^{(\alpha \rightarrow \beta)'}. \overline{N}^{\overline{\alpha}}(\lambda n^{\alpha'}.mn \phi)) 
 \end{align*}
 %
-where $\phi$ of type $(\rho' \rightarrow o)$ is a \textbf{continuation} of $t$.
-
-Each type  $\overline{\rho}$ is defined as $(\rho' \rightarrow o) \rightarrow o$, where $\rho'$ is as follows
+where $\phi$ of type $(\rho' \rightarrow o)$ is a \textbf{continuation} of $t$. Each type  $\overline{\rho}$ is defined as $(\rho' \rightarrow o) \rightarrow o$, where $\rho'$ is as follows
 %
 \begin{align*}
 \rho' = \left\{
@@ -506,121 +339,70 @@ For a better understanding of CPS-transformation, it is important to keep the ty
 \end{align} \label{eqs:cps}
 \end{subequations}
 
-It is possible to make a CPS-transformation of an application in a way that the argument is evaluated before the function, \eqref{eq:app-nws} shows the corresponding transformation rule:
+It is possible to make a CPS-transformation of an application in a way that the argument is evaluated before the function. Equation \eqref{eq:app-nws} shows the corresponding transformation rule:
 %
 \begin{align}
 \overline{MN} & = \lambda \phi. \overline{N}(\lambda n. \overline{M}(\lambda m.mn \phi)) \label{eq:app-nws}
 \end{align}
 
-The transformation presented above imposes call-by-value evaluation strategy in the resulting term. According to call-by-value strategy, the argument expression is evaluated before being passed to the function.\footnote{Call-by-value is usually contrasted with call-by-name evaluation strategy. According to call-by-name, the argument of a function is not evaluated before the evaluation of the function. Call-by-value evaluation is chosen here as it is closer to Montague's technique of type raising, as discussed in Section~\ref{sec:ContinuationInNLSemantics}.}
+The transformation presented above imposes \textbf{call-by-value} evaluation strategy in the resulting term. According to the call-by-value strategy, the argument expression is evaluated before being passed to the function.\footnote{Call-by-value is usually contrasted with call-by-name evaluation strategy. According to call-by-name, the argument of a function is not evaluated before the evaluation of the function.} 
 
-\begin{example} \label{ex:CPS1} Consider a $\lambda$-term $t$ computing  $\sqrt{x^3}$:
-% 
-\begin{align*}
-t = \lambda x. \mathsf{sqrt} (\mathsf{cube} \ x)
-\end{align*}
-%
-where $\mathsf{sqrt}$ is a function computing the square root of its argument and $\mathsf{cube}$ is a function computing the cubic power of its argument. Term $t$ can be CPS-transformed (to call-by-value evaluation style) in the following way:
-%
- { \small
- \begin{align}
-&\overline{\lambda x. \mathsf{sqrt} (\mathsf{cube} \ x )} \notag \\
- = \ &\lambda \phi. \phi (\lambda x. \overline{\mathsf{sqrt} (\mathsf{cube} \ x})) \tag{by~\eqref{eq:abst}} \\
-  = \  & \lambda \phi. \phi (\lambda x. (\lambda \phi'. \overline{\mathsf{sqrt}} (\lambda m.\overline{\mathsf{cube} \ x} (\lambda n. m n \phi') ) ) )\tag{by~\eqref{eq:app}} \\
-  = \ & \lambda \phi. \phi (\lambda x. (\lambda \phi'. \overline{\mathsf{sqrt}} (\lambda m. ( \lambda \phi''. \overline{\mathsf{cube}} (\lambda m'. \overline{x} (\lambda n'. m'n' \phi'') ) )   (\lambda n. m n \phi') ) ) )\tag{by~\eqref{eq:app}} \\
-  \bred & \lambda \phi. \phi (\lambda x. (\lambda \phi'. \overline{\mathsf{sqrt}} (\lambda m. ( \overline{\mathsf{cube}} (\lambda m'. \overline{x} (\lambda n'. m'n'  (\lambda n. m n \phi') ) ) )   ) ) )\notag \\
-  = \ & \lambda \phi. \phi (\lambda x. (\lambda \phi'. \overline{\mathsf{sqrt}} (\lambda m. ( \overline{\mathsf{cube}} (\lambda m'. (\lambda \phi''.\phi'' x) (\lambda n'. m'n'  (\lambda n. m n \phi') ) ) )   ) ) )\tag{by~\eqref{eq:var}} \\
-  \bred  &\lambda \phi. \phi (\lambda x. (\lambda \phi'. \overline{\mathsf{sqrt}} (\lambda m. ( \overline{\mathsf{cube}} (\lambda m'. m' x  (\lambda n. m n \phi') ) )  ) ) ) \label{eq:ex1nf}
- \end{align} }
- 
-The CPS versions of $\mathsf{sqrt}$ and $\mathsf{cube}$ are shown in Equations~\eqref{sqrt} and~\eqref{cube} respectively:
+
+Continuation-like approaches can already be found in earlier work on formal compositional semantics of natural language. Indeed, Montague's~\cite{Montague:1973:The-Proper-Treatment-of-Quantification-in-Ordinary-English} technique of type-raising can be seen as using continuation technique for quantifiers to take scope over complete sentences. In this type-raised setting, scope ambiguities (subject wide scope versus object wide scope) correspond to the change of evaluation order of the arguments. This is one of the features that continuation-style allows. To see the similarity between the type-raising and CPS-transformation, compare two possible interpretations~\eqref{eq:MS:looooves-a} and~\eqref{eq:MS:looooves-b} that account for the scope ambiguity of a transitive verb with respectively equations~\eqref{eq:app} and~\eqref{eq:app-nws} that impose different evaluation order of the arguments.
 %
 \begin{subequations}
 \begin{align}
-\overline{\mathsf{sqrt}} & = \lambda \phi. \phi ( \lambda x \phi'. \phi ' (\mathsf{sqrt}  x))  \label{sqrt} \\
-\overline{\mathsf{cube}} & = \lambda \phi. \phi  (  \lambda x \phi'. \phi ' (\mathsf{cube}  x)) \label{cube}
-\end{align} 
+\I{loves}_{sws} = \ & \lambda OS. S (\lambda x. O (\lambda y. \textbf{love} x y) ) \label{eq:MS:looooves-a} \\
+\I{loves}_{ows} = \ & \lambda OS. O (\lambda y. S (\lambda x. \textbf{love} x y) ) \label{eq:MS:looooves-b}
+\end{align}
+\label{eq:MS:looooves}
 \end{subequations}
-
-After substituting $\overline{\mathsf{sqrt}}$ and $\overline{\mathsf{cube}}$ in~\eqref{eq:ex1nf} for~\eqref{sqrt} and~\eqref{cube} and $\beta$-reducing,  the normalized CPS-transformed term shown below is obtained:
 %
-\begin{align*}  
-\overline{t} =\lambda \phi. \phi ( \lambda x \phi'. \phi' (\mathsf{sqrt} (\mathsf{cube} x) ) )
-\end{align*} 
-\end{example} 
+%\begin{subequations}
+%\begin{align}
+%\overline{MN} & = \lambda \phi. \overline{M}(\lambda m. \overline{N}(\lambda n.mn \phi)) \\
+%\overline{MN} & = \lambda \phi. \overline{N}(\lambda n. \overline{M}(\lambda m.mn \phi)) 
+%\end{align}
+%\label{eq:apppp}
+%\end{subequations}
+More recent research confirms that continuation-passing technique is very useful for formalizing natural language (discourse) semantics. For example Barker~\cite{Barker:2002:Continuations-and-the-Nature-of-Quantification} investigates in more details how continuized $\lambda$-terms expressing natural language meanings provide a way of dealing with phenomena related to quantification, such as scope displacement and scope ambiguity, and give a unified account of quantificational and non-quantificational noun phrases. Additionaly, Barker~\cite{Barker:2004:Continuations-in-Natural-Language} shows that CPS can be used to deal with focus, coordination and misplaced quantifiers.\footnote{Other interesting continuation-based analyses of different natural language phenomena include~\cite{Shan:2002:A-continuation-semantics-of-interrogatives-that-accounts-for-Bakers-ambiguity,Shan:2004:Delimited-continuations-in-natural-language,BarkerShan:2008:Donkey-Anaphora-is-In-Scope-Binding}.}
 
-Definition~\ref{def:CPS-transformation} transforms a program in direct style into an equivalent program in CPS. For example, $t$ and $\overline{t}$ return the same result for the same argument $4$, as Equations~\eqref{eq:t4} and~\eqref{eq:CPSt4} in the next example show: 
-\begin{example}
-\begin{align} 
-t(4) & = (\lambda x. \mathsf{sqrt} (\mathsf{cube} \ x))(4) \notag\\
-& \bconv \mathsf{sqrt} (\mathsf{cube} \ 4) \notag \\
-& =  \mathsf{sqrt} \ 64 \notag \\
-& = 8 \label{eq:t4}
-\end{align}
+Definition~\ref{def:CPS-transformation} transforms a program into an equivalent CPS program. The advantage of a program written in continuation passing style is that it can be expanded with unusual expressions, e.g. non-local transfers of control, in order to manage the execution of the program. For example, one of the possible control expressions of a function can be to  discard all the future of the computation (i.e. its continuation) and return the error as a result of the whole program, in the case an error happens within this function. Examples~\ref{ex:divbyzero}--\ref{ex:CPScontrolfinal} show how it can be done in the case of division by zero.
 %
+
+Example~\ref{ex:divbyzero} considers a $\lambda$-term $t$ equal to $(\lambda xy. \mathsf{sqrt} (\mathsf{div} \ x \ y)) $ that computes $\sqrt{ \dfrac{x}{y}}$. During the evaluation of $t$, if the execution of $\mathsf{div}$ leads to an error, the error message is passed to the function $\mathsf{sqrt}$ as the argument. Assuming that $\mathsf{sqrt}$ is defined simply as a square root of its argument, this leads to $\mathsf{sqrt}$ being applied to a value for which it is not defined. 
+\begin{example} \label{ex:divbyzero} $t  = \lambda xy. \mathsf{sqrt} (\mathsf{div} \ x \ y) $
 \begin{align}
-\lambda \phi. \overline{t} (\lambda \phi'. \phi' 4 \phi) = \ & \lambda \phi. (\lambda \phi. \phi ( \lambda x \phi'. \phi' (\mathsf{sqrt} (\mathsf{cube} x) ) )) (\lambda \phi'. \phi' 4 \phi) \notag \\
-\bconv \ & \lambda \phi.  (\lambda \phi'. \phi' 4 \phi)  ( \lambda x \phi'. \phi' (\mathsf{sqrt} (\mathsf{cube} x) ) ) \notag \\
-\bconv \ & \lambda \phi.   ( \lambda x \phi'. \phi' (\mathsf{sqrt} (\mathsf{cube} x) ) ) 4 \phi \notag \\
-\bconv \ & \lambda \phi. \phi (\mathsf{sqrt} (\mathsf{cube} 4) )   \notag \\
-= \ & \lambda \phi. \phi (\mathsf{sqrt} 64 )   \notag \\
-= \ & \lambda \phi. \phi 8   \label{eq:CPSt4}  
-\end{align}
-\end{example}
-
-\subsubsection{CPS Control} \label{subsubsec:CPSControl}
-
-As demonstrated in the previous section, by simply applying Definition~\ref{def:CPS-transformation} one transforms a program into an equivalent CPS program. However, the advantage of a program written in continuation passing style is that it can be expanded with unusual expressions managing its execution, like non-local transfers of control. For example, one of the possible control expressions of a function can be to  discard all the future of the computation (i.e. its continuation) and return the error as a result of the whole program, in case an error happens within this function. Examples~\ref{ex:divbyzero}--~\ref{ex:CPScontrolfinal} show how it can be done in the case of division by zero.
+%t & = \lambda xy. \mathsf{sqrt} (\mathsf{div} \ x \ y) \notag \\ % \label{eq:tstat}
+%\end{align}
 %
-\begin{example} \label{ex:divbyzero}
- Consider a $\lambda$-term $t$ computing  $\sqrt{ \dfrac{x}{y}}$: 
- %
-\begin{align}
-t = \lambda xy. \mathsf{sqrt} (\mathsf{div} \ x \ y) \label{eq:tstat}
-\end{align}
 %
-During the evaluation of $t$, if the execution of $\mathsf{div}$ leads to an error, the error message is passed to the function $\mathsf{sqrt}$ as the argument. Assuming that $\mathsf{sqrt}$ is defined simply as a square root of its argument, this leads to $\mathsf{sqrt}$ being applied to a value for which it is not defined.  For example, this happens if the second of the arguments given to $t$ is zero:
-%
-\begin{align}
+%\begin{align}
 t(9)(0) & =  (\lambda xy. \mathsf{sqrt} (\mathsf{div} \ x \ y))(9)(0)  \notag \\
 & \bconv   (\lambda y. \mathsf{sqrt} (\mathsf{div} \ 9 \ y) ) (0)  \notag \\
 & \bconv \mathsf{sqrt} (\mathsf{div} \ 9 \ 0)  \notag \\
 & = \mathsf{sqrt} (\mathtt{error} ) \label{sqrterrow}\\
 & =  \ ??? \notag
-\end{align}
-
+\end{align} \qex
 \end{example}
 
 This situation could be handled in the original direct program by adding at the beginning of $\mathsf{sqrt}$ a conditional expression that checks whether the argument is an $\mathtt{error}$ (and returning an  $\mathtt{error}$ in this case) or a number (and calculating the square root of the number in this case). However, this means that, following this style, such a condition would have to be added to all other possible functions of the program. In contrast, the CPS technique allows to provide control to the division function itself in a way that it terminates the whole program when an error occurs during its execution.
 
-It is possible to CPS-transform $t$ according to  Definition~\ref{def:CPS-transformation} and the next example demonstrates this. The transformations of functions $\mathsf{sqrt} $ and $\mathsf{div} $, shown below, are necessary for intermediary steps:
-%
+Equation shows the result $\overline{t}$ of CPS-transformation of $t$ according to Definition~\ref{def:CPS-transformation}.
+The transformations of functions $\mathsf{sqrt} $ and $\mathsf{div} $, shown below, were used in intermediary steps of the transformation:
+\todo{How were these transformations obtained?}
 \begin{subequations}
 \begin{align}
 \overline{\mathsf{sqrt}} & = \lambda \phi . \phi ( \lambda x \phi'  . \phi'(  \mathsf{sqrt}  x))  \label{sqrt-3} \\
-\overline{\mathsf{div}} & = \lambda \phi . \phi  (  \lambda x \phi' . \phi' ( \lambda y \phi''. \phi '' ( \mathsf{div} \ x \ y))) \label{div-3} 
-\end{align} \label{eq:sqrtdiv-3}
+\overline{\mathsf{div}} & = \lambda \phi . \phi  (  \lambda x \phi' . \phi' ( \lambda y \phi''. \phi '' ( \mathsf{div} \ x \ y))) \label{div-3}  \\
+\overline{\lambda xy. \mathsf{sqrt} (\mathsf{div} \ x \ y)}  & = \lambda \phi. \phi ( \lambda x \phi'. \phi' ( \lambda y \phi ''. \phi''  (\mathsf{sqrt} ( \mathsf{div} \ x\ y )))) \label{eq:exdivbyzero} 
+\end{align} 
 \end{subequations}
 
-\begin{example}
- %After substituting $ \overline{\mathsf{sqrt}}$ and $ \overline{\mathsf{div}}$ in~\eqref{eq:exdivbyzero0} with their corresponding terms shown in~\eqref{eq:sqrtdiv-3} and $\beta$-reducing, the normalized CPS-transformed $t$, shown in~\eqref{eq:exdivbyzero}, is obtained:
-\begin{small}
-\begin{align}
-& \overline{\lambda xy. \mathsf{sqrt} (\mathsf{div} \ x \ y)}  \notag \\
-= \ & \lambda \phi. \phi ( \lambda x. (\overline{\lambda y. \mathsf{sqrt} (\mathsf{div} \ x \ y)}  ))) \tag{by~\eqref{eq:abst}} \\
-= \ & \lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. \overline{ \mathsf{sqrt} (\mathsf{div} \ x \ y)}  ))) \tag{by~\eqref{eq:abst}} \\
-= \ & \lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''. \overline{ \mathsf{sqrt}} ( \lambda m. \overline{\mathsf{div} \ x \ y}  (\lambda n. mn \phi'')  ))) ))\tag{by~\eqref{eq:app}} \\
- = & \dots  \tag{by~\eqref{eq:app}} \\
- \bred \ &  \lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''. \overline{\mathsf{sqrt}}(\lambda m. \overline{\mathsf{div}}  (\lambda m''. m'' x ( \lambda m'. m' y (\lambda n. mn \phi ''))) ) )) ) ) \label{eq:exdivbyzero0}\\
-= & \dots \tag{by~\eqref{sqrt-3} and~\eqref{div-3}} \\
- \bred \ &  \lambda \phi. \phi ( \lambda x \phi'. \phi' ( \lambda y \phi ''. \phi''  (\mathsf{sqrt} ( \mathsf{div} \ x\ y ))))\label{eq:exdivbyzero} 
-\end{align}
-\end{small}
-\end{example}
 
 %\overline{t} & =  \lambda \phi. \phi (\lambda x \phi'. \phi' ( \lambda y \phi''. \phi''(\mathsf{sqrt} (\mathsf{div} \ x \ y) ))) \label{eq:exdivbyzeroCPS}
 
-Since normalized term $\overline{t}$ in~\eqref{eq:exdivbyzero} is obtained from $t$ in~\eqref{eq:tstat} only by applying CPS-transformation definitions, it is equivalent to $t$  and behaves analogously when an error happens inside the division function. To demonstrate it, $\overline{t}$ is ``fed'' in the next example with the same (continuized) arguments 9 and 0 as $t$ in Example~\ref{ex:divbyzero}. The fact that the result is equally undesirable can be seen by comparing Equations~\eqref{sqrterrow} and~\eqref{sqrterrowCPS}:
+Since normalized term $\overline{t}$ is obtained from $t$ only by applying definitions of CPS-transformation, it is equivalent to $t$  and behaves analogously when an error happens inside the division function. To demonstrate this, $\overline{t}$ is given in Example~\ref{ex:divbyzeroCPStransformed} the same (continuized) arguments 9 and 0 as $t$ in Example~\ref{ex:divbyzero}. The fact that the result is equally undesirable can be seen by comparing Equations~\eqref{sqrterrow} and~\eqref{sqrterrowCPS}:
 
 \begin{example}
 \begin{align}
@@ -633,87 +415,48 @@ Since normalized term $\overline{t}$ in~\eqref{eq:exdivbyzero} is obtained from 
 \bred \ & \lambda \phi'''. \phi''' \mathsf{sqrt} (\mathsf{div} \ 9 \ 0)  \notag \\
  =  \ & \lambda \phi'''. \phi''' (\mathsf{sqrt} (\mathtt{error} )) \label{sqrterrowCPS}\\
  =   \ & ??? \notag
-\end{align}
+\end{align} \qex \label{ex:divbyzeroCPStransformed}
 \end{example}
 
 However, an advantage of the CPS-written program~\eqref{eq:exdivbyzero} is that it can be extended with an unusual control due to the fact that it, as well as its functions, have continuations as arguments. Particularly, division can be refined in a way so that when the divisor is zero, it disregards the continuation and immediately returns an error message as a result of the whole program; and otherwise provides the result of the division to its continuation. 
-Thus, CPS-transformation of $\mathsf{div}$ can be done not directly by Equation~\eqref{div-3}, but by using its modified version~\eqref{div-4} with a control on whether $y$ is equal to zero or not:
+Thus, one can modify $\overline{\mathsf{div}}$ given in~\eqref{div-3} by adding a control on whether $y$ is equal to zero or not, as shown in~\eqref{div-4}:
 %
 \begin{align}
 \overline{\mathsf{div}} = \ & \lambda \phi . \phi ( \lambda x \phi'. \phi' ( \lambda y .  \mathsf{if} \ (y =0)  \ \mathsf{then} \ \mathtt{error}  \ \mathsf{else}  \  (\lambda \phi''. \phi'' (\mathsf{div} \ x \ y) )) ) \label{div-4}
 \end{align} 
 
-Then, using Equation~\eqref{div-4} in~\eqref{eq:exdivbyzero0}, and following Definition~\ref{def:CPS-transformation} in the rest of the transformation, a new CPS program that has a special treatment for division by zero is obtained, as shown below: 
+With Equation~\eqref{div-4} a CPS program~\eqref{eq:exdivbyzeroCPScontrol} that has a special treatment for division by zero can be obtained:
 %
 \begin{example}
 %\begin{footnotesize}
 \begin{align}
-& \overline{\lambda xy. \mathsf{sqrt} (\mathsf{div} \ x \ y)}  \notag \\
- = & \dots  \tag{by~\eqref{eq:abst} and~\eqref{eq:app}} \\
- \bred \ &  \lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''. \overline{\mathsf{sqrt}}(\lambda m. \overline{\mathsf{div}}  (\lambda m''. m'' x ( \lambda m'. m' y (\lambda n. mn \phi ''))) ) )) ) )\notag\\
-= &  \lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''. ( \lambda \phi . \phi ( \lambda x \phi'  . \phi'(  \mathsf{sqrt}  x)) ) \tag{by~\eqref{sqrt-3}} \\
-& \phantom{ \lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''. } (\lambda m. \overline{\mathsf{div}}  (\lambda m''. m'' x ( \lambda m'. m' y (\lambda n. mn \phi ''))) ) )) ) ) \notag \\
-\bred \ &   \lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.  \overline{\mathsf{div}}  (\lambda m''. m'' x ( \lambda m'. m' y (\lambda n.  \phi''(  \mathsf{sqrt}  n)))) ) ))  ) \notag \\
-= \ & \lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.  (\lambda \phi . \phi ( \lambda x' \phi'. \phi' ( \lambda y'.  \mathsf{if} \ (y' =0)  \ \mathsf{then} \ \mathtt{error}  \notag  \\
-& \phantom{ \lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.  (\lambda \phi . \phi ( \lambda x' \phi'. \phi' ( \lambda y'.} 
-\mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ x' \ y') )) ) ) \notag \\
-& \phantom{\lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.}
-(\lambda m''. m'' x ( \lambda m'. m' y (\lambda n.  \phi''(  \mathsf{sqrt}  n)))) ) ))  )  \tag{by~\eqref{div-4}} \\
-\bconv \ & \lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''. (\lambda m''. m'' x ( \lambda m'. m' y (\lambda n.  \phi''(  \mathsf{sqrt}  n)))) \notag \\
-& \phantom{\lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''. } 
-( \lambda x' \phi'. \phi' ( \lambda y'.  \mathsf{if} \ (y' =0)  \ \mathsf{then} \ \mathtt{error}  \notag\\
-& \phantom{\lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.( \lambda x' \phi'. \phi' ( \lambda y'.   } 
- \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ x' \ y') )) ) ) )))\notag \\
-\bconv \ & \lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''. ( \lambda x' \phi'. \phi' ( \lambda y'.  \mathsf{if} \ (y' = 0)  \ \mathsf{then} \ \mathtt{error}  \notag \\
-&  \phantom{\lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''. ( \lambda x' \phi'. \phi' ( \lambda y'. }
- \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ x' \ y') )) ) \notag \\
-& \phantom{\lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''. ( }
- x ( \lambda m'. m' y (\lambda n.  \phi''(  \mathsf{sqrt}  n))) ) )))\notag \\
- \bred \ & \lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.   ( \lambda m'. m' y (\lambda n.  \phi''(  \mathsf{sqrt}  n))) \notag \\
- & \phantom{\lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.  }
- ( \lambda y'.  \mathsf{if} \ (y' = 0)  \ \mathsf{then} \ \mathtt{error}  \notag \\
-& \phantom{\lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.   ( \lambda y'.  }  
-  \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ x \ y') )) ) )))\notag \\
- \bconv \ & \lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.    ( \lambda y'.  \mathsf{if} \ (y' = 0)  \ \mathsf{then} \ \mathtt{error}  \notag \\
- & \phantom{\lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.    ( \lambda y'. }
-  \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ x \ y') )) y (\lambda n.  \phi''(  \mathsf{sqrt}  n)) ) )))\notag \\
-  \bconv \ & \lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.    \mathsf{if} \ (y = 0)  \ \mathsf{then} \ \mathtt{error}  \notag \\
-  & \phantom{\lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.  }
+ \overline{\lambda xy. \mathsf{sqrt} (\mathsf{div} \ x \ y)} 
+  = \ & \lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.    \mathsf{if} \ (y = 0)  \ \mathsf{then} \ \mathtt{error}  \notag \\
+  & \phantom{\lambda \phi. \phi   }
    \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ x \ y) )  (\lambda n.  \phi''(  \mathsf{sqrt}  n)) ) ))) \label{eq:exdivbyzeroCPScontrol} 
-\end{align}
+\end{align} \qex
 %\end{footnotesize}
 \end{example}
 
 %
-Term~\eqref{eq:exdivbyzeroCPScontrol}, abbreviated below as $\overline{t}^{control}$, computes a square root of a result of a division, as programs $t$ and $\overline{t}$ do. However,  $\overline{t}^{control}$ additionally has the control over division by zero. Particularly, when the divisor is equal to zero, $\overline{t}^{control}$, unlike $t$ and $\overline{t}$, terminates with an error. This is demonstrated in Example~\ref{ex:CPScontrolfinal}:
+Term~\eqref{eq:exdivbyzeroCPScontrol}, abbreviated below as $\overline{t}^{control}$, computes a square root of a result of a division, as programs $t$ and $\overline{t}$ do. However, since $\overline{t}^{control}$ has the control over division by zero it, unlike $t$ and $\overline{t}$, terminates with an error when the divisor is equal to zero:
 %
 \begin{example} \label{ex:CPScontrolfinal}
 %\begin{footnotesize}
 \begin{align}
 & \lambda \phi. \overline{t}^{control} (\lambda \phi'. \phi' 9 (\lambda \phi''. \phi'' 0 \phi)) \notag \\
-= \ & \lambda \phi. (\lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.    \mathsf{if} \ (y = 0)  \ \mathsf{then} \ \mathtt{error}  \notag \\
-& \phantom{\lambda \phi. (\lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.} 
- \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ x \ y) )  (\lambda n.  \phi''(  \mathsf{sqrt}  n)) ) )))) \notag \\
- & \phantom{\lambda \phi.} (\lambda \phi'. \phi' 9 (\lambda \phi''. \phi'' 0 \phi)) \notag \\
- \bconv \ & \lambda \phi.  (\lambda \phi'. \phi' 9 (\lambda \phi''. \phi'' 0 \phi)) \notag \\
- & \phantom{\lambda \phi.} ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.    \mathsf{if} \ (y = 0)  \ \mathsf{then} \ \mathtt{error} \notag \\
-& \phantom{\lambda \phi.  ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.    } 
- \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ x \ y) )  (\lambda n.  \phi''(  \mathsf{sqrt}  n)) ) ))) \notag \\
- \bconv \ & \lambda \phi.   ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.    \mathsf{if} \ (y = 0)  \ \mathsf{then} \ \mathtt{error} \notag \\
- & \phantom{\lambda \phi.   ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.   }
-  \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ x \ y) )  (\lambda n.  \phi''(  \mathsf{sqrt}  n)) ) ))) 9 (\lambda \phi''. \phi'' 0 \phi) \notag \\
- \bconv \ & \lambda \phi.   ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.    \mathsf{if} \ (y = 0)  \ \mathsf{then} \ \mathtt{error} \notag \\
- & \phantom{ \lambda \phi.   ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''. }  \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ 9 \ y) )  (\lambda n.  \phi''(  \mathsf{sqrt}  n)) ) ))  (\lambda \phi''. \phi'' 0 \phi) \notag \\
-  \bconv \ & \lambda \phi.   (\lambda \phi''. \phi'' 0 \phi) ( \lambda y. ( \lambda \phi''.    \mathsf{if} \ (y = 0)  \ \mathsf{then} \ \mathtt{error} \notag \\
-  & \phantom{ \lambda \phi.   (\lambda \phi''. \phi'' 0 \phi) ( \lambda y. ( \lambda \phi''.   }  \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ 9 \ y) )  (\lambda n.  \phi''(  \mathsf{sqrt}  n)) ) )  \notag \\
-  \bconv \ & \lambda \phi.   ( \lambda y. ( \lambda \phi''.    \mathsf{if} \ (y = 0)  \ \mathsf{then} \ \mathtt{error} \ \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ 9 \ y) )  (\lambda n.  \phi''(  \mathsf{sqrt}  n)) ) ) 0 \phi \notag \\
+%= \ & \lambda \phi. (\lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.    \mathsf{if} \ (y = 0)  \ \mathsf{then} \ \mathtt{error}  \notag \\
+%& \phantom{\lambda \phi. (\lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.} 
+% \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ x \ y) )  (\lambda n.  \phi''(  \mathsf{sqrt}  n)) ) )))) \notag \\
+% & \phantom{\lambda \phi.} (\lambda \phi'. \phi' 9 (\lambda \phi''. \phi'' 0 \phi)) \notag \\
+  \bred \ & \lambda \phi.   ( \lambda y. ( \lambda \phi''.    \mathsf{if} \ (y = 0)  \ \mathsf{then} \ \mathtt{error} \ \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ 9 \ y) )  (\lambda n.  \phi''(  \mathsf{sqrt}  n)) ) ) 0 \phi \notag \\
     \bred \ & \lambda \phi. \mathsf{if} \ (0 = 0)  \ \mathsf{then} \ \mathtt{error} \ \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ 9 \ 0) )  (\lambda n.  \phi(  \mathsf{sqrt}  n))  \notag \\
 =  \ & \ \mathtt{error} \notag %\label{errormsg}
-\end{align}
+\end{align} \qex
 %\end{footnotesize}
 \end{example}
 
-As already mentioned above, the method of continuation was introduced to give compositional semantics to full jumps in programming languages. Next example illustrates on the example of a simple language that continuation-based interpretation of $\abort$ operation leads to desired evaluation of a program, while a direct interpretation does not:
+As mentioned above, the method of continuation was introduced to give compositional semantics to full jumps in programming languages. Next example illustrates on the example of a simple language that continuation-based interpretation of $\abort$ operation leads to desired evaluation of a program, while a direct interpretation does not.
 
 \begin{example}
 Consider a small programming language $L_1$ consisting of variables from set $\vvar$, expressions from set $\expr$, symbols $:=$ and $;$. The language has the following simple grammar, where $S$ stands for a statement:
@@ -788,34 +531,7 @@ When $\abort$ is absent, continuation-based evaluation of the program  correctly
 \begin{align}
 I_{S}(x:=3; x:=5) \xi \phi = \ & \phi(\xi[x:=3][x:=5]) \notag \\
 = \ & \phi (\xi [x:=5]) \notag
-\end{align}
+\end{align} \qex
 \end{example}
 
-\subsubsection{Continuation Technique in Natural Language Semantics} \label{subsubsec:ContinuationInNLSemantics}
-
-%Recent research~\cite{deGroote:2001:Type-raising-continuations-and-classical-logic,Barker:2002:Continuations-and-the-Nature-of-Quantification,Barker:2004:Continuations-in-Natural-Language,Shan:2005:Linguistic-Side-Effects,deGroote:2006:Towards-a-Montagovian-Account-of-Dynamics} shows that CPS-transform is a very useful method for formalizing natural language (discourse) semantics.
-
-Continuation-like approaches can already be found in earlier work on formal compositional semantics of natural language. Montague's~\cite{Montague:1973:The-Proper-Treatment-of-Quantification-in-Ordinary-English} technique of type-raising can be seen as using continuation technique for quantifiers to take scope over complete sentences. In this type-raised setting, scope ambiguities (subject wide scope versus object wide scope) correspond to the change of evaluation order of the arguments. This is one of the features that continuation-style allows. Indeed, compare Montague's account of scope ambiguity shown in~\eqref{eq:MS:looooves}, with respectively equations~\eqref{eq:app} and~\eqref{eq:app-nws} of call-by-value continuation-passing-style transformation, repeated below in~\eqref{eq:apppp}, that impose different evaluation order of the arguments:
-%
-\begin{subequations}
-\begin{align}
-\I{loves}_{sws} = \ & \lambda OS. S (\lambda x. O (\lambda y. \textbf{love} x y) ) \\
-\I{loves}_{ows} = \ & \lambda OS. O (\lambda y. S (\lambda x. \textbf{love} x y) )
-\end{align}
-\label{eq:MS:looooves}
-\end{subequations}
-%
-\begin{subequations}
-\begin{align}
-\overline{MN} & = \lambda \phi. \overline{M}(\lambda m. \overline{N}(\lambda n.mn \phi)) \\
-\overline{MN} & = \lambda \phi. \overline{N}(\lambda n. \overline{M}(\lambda m.mn \phi)) 
-\end{align}
-\label{eq:apppp}
-\end{subequations}
-
-
-More recent research confirms that continuation-passing technique is very useful for formalizing natural language (discourse) semantics. For example Barker~\cite{Barker:2002:Continuations-and-the-Nature-of-Quantification} investigates in more details how continuized $\lambda$-terms expressing natural language meanings provide a way of dealing with phenomena related to quantification, such as scope displacement and scope ambiguity, and give a unified account of quantificational and non-quantificational noun phrases. Additionaly, Barker~\cite{Barker:2004:Continuations-in-Natural-Language} shows that CPS can be used to deal with focus, coordination and misplaced quantifiers.\footnote{Other interesting continuation-based analyses of different natural language phenomena include~\cite{Shan:2002:A-continuation-semantics-of-interrogatives-that-accounts-for-Bakers-ambiguity,Shan:2004:Delimited-continuations-in-natural-language,BarkerShan:2008:Donkey-Anaphora-is-In-Scope-Binding}.}
-
-%Although a continuation-passing style allows many apparently non-compositional phenomena to be handled compositionally, it requires type-raising (e.g. an atomic type $\alpha$ becomes $((\alpha \rightarrow o) \rightarrow o) $) and thus result in more complex and less natural $\lambda$-terms and types. However, due to the similarity between type-raising and the double-negation translation (e.g. an atomic proposition $\P1$ becomes $((\P1 \rightarrow \bot) \rightarrow \bot)$), it is possible to obtain more concise and more intuitive lambda terms and types in natural languages semantics by using extended lambda calculi, such as the $\lambda \mu$-calculus~\cite{Parigot:1992:Lambda-My-Calculus:-An-Algorithmic-Interpretation-of-Classical-Natural-Deduction}, originally developed to exploit the double negation translation and provide a Curry-Howard isomorphism for classical logic. This was done in~\cite{deGroote:2001:Type-raising-continuations-and-classical-logic}, where ambiguities in the scope of natural language quantifiers were nicely related to the non-confluence of the $\lambda \mu$-calculus (with $\beta$-, $\mu$- and $\mu'$-reductions), which corresponds to the non-confluence of cut-elimination in classical logic.
-
-Next section proposes an approach that uses continuations in order to implement the influential pragmatic ideas of Stalnaker~\cite{Stalnaker:1978:Assertion} in Montague's settings. This is done by providing two additional arguments to each $\lambda$-term interpreting a natural language proposition. One argument stands for the continuation of the term. Another argument represents a (previously computed) context. Moreover, within the body of the $\lambda$-term, the continuation is applied to the (possibly updated) context (therefore, the continuation is dependent on the context). This is inspired by Stalnaker's idea that each assertion is made in context, is dependent upon the context and updates the context.\footnote{\cite{Heim:1982:The-Semantics-of-Definite-and-Indefinite-Noun-Phrases} and \cite{Kamp:1981:A-Theory-of-Truth-and-Semantic-Representation} also elaborate the work of Stalnaker~\cite{Stalnaker:1978:Assertion}. They do it, however, in a fundamentally different, non-compositional, way. }
+%Next chapter proposes an approach that uses continuations in order to implement the influential pragmatic ideas of Stalnaker~\cite{Stalnaker:1978:Assertion} in Montague's settings. This is done by providing two additional arguments to each $\lambda$-term interpreting a natural language proposition. One argument stands for the continuation of the term. Another argument represents a (previously computed) context. Moreover, within the body of the $\lambda$-term, the continuation is applied to the (possibly updated) context (therefore, the continuation is dependent on the context). This is inspired by Stalnaker's idea that each assertion is made in context, is dependent upon the context and updates the context.\footnote{\cite{Heim:1982:The-Semantics-of-Definite-and-Indefinite-Noun-Phrases} and \cite{Kamp:1981:A-Theory-of-Truth-and-Semantic-Representation} also elaborate the work of Stalnaker~\cite{Stalnaker:1978:Assertion}. They do it, however, in a fundamentally different, non-compositional, way. }

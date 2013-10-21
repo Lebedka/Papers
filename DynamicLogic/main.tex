@@ -15,8 +15,6 @@
 
 \input{macros}
 
-
-\newcommand{\qex}{\qed}
 %
 %       Italized theorem-like environments
 %
@@ -27,17 +25,21 @@
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{principle}[theorem]{Principle}
 \newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+
 %
 %       Non-italized theorem-like environments:
 %
-\newtheorem{@definition}[theorem]{Definition}
-\newenvironment{definition}{\begin{@definition}\upshape}{\end{@definition}}
-\newtheorem{@remark}[theorem]{Remark}
-\newenvironment{remark}{\begin{@remark}\upshape}{\end{@remark}}
+%\newtheorem{@definition}[theorem]{Definition}
+%\newenvironment{definition}{\begin{@definition}\upshape}{\end{@definition}}
+%\newtheorem{@remark}[theorem]{Remark}
+%\newenvironment{remark}{\begin{@remark}\upshape}{\end{@remark}}
 \newtheorem{@notation}[theorem]{Notation}
 \newenvironment{notation}{\begin{@notation}\upshape}{\end{@notation}}
 \newtheorem{@example}[theorem]{Example}
-\newenvironment{example}{\begin{@example}\upshape }{ \qex\end{@example}}
+\newenvironment{example}{\begin{@example}\upshape }{\end{@example}}
 \newtheorem{@convention}[theorem]{Convention}
 \newenvironment{convention}{\begin{@convention}\upshape}{\end{@convention}}
 \newtheorem{@note}[theorem]{Note}
@@ -54,7 +56,7 @@ Ekaterina Lebedeva}
 \maketitle
 
 \begin{abstract}
-Xxx xxx
+Xxx xxx xxx xxx xxx
 \end{abstract}
 
 
@@ -62,6 +64,7 @@ Xxx xxx
 \input{math_prelim}
 \input{cont_based_dyn}
 \input{dyn_log}
+\input{examples}
 \input{dpl}
 \input{higher_order}
 \input{conclusions}

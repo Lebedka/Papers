@@ -2,7 +2,7 @@
 
 It is possible to define semantics discussed in Section~\ref{sec:cont_based_dyn} in a more concise and systematic way. This is achieved by defining a continuation-based dynamic logic and this section presents this logic.
 
-\subsection{Formal Details}
+%\subsection{Formal Details}
 
 Terms and types are given by Definitions~\ref{def:terms-FO} and~\ref{def:types-FO}:
 \begin{definition}[$\lambda$-terms]\label{def:FO-lambda-terms}
@@ -301,54 +301,3 @@ If $\mathcal{M} \models_{dyn} \tr{\t1}$, then, by Definition~\ref{def:dyntrueinm
 The conservation theorem proves that a static proposition and its dynamic version defined in this section hold in the same models.
 
 
-\subsection{Donkey Sentences}
-
-Tables~\ref{tbl:stat-FO-donkey} and~\ref{tbl:dyn-FO-donkey} show respectively static and dynamic (according to {\GN}) interpretations for the lexical items in the donkey sentence~\eqref{donkey-every-FO}:
-\enumsentence{ \txt{Every farmer who owns a donkey beats it.} \label{donkey-every-FO}}
-Note that the type of every dynamic term is analogous to its static type. The only difference is that each atomic type of a dynamic term is dynamized according to Definition~\ref{def:DTypes-FO}. All terms in Table~\ref{tbl:dyn-FO-donkey}, except the interpretation of the pronoun \txt{it}, are dynamized following the rules in Definition~\ref{def:DTerms-FO}. These rules allow the presentation of dynamic terms in a compact way. They ensure that dynamic terms are structurally analogous to their static counterparts and, therefore, are more intuitive. The dynamic interpretation of \txt{it} is constructed not by directly following the dynamization rules, because \txt{it} is a unconventional lexical item: there is an anaphor to be solved. Therefore, $\etr{\I{\txt{it}}}$\footnote{Here and further on, dynamic interpretations of unconventional lexical items are marked with tilde.} contains the selection function $\selK$ that takes a context (from which a referent has to be chosen) as an argument.
-
- Taking these dynamic interpretations to compute the meaning of Sentence~\eqref{donkey-every-FO}, term~\eqref{eq:FO-donkey-int0} $\beta$-reduces to term~\eqref{eq:FO-donkey-int1}, which normalizes to~\eqref{eq:FO-donkey-int1-equiv}:
-\begin{align}
-& \tr{\I{beats}}  \ \etr{\I{it}} (\tr{\I{every}}  ((\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) ) ) \tr{\I{farmer}}  ))  \label{eq:FO-donkey-int0} \\
-\bred \ &  \all2 (\lambda \x1. (\tr{\textbf{f}} \x1  \cnj2     \ex2 (\lambda \z1.   \tr{\textbf{d}}   \z1  \cnj2      \tr{\textbf{o}}  \x1  \z1 ))    \impK2    (\lambda e \phi. \tr{\textbf{b}}  \x1 ( \selK_{it} e ) e \phi ) )  \label{eq:FO-donkey-int1} \\
-\bred \ & \lambda e \phi. \forall (\lambda \x1. \cfarmer \x1  \rightarrow \forall  (\lambda \z1.  (\cdonkey  \z1 \land \cown  \x1 \z1 )   \rightarrow  \cbeat  \x1 ( \selK_{it}  (\upii{\x1}{\upii{\z1}{e}}) )))\land \phi e  \label{eq:FO-donkey-int1-equiv}
-\end{align}
-
-
-Resulting term~\eqref{eq:FO-donkey-int1-equiv} is equivalent to~\eqref{eq:donkey-nf-meaning-2-2006} obtained in framework {\G} interpretations. Indeed, framework {\GN} is equivalent to de Groote's~\cite{deGroote:2006:Towards-a-Montagovian-Account-of-Dynamics} framework {\G}. However, it is advantageous over {\G} due to the compact notations for dynamic terms. These notations significantly systematize the framework and make the interpretations more concise and intuitive. Moreover, the systematic translations of static terms into dynamic terms makes it possible to prove a conservation result~\ref{th:conservation:FO} for {\GN}, that guarantees that static and dynamic interpretations are satisfied in the same models. 
-
-
-
-
-\begin{table}
-\begin{tabular}{ l l l l }
-  Lexical item &  Static type & Static interpretation \\
-  \hline
-  \\
-  \txt{farmer} &  ${\iota} \rightarrow {o}$ &  $\textbf{f}$   \\
-  \txt{donkey} &  ${\iota} \rightarrow {o}$ &  $\textbf{d}$   \\
-  \txt{owns} & $((\iota \rightarrow o) \rightarrow o) \rightarrow ((\iota \rightarrow o) \rightarrow o) \rightarrow {o}$  & $ \lambda \Y1 \X1. \X1 ( \lambda \x1. \Y1 (\lambda \y1.  \textbf{o}  \x1 \y1 ))$ \\
-    \txt{beats} & $((\iota \rightarrow o) \rightarrow o) \rightarrow ((\iota \rightarrow o) \rightarrow o) \rightarrow {o}$  & $ \lambda \Y1 \X1. \X1 ( \lambda \x1. \Y1 (\lambda \y1.  \textbf{b}  \x1 \y1 ))$ \\
-   \txt{every} & $({\iota} \rightarrow {o}) \rightarrow ( ({\iota} \rightarrow {o}) \rightarrow {o}) $ & $\lambda \P1 \Q1. \forall (\lambda x. \P1 x \rightarrow \Q1 x ) $   \\
-   \txt{a} & $({\iota} \rightarrow {o}) \rightarrow ( ({\iota} \rightarrow {o}) \rightarrow {o}) $ & $ \lambda \P1 \Q1. \exists (\lambda x.  \P1 x \land \Q1 x )$ \\
-  \txt{who} & $( ( ({\iota} \rightarrow {o}) \rightarrow {o} ) \rightarrow o  )  \rightarrow (\iota \rightarrow o)  \rightarrow (\iota \rightarrow o) $ & $ \lambda \R1 \Q1 \x1. \Q1 \x1 \land \R1 (\lambda \P1. \P1 \x1) $  \\
-   \txt{it} & $ ({\iota} \rightarrow {o}) \rightarrow {o} $  & $\lambda \P1. \P1 ?$ \\ 
- \end{tabular}
-\caption{Static lexical interpretations.} \label{tbl:stat-FO-donkey}
-\end{table}
-\begin{table}
-\begin{tabular}{ l l l l l}
-  Lexical item & Dynamic type & Dynamic interpretation in {\GN} \\
-  \hline
-  \\
-  \txt{farmer} &  $\tr{\iota} \rightarrow \tr{o}$ &  $\tr{\textbf{f}}$  \\
-    \txt{donkey} &  $\tr{\iota} \rightarrow \tr{o}$ &  $\tr{\textbf{d}}$  \\
-   \txt{owns} & $((\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) \rightarrow ((\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) \rightarrow \tr{o}$  & $ \lambda \Y2 \X2. \X2 ( \lambda \x1. \Y2 (\lambda \y1.  \tr{\textbf{o}}  \x1 \y1 ))$ \\
-      \txt{beats} & $((\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) \rightarrow ((\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) \rightarrow \tr{o}$  & $ \lambda \Y2 \X2. \X2 ( \lambda \x1. \Y2 (\lambda \y1.  \tr{\textbf{b}}  \x1 \y1 ))$ \\
-   \txt{every} & $(\tr{\iota} \rightarrow \tr{o}) \rightarrow ( (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) $ & $\lambda \P2 \Q2. \all2 (\lambda \x1.  \P2 \x1  \impK2 \Q2 \x1 ) $ \\
-    \txt{a} &  $(\tr{\iota} \rightarrow \tr{o}) \rightarrow ( (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) $  & $ \lambda \P2 \Q2. \ex2 (\lambda \x1.  \P2 \x1  \cnj2   \Q2 \x1 )$ \\
-   \txt{who} & $( ( (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o} ) \rightarrow \tr{o}  )  \rightarrow (\tr{\iota} \rightarrow \tr{o})  \rightarrow (\tr{\iota} \rightarrow \tr{o}) $ & $\lambda \R2 \Q2 \x1. \Q2 \x1  \cnj2  \R2 (\lambda \P2. \P2 \x1 ) $\\
-      \txt{it} & $ \lambda \P2. \lambda e \phi. \P2 ( \selK_{it} e ) e \phi $ \\ 
-   \end{tabular}
-\caption{Dynamic lexical interpretations in framework {\GN}.} \label{tbl:dyn-FO-donkey}
-\end{table}
