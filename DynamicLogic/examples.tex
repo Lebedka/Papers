@@ -1,10 +1,17 @@
 \section{Examples} \label{sec:examples}
 
+\subsection{Modular Dynamization of Static Interpretations}
 
-\subsection{Donkey Sentences}
+\TODOK{Show one or two examples of step-by-step translation of a static term into its dynamic equivalent.}
 
+\subsection{Computing Meaning of a Donkey Sentence}
 
+Tables~\ref{tbl:stat-FO-donkey} and~\ref{tbl:dyn-FO-donkey} show respectively static and dynamic interpretations for the lexical items in the donkey sentence~\eqref{donkey-every-FO}:
+\enumsentence{ \txt{Every farmer who owns a donkey beats it.} \label{donkey-every-FO}}
 
+Observe that the type of every dynamic term is analogous to its static type. The only difference is that each atomic type of a dynamic term is dynamized according to Definition~\ref{def:DTypes-FO}. Moreover dynamic interpretations structurally resemble static interpretations. This is achieved by applying the rules from Definition~\ref{def:DLCnst-FO} to original static interpretations from Table~\ref{tbl:stat-FO-donkey} in order to obtain their dynamic equivalents shown in Table~\ref{tbl:dyn-FO-donkey}. The only exception is the interpretation of the pronoun \txt{it}, which is an unconventional lexical item: there is an anaphor to be resolved. While its static interpretation was uncertain, its dynamic representation integrates the selection function $\selK$ responsible for solving anaphora.
+
+%\footnote{Here and further on, dynamic interpretations of unconventional lexical items are marked with tilde.}
 
 \begin{table}
 \begin{tabular}{ l l l l }
@@ -16,33 +23,35 @@
   \txt{owns} & $((\iota \rightarrow o) \rightarrow o) \rightarrow ((\iota \rightarrow o) \rightarrow o) \rightarrow {o}$  & $ \lambda \Y1 \X1. \X1 ( \lambda \x1. \Y1 (\lambda \y1.  \textbf{o}  \x1 \y1 ))$ \\
     \txt{beats} & $((\iota \rightarrow o) \rightarrow o) \rightarrow ((\iota \rightarrow o) \rightarrow o) \rightarrow {o}$  & $ \lambda \Y1 \X1. \X1 ( \lambda \x1. \Y1 (\lambda \y1.  \textbf{b}  \x1 \y1 ))$ \\
    \txt{every} & $({\iota} \rightarrow {o}) \rightarrow ( ({\iota} \rightarrow {o}) \rightarrow {o}) $ & $\lambda \P1 \Q1. \forall (\lambda x. \P1 x \rightarrow \Q1 x ) $   \\
-   \txt{a} & $({\iota} \rightarrow {o}) \rightarrow ( ({\iota} \rightarrow {o}) \rightarrow {o}) $ & $ \lambda \P1 \Q1. \exists (\lambda x.  \P1 x \land \Q1 x )$ \\
-  \txt{who} & $( ( ({\iota} \rightarrow {o}) \rightarrow {o} ) \rightarrow o  )  \rightarrow (\iota \rightarrow o)  \rightarrow (\iota \rightarrow o) $ & $ \lambda \R1 \Q1 \x1. \Q1 \x1 \land \R1 (\lambda \P1. \P1 \x1) $  \\
+   \txt{a} & $({\iota} \rightarrow {o}) \rightarrow ( ({\iota} \rightarrow {o}) \rightarrow {o}) $ & $ \lambda \P1 \Q1. \ex1 (\lambda x.  \P1 x \cnj1 \Q1 x )$ \\
+  \txt{who} & $( ( ({\iota} \rightarrow {o}) \rightarrow {o} ) \rightarrow o  )  \rightarrow (\iota \rightarrow o)  \rightarrow (\iota \rightarrow o) $ & $ \lambda \R1 \Q1 \x1. \Q1 \x1 \cnj1 \R1 (\lambda \P1. \P1 \x1) $  \\
    \txt{it} & $ ({\iota} \rightarrow {o}) \rightarrow {o} $  & $\lambda \P1. \P1 ?$ \\ 
  \end{tabular}
 \caption{Static lexical interpretations.} \label{tbl:stat-FO-donkey}
 \end{table}
 \begin{table}
 \begin{tabular}{ l l l l l}
-  Lexical item & Dynamic type & Dynamic interpretation in {\GN} \\
+  Lexical item & Dynamic type & Dynamic interpretation \\
   \hline
   \\
   \txt{farmer} &  $\tr{\iota} \rightarrow \tr{o}$ &  $\tr{\textbf{f}}$  \\
     \txt{donkey} &  $\tr{\iota} \rightarrow \tr{o}$ &  $\tr{\textbf{d}}$  \\
-   \txt{owns} & $((\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) \rightarrow ((\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) \rightarrow \tr{o}$  & $ \lambda \Y2 \X2. \X2 ( \lambda \x1. \Y2 (\lambda \y1.  \tr{\textbf{o}}  \x1 \y1 ))$ \\
-      \txt{beats} & $((\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) \rightarrow ((\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) \rightarrow \tr{o}$  & $ \lambda \Y2 \X2. \X2 ( \lambda \x1. \Y2 (\lambda \y1.  \tr{\textbf{b}}  \x1 \y1 ))$ \\
-   \txt{every} & $(\tr{\iota} \rightarrow \tr{o}) \rightarrow ( (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) $ & $\lambda \P2 \Q2. \all2 (\lambda \x1.  \P2 \x1  \impK2 \Q2 \x1 ) $ \\
-    \txt{a} &  $(\tr{\iota} \rightarrow \tr{o}) \rightarrow ( (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) $  & $ \lambda \P2 \Q2. \ex2 (\lambda \x1.  \P2 \x1  \cnj2   \Q2 \x1 )$ \\
-   \txt{who} & $( ( (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o} ) \rightarrow \tr{o}  )  \rightarrow (\tr{\iota} \rightarrow \tr{o})  \rightarrow (\tr{\iota} \rightarrow \tr{o}) $ & $\lambda \R2 \Q2 \x1. \Q2 \x1  \cnj2  \R2 (\lambda \P2. \P2 \x1 ) $\\
+   \txt{owns} & $((\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) \rightarrow ((\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) \rightarrow \tr{o}$  & $ \lambda \Y2 \X2. \X2 ( \lambda \x2. \Y2 (\lambda \y2.  \tr{\textbf{o}}  \x2 \y2 ))$ \\
+      \txt{beats} & $((\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) \rightarrow ((\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) \rightarrow \tr{o}$  & $ \lambda \Y2 \X2. \X2 ( \lambda \x2. \Y2 (\lambda \y2.  \tr{\textbf{b}}  \x2 \y2 ))$ \\
+   \txt{every} & $(\tr{\iota} \rightarrow \tr{o}) \rightarrow ( (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) $ & $\lambda \P2 \Q2. \all2 (\lambda \x2.  \P2 \x2  \impK2 \Q2 \x2 ) $ \\
+    \txt{a} &  $(\tr{\iota} \rightarrow \tr{o}) \rightarrow ( (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o}) $  & $ \lambda \P2 \Q2. \ex2 (\lambda \x2.  \P2 \x2  \cnj2   \Q2 \x2 )$ \\
+   \txt{who} & $( ( (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o} ) \rightarrow \tr{o}  )  \rightarrow (\tr{\iota} \rightarrow \tr{o})  \rightarrow (\tr{\iota} \rightarrow \tr{o}) $ & $\lambda \R2 \Q2 \x2. \Q2 \x2  \cnj2  \R2 (\lambda \P2. \P2 \x2 ) $\\
       \txt{it} & $ (\tr{\iota} \rightarrow \tr{o}) \rightarrow \tr{o} $ & $ \lambda \P2. \lambda e \phi. \P2 ( \selK_{it} e ) e \phi $ \\ 
    \end{tabular}
 \caption{Dynamic lexical interpretations.} \label{tbl:dyn-FO-donkey}
 \end{table}
 
-Tables~\ref{tbl:stat-FO-donkey} and~\ref{tbl:dyn-FO-donkey} show respectively static and dynamic interpretations for the lexical items in the donkey sentence~\eqref{donkey-every-FO}:
-\enumsentence{ \txt{Every farmer who owns a donkey beats it.} \label{donkey-every-FO}}
-Note that the type of every dynamic term is analogous to its static type. The only difference is that each atomic type of a dynamic term is dynamized according to Definition~\ref{def:DTypes-FO}. All terms in Table~\ref{tbl:dyn-FO-donkey}, except the interpretation of the pronoun \txt{it}, are dynamized following the rules in Definition~\ref{def:DTerms-FO}. These rules allow the presentation of dynamic terms in a compact way. They ensure that dynamic terms are structurally analogous to their static counterparts and, therefore, are more intuitive. The dynamic interpretation of \txt{it} is constructed not by directly following the dynamization rules, because \txt{it} is a unconventional lexical item: there is an anaphor to be solved. Therefore, $\etr{\I{\txt{it}}}$\footnote{Here and further on, dynamic interpretations of unconventional lexical items are marked with tilde.} contains the selection function $\selK$ that takes a context (from which a referent has to be chosen) as an argument.
 
+According to the parse tree, shown in Figure~\ref{fig:donkey-copy}, the dynamic meaning of~\eqref{donkey-every-FO} can be computed by $\beta$-reducing the term~\eqref{term:donkey-dynamic}:
+\begin{align}
+\tr{\I{beats}}  \ \etr{\I{it}} (\tr{\I{every}} ( (\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) ) ) \tr{\I{farmer}}  )) \label{term:donkey-dynamic}
+\end{align}
+%The dynamic lexical interpretations (in compact form) for words in Sentence~\eqref{donkey-every} are shown in Table~\ref{tbl:donkey-lexical}. These interpretations comply with dynamization principles discussed in Sections~\ref{sec:StandardInterpretations} and~\ref{sec:ExceptionTriggers}. Since the meanings of the lexical items are taken in compact form, the computation of the meaning of the sentence is free of ``bureaucracy'' and more intuitive compared to the computation using the normalized lexical interpretations. 
 
 
 \begin{figure}[h!]
@@ -51,114 +60,139 @@ Note that the type of every dynamic term is analogous to its static type. The on
 \caption{Syntactic parse tree of sentence \txt{Every farmer who owns a donkey beats it}.} \label{fig:donkey-copy}
 \end{figure}
 
-According to the parse tree, shown in Figure~\ref{fig:donkey} and for convenience repeated in Figure~\ref{fig:donkey-copy}, the dynamic meaning can be computed by $\beta$-reducing the term~\eqref{term:donkey-dynamic}:
-\begin{align}
-\tr{\I{beats}}  \ \etr{\I{it}} (\tr{\I{every}} ( (\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) ) ) \tr{\I{farmer}}  )) \label{term:donkey-dynamic}
-\end{align}
-The dynamic lexical interpretations (in compact form) for words in Sentence~\eqref{donkey-every} are shown in Table~\ref{tbl:donkey-lexical}. These interpretations comply with dynamization principles discussed in Sections~\ref{sec:StandardInterpretations} and~\ref{sec:ExceptionTriggers}. Since the meanings of the lexical items are taken in compact form, the computation of the meaning of the sentence is free of ``bureaucracy'' and more intuitive compared to the computation using the normalized lexical interpretations. 
-
-
-
+\begin{example}[Meaning of \txt{Every farmer who owns a donkey beats it}]
 
 The meaning of the noun phrase \txt{a donkey} is computed by reducing the term $\tr{\I{a}} \ \tr{\I{donkey}} $:
 \begin{align*}
  \tr{\I{a}} \ \tr{\I{donkey}}   = \ & (\lambda \P2 \Q2. \ex2 (\lambda \x2.  \P2 \x2 \cnj2 \Q2 \x2 ) ) \tr{\I{donkey}}   \\
- \bconv \ &  \lambda  \Q2. \ex2 (\lambda \x2.  \tr{\I{donkey}} \x2 \ \cnj2 \ \Q2 \x2 ) \\
-= \ &  \lambda  \Q2. \ex2 (\lambda \x2.  \tr{\cdonkey} \x2 \ \cnj2 \ \Q2 \x2 )
+ \bconv \ &  \lambda  \Q2. \ex2 (\lambda \x2.  \tr{\I{donkey}} \x2  \cnj2  \Q2 \x2 ) \\
+= \ &  \lambda  \Q2. \ex2 (\lambda \x2.  \tr{\cdonkey} \x2  \cnj2  \Q2 \x2 )
 \end{align*}
 
 The term $ \tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}}) $ is $\beta$-reduced as follows:
 \begin{align*}
 \tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) = \ & ( \lambda \Y2 \X2. \X2 ( \lambda \x2. \Y2 (\lambda \y2.  \tr{\cown}  \x2 \y2 )))  (\tr{\I{a}} \ \tr{\I{donkey}} ) \\
 \bconv \ &   \lambda \X2. \X2 ( \lambda \x2. \tr{\I{a}} \ \tr{\I{donkey}} (\lambda \y2.  \tr{\cown}  \x2 \y2 ))   \\
-= \ &  \lambda \X2. \X2 ( \lambda \x2. ( \lambda  \Q2. \ex2 (\lambda \z2.  \tr{\cdonkey} \z2 \ \cnj2 \ \Q2 \z2 ) ) (\lambda \y2.  \tr{\cown}  \x2 \y2 ))   \\
-\bconv \ &  \lambda \X2. \X2 ( \lambda \x2. \ex2 (\lambda \z2.  \tr{\cdonkey} \z2 \ \cnj2 \ (\lambda \y2.  \tr{\cown}  \x2 \y2 ) \z2   ))   \\
-\bconv \ & \lambda \X2. \X2 ( \lambda \x2.  \ex2 (\lambda \z2. \tr{\cdonkey}  \z2 \ \cnj2  \ \tr{\cown}  \x2 \z2 ))  
+= \ &  \lambda \X2. \X2 ( \lambda \x2. ( \lambda  \Q2. \ex2 (\lambda \z2.  \tr{\cdonkey} \z2 \cnj2 \Q2 \z2 ) ) (\lambda \y2.  \tr{\cown}  \x2 \y2 ))   \\
+\bconv \ &  \lambda \X2. \X2 ( \lambda \x2. \ex2 (\lambda \z2.  \tr{\cdonkey} \z2 \cnj2  (\lambda \y2.  \tr{\cown}  \x2 \y2 ) \z2   ))   \\
+\bconv \ & \lambda \X2. \X2 ( \lambda \x2.  \ex2 (\lambda \z2. \tr{\cdonkey}  \z2 \cnj2  \tr{\cown}  \x2 \z2 ))  
 \end{align*}
 
 The meaning of the relative clause \txt{who owns a donkey} is computed by $\beta$-reducing the term $\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ))$:
 \begin{align*}
- \tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} )) = \ & (\lambda \R2 \Q2 \y2.  \Q2 \y2 \ \cnj2 \ \R2 (\lambda \P2. \P2 \y2 ) ) (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} )) \\
-\bconv \ &  \lambda \Q2 \y2. \Q2 \y2 \ \cnj2 \ \tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}}) (\lambda \P2. \P2 \y2)   \\
-= \ & \lambda \Q2 \y2. \Q2 \y2 \ \cnj2 \ ( \lambda \X2. \X2 ( \lambda \x2.  \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \ \cnj2  \ \tr{\cown}  \x2 \z2 ) ) )  (\lambda \P2. \P2 \y2)   \\
-\bconv \ & \lambda \Q2 \y2.  \Q2 \y2 \ \cnj2 \ ( \lambda \P2. \P2 \y2) ( \lambda \x2.  \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \ \cnj2  \ \tr{\cown}  \x2 \z2 ) )     \\
-\bconv \ & \lambda \Q2 \y2. \Q2 \y2 \ \cnj2 \ (   \lambda \x2.  \ex2 (\lambda \z2.   \tr{\cdonkey}  \z2 \ \cnj2  \ \tr{\cown}  \x2 \z2)    \y2)   \\
-\bconv \ & \lambda \Q2 \y2.  \Q2 \y2 \ \cnj2 \  \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \ \cnj2  \ \tr{\cown}  \y2 \z2  ) 
+ \tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} )) = \ & (\lambda \R2 \Q2 \y2.  \Q2 \y2 \cnj2  \R2 (\lambda \P2. \P2 \y2 ) ) (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} )) \\
+\bconv \ &  \lambda \Q2 \y2. \Q2 \y2 \cnj2  \tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}}) (\lambda \P2. \P2 \y2)   \\
+= \ & \lambda \Q2 \y2. \Q2 \y2 \cnj2  ( \lambda \X2. \X2 ( \lambda \x2.  \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2 ) ) )  (\lambda \P2. \P2 \y2)   \\
+\bconv \ & \lambda \Q2 \y2.  \Q2 \y2 \cnj2  ( \lambda \P2. \P2 \y2) ( \lambda \x2.  \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2 ) )     \\
+\bconv \ & \lambda \Q2 \y2. \Q2 \y2 \cnj2  (   \lambda \x2.  \ex2 (\lambda \z2.   \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2)    \y2)   \\
+\bconv \ & \lambda \Q2 \y2.  \Q2 \y2 \cnj2   \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \y2 \z2  ) 
 \end{align*}
 
 The meaning of \txt{farmer who owns a donkey} is computed by applying the resulting $\lambda$-term in the computation above to the interpretation of \txt{farmer}:
 \begin{align*}
  (\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) ) )\tr{\I{farmer}} 
- = \ & (\lambda \Q2 \y2.  \Q2 \y2 \ \cnj2 \  \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \ \cnj2  \ \tr{\cown}  \y2 \z2  )) \tr{\I{farmer}} \\
-\bconv \ & \lambda  \y2.  \tr{\I{farmer}} \y2 \ \cnj2 \  \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \ \cnj2  \ \tr{\cown}  \y2 \z2  )   \\ 
-= \ & \lambda  \y2.  \tr{\cfarmer} \y2 \ \cnj2 \  \ex2 (\lambda \z2.  \tr{\cdonkey} \z2 \ \cnj2  \ \tr{\cown}  \y2 \z2 )   
+ = \ & (\lambda \Q2 \y2.  \Q2 \y2 \cnj2   \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \y2 \z2  )) \tr{\I{farmer}} \\
+\bconv \ & \lambda  \y2.  \tr{\I{farmer}} \y2 \cnj2   \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \y2 \z2  )   \\ 
+= \ & \lambda  \y2.  \tr{\cfarmer} \y2 \cnj2   \ex2 (\lambda \z2.  \tr{\cdonkey} \z2 \cnj2 \tr{\cown}  \y2 \z2 )   
 \end{align*}
 
 The meaning of the noun phrase \txt{every farmer who owns a donkey} is computed by applying the interpretation of \txt{every} to the interpretation of \txt{farmer who owns a donkey}: 
 \begin{align}
 & \tr{\I{every}}  ((\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) )) \tr{\I{farmer}}  )  \notag \\
-= \ & (\lambda \P2 \Q2. \all2 (\lambda \x2.  \P2 \x2 \ \impK2 \ \Q2 \x2 ) ) ((\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) )) \tr{\I{farmer}}  )  \notag \\
-\bconv \ & \lambda \Q2. \all2 (\lambda \x2.  ((\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) )) \tr{\I{farmer}}  ) \x2 \ \impK2 \ \Q2 \x2 )   \notag \\
-= \ & \lambda \Q2. \all2 (\lambda \x2.  (\lambda  \y2.  \tr{\cfarmer}  \y2 \ \cnj2 \  \ex2 (\lambda \z2. \tr{\cdonkey}  \z2 \ \cnj2  \ \tr{\cown}  \y2 \z2  )   ) \x2 \ \impK2 \ \Q2 \x2)    \notag \\
-\bconv \ & \lambda \Q2. \all2 (\lambda \x2.  ( \tr{\cfarmer}  \x2 \ \cnj2 \  \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \ \cnj2  \ \tr{\cown}  \x2 \z2  ) )  \ \impK2 \ \Q2 \x2)   \label{eq:everyfarmerwhoownsadonkey}
+= \ & (\lambda \P2 \Q2. \all2 (\lambda \x2.  \P2 \x2 \impK2 \Q2 \x2 ) ) ((\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) )) \tr{\I{farmer}}  )  \notag \\
+\bconv \ & \lambda \Q2. \all2 (\lambda \x2.  ((\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) )) \tr{\I{farmer}}  ) \x2 \impK2 \Q2 \x2 )   \notag \\
+= \ & \lambda \Q2. \all2 (\lambda \x2.  (\lambda  \y2.  \tr{\cfarmer}  \y2 \cnj2   \ex2 (\lambda \z2. \tr{\cdonkey}  \z2  \cnj2  \tr{\cown}  \y2 \z2  )   ) \x2 \impK2 \Q2 \x2)    \notag \\
+\bconv \ & \lambda \Q2. \all2 (\lambda \x2.  ( \tr{\cfarmer}  \x2 \cnj2   \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2  \cnj2  \tr{\cown}  \x2 \z2  ) )  \impK2 \Q2 \x2)   \label{eq:everyfarmerwhoownsadonkey}
 \end{align}
 
-
-
-\todo{Change interpretation of ``it´´ here.}
 The meaning of the verb phrase \txt{beats it} is computed as follows:
 \begin{align}
-\tr{\I{beats}}  \ \etr{\I{it}}  = \ &  (\lambda \Y2 \X2. \X2 ( \lambda \x2. \Y2 (\lambda \y2.  \tr{\cbeat}  \x2 \y2 ))) \etr{\I{it}} \notag  \\
+\tr{\I{beats}}  \etr{\I{it}}  = \ &  (\lambda \Y2 \X2. \X2 ( \lambda \x2. \Y2 (\lambda \y2.  \tr{\cbeat}  \x2 \y2 ))) \etr{\I{it}} \notag  \\
 \bconv \ &  \lambda  \X2. \X2 ( \lambda \x2.  \etr{\I{it}}  (\lambda \y2.  \tr{\cbeat}  \x2 \y2 ))\notag  \\
-= \ & \lambda  \X2. \X2 ( \lambda \x2.  (\lambda \P2. \P2 ( \sel ( \lambda \z1. \mathbf{non\_human} \z1 ) ))  (\lambda \y2.  \tr{\cbeat}  \x2 \y2 ))\notag  \\
-\bconv \ &  \lambda  \X2. \X2 ( \lambda \x2.   (\lambda \y2.  \tr{\cbeat}  \x2 \y2 ) ( \sel ( \lambda \z1. \mathbf{non\_human} \z1 )) )\notag  \\
-\bconv \ &  \lambda  \X2. \X2 ( \lambda \x2.   \tr{\cbeat}  \x2 ( \sel ( \lambda \z1. \mathbf{non\_human} \z1 ))  ) \label{eq:beatsit}
+= \ & \lambda  \X2. \X2 ( \lambda \x2.  ( \lambda \P2. \lambda e \phi. \P2 ( \selK_{it} e ) e \phi)    (\lambda \y2.  \tr{\cbeat}  \x2 \y2 ))\notag  \\
+\bconv \ & \lambda  \X2. \X2 ( \lambda \x2.   \lambda e \phi.  (\lambda \y2.  \tr{\cbeat}  \x2 \y2 ) ( \selK_{it} e ) e \phi  )\notag  \\
+\bconv \ & \lambda  \X2. \X2 ( \lambda \x2.   \lambda e \phi.  \tr{\cbeat}  \x2 ( \selK_{it} e ) e \phi  ) \label{eq:beatsit}
 \end{align}
 
-\todo{Fix computation here.}
 Finally, the meaning of the sentence is computed by applying the interpretation~\eqref{eq:beatsit} to the interpretation~\eqref{eq:everyfarmerwhoownsadonkey}:
-%\begin{footnotesize}
-\begin{align}
-& \tr{\I{beats}}  \ \etr{\I{it}} (\tr{\I{every}}  ((\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) ) ) \tr{\I{farmer}}  )) \notag \\
-= \ & (\lambda  \X2. \X2 ( \lambda \x2.   \tr{\cbeat}  \x2 ( \sel ( \lambda \z1. \mathbf{non\_human} \z1 ))  )) \notag \\
-& (\tr{\I{every}}  ((\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) ) ) \tr{\I{farmer}}  ))  \notag \\
-\bconv \ & (\tr{\I{every}}  ((\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) ) ) \tr{\I{farmer}}  ))  \notag \\
-&  ( \lambda \y2.   \tr{\cbeat}  \y2 ( \sel ( \lambda \z1. \mathbf{non\_human} \z1 ))  )  \notag \\
-= \ &  (\lambda \Q2. \all2 (\lambda \x2.  ( \tr{\cfarmer} \x2 \ \cnj2 \  \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \ \cnj2  \ \tr{\cown}  \x2 \z2 )   ) \ \impK2 \ \Q2 \x2 ) ) ( \lambda \y2.   \tr{\cbeat}  \y2 ( \sel ( \lambda \z1. \mathbf{non\_human} \z1 ))  )  \notag \\
-\bconv \ &  \all2 (\lambda \x2.  (\tr{\cfarmer} \x2 \ \cnj2 \  \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \ \cnj2  \ \tr{\cown}  \x2 \z2 )) \ \impK2 \ ( \lambda \y2.   \tr{\cbeat}  \y2 ( \sel ( \lambda \z1. \mathbf{non\_human} \z1 ))  )   \x2)   \notag \\
-\bconv \ &  \all2 (\lambda \x2. (  \tr{\cfarmer} \x2 \ \cnj2 \  \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \ \cnj2  \ \tr{\cown}  \x2 \z2  )  ) \ \impK2 \  \tr{\cbeat}  \x2 ( \sel ( \lambda \z1. \mathbf{non\_human} \z1 )) ) \label{eq:donkey-compact-meaning}
-\end{align}
-%\end{footnotesize}
-Formula~\eqref{eq:donkey-compact-meaning} is the resulting dynamic meaning of Sentence~\eqref{donkey-every} in the compact form. Its computation is analogous to the computation of the static formula~\eqref{eq:donkey-st-meaning}, and therefore more intuitive than if normalized (not compact, unfolded) interpretations of lexical items were used. Due to the similarity with the ``static'' computation, it may seem, at the first glance, that the formula~\eqref{eq:donkey-compact-meaning} has the same problems as the static formula~\eqref{eq:donkey-st-meaning}. However, this is not the case! 
+\begin{flalign}
+& \tr{\I{beats}}  \ \etr{\I{it}} (\tr{\I{every}}  ((\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) ) ) \tr{\I{farmer}}  )) & \notag \\
+= \ & (\lambda  \X2. \X2 ( \lambda \x2.   \lambda e \phi.  \tr{\cbeat}  \x2 ( \selK_{it} e ) e \phi  ) ) (\tr{\I{every}}  ((\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) ) ) \tr{\I{farmer}}  )) &  \notag \\
+\bconv \ &  (\tr{\I{every}}  ((\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) ) ) \tr{\I{farmer}}  )) ( \lambda \x2.   \lambda e \phi.  \tr{\cbeat}  \x2 ( \selK_{it} e ) e \phi  )   &  \notag \\
+= \ & (\lambda \Q2. \all2 (\lambda \x2.  ( \tr{\cfarmer}  \x2 \cnj2   \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2  \cnj2  \tr{\cown}  \x2 \z2  ) )  \impK2 \Q2 \x2) ) ( \lambda \x2.   \lambda e \phi.  \tr{\cbeat}  \x2 ( \selK_{it} e ) e \phi  )   &  \notag \\
+\bconv \ &  \all2 (\lambda \x2.  ( \tr{\cfarmer}  \x2 \cnj2   \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2  \cnj2  \tr{\cown}  \x2 \z2  ) )  \impK2 ( \lambda \x2.   \lambda e \phi.  \tr{\cbeat}  \x2 ( \selK_{it} e ) e \phi  )   \x2)  ) &  \notag \\
+\bconv \ &  \all2 (\lambda \x2.  ( \tr{\cfarmer}  \x2 \cnj2   \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2  \cnj2  \tr{\cown}  \x2 \z2  ) )  \impK2 (  \lambda e \phi.  \tr{\cbeat}  \x2 ( \selK_{it} e ) e \phi ) ) &    \label{eq:donkey-compact-meaning}
+\end{flalign}
 
- %As shown below, formula~\eqref{eq:donkey-compact-meaning} normalizes to formula~\eqref{eq:donkey-nf-meaning}, thus overcoming the drawbacks of the static interpretation.
-The ``secret'' of having the computation similar to and as intuitive as the static one but without the ``static problems'' lies in the fact that all the subterms used, particularly those standing for the logical connectives, are dynamic. Term~\eqref{eq:donkey-compact-meaning} is analysed below in three ways. Firstly, simply by applying Proposition~\ref{thrm:scopeextension} to it; secondly, by examining its structure and its dynamic subterms; and finally, by normalizing it by performing step-by-step $\beta$-reductions.
+\end{example}
 
-Remember that by  Remark~\ref{rem:MorganLaws-dynamic} the following equations hold: 
-\begin{subequations}
-\begin{align}
-\all2 \ \defeq \ & \lambda \P2. \n2 \ex2 (\n2 \P2) \\
-\impK2 \ \defeq \ & \lambda \A2 \B2. \n2 ( \A2 \cnj2 \n2 \B2)
-\end{align} \label{eq:logsymbabbrev}
-\end{subequations}
+Formula~\eqref{eq:donkey-compact-meaning} is the dynamic interpretation of Sentence~\eqref{donkey-every-FO}. 
+Due to the compact forms of dynamic (sub--)terms, the computation and the resulting term are as intuitive as if static interpretations were used. However, the dynamic interpretation is advantageous. Particularly for donkey sentences, it not only provides means for compositionally solving the pronominal anaphora, but also avoids the quantifier scope problem. 
 
-Therefore, term~\eqref{eq:donkey-compact-meaning} is equivalent to~\eqref{eq:donkey-compact-meaning-2}:
+To illustrate that the quantifier scope problem is avoided two analyses are given below. We apply these analyses to 
+term~\eqref{eq:donkey-compact-meaning-2} obtained from~\eqref{eq:donkey-compact-meaning}  using Remark~\ref{remark:impforall}. Interpretations~\eqref{eq:donkey-compact-meaning-2} and~\eqref{eq:donkey-compact-meaning} are logically equivalent.
 \begin{align}
-%\n2 \ex2 (\lambda \x2.  (\tr{\cfarmer}  \x2 \ \cnj2 \  \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \ \cnj2  \ \tr{\cown}  \x2 \z2  ) ) \ \cnj2 \ \n2 \tr{\cbeat}  \x2 ( \sel ( \lambda \z1. \mathbf{non\_human} \z1 ))  )   \label{eq:donkey-compact-meaning-2}
-\n2 \ex2 (\lambda \x2.  \tr{\cfarmer}  \x2 \ \cnj2 \  \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \ \cnj2  \ \tr{\cown}  \x2 \z2  )  \ \cnj2 \ \n2 \tr{\cbeat}  \x2 ( \sel ( \lambda \z1. \mathbf{non\_human} \z1 ))  )   \label{eq:donkey-compact-meaning-2}
+\n2 \ex2 (\lambda \x2.  \tr{\cfarmer}  \x2 \cnj2   \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2  )  \cnj2  \n2 ( \lambda e \phi. \tr{\cbeat}  \x2  ( \selK_{it} e ) e \phi  ))   \label{eq:donkey-compact-meaning-2}
 \end{align}
 
-\subsubsection{Analysis 1}
-\TODO{See sec-DS-DonkeySentences.tex in the thesis.}
+In the first analysis we simply apply Proposition~\ref{thrm:scopeextension-G} to~\eqref{eq:donkey-compact-meaning-2} and in the second analysis we examine the structure of the term and its dynamic subterms. %The third analysis normalizes the term by performing step-by-step $\beta$-reductions.
 
-\subsubsection{Analysis 2}
-\TODO{See sec-DS-DonkeySentences.tex in the thesis.}
-
-\subsubsection{Analysis 3}
-\TODO{See sec-DS-DonkeySentences.tex in the thesis.}
+\subsection*{Analysis 1}
 
 
-% commented text below!!!
+According to Proposition~\ref{thrm:scopeextension-G}, since $\z2 \notin FV(\n2 \tr{\cbeat}  \x2 (( \selK_{it} e ) e \phi))$, formula~\eqref{eq:donkey-compact-meaning-2} is $\beta$-equivalent to the following formula:
+\begin{align}
+\n2 \ex2 (\lambda \x2.  \tr{\cfarmer}  \x2 \cnj2   \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2    \cnj2  \n2  ( \lambda e \phi. \tr{\cbeat}  \x2 ( \selK_{it} e ) e \phi ) )) \label{eq:donkey-compact-meaning-3}
+\end{align}
+
+Finally, by Remark~\eqref{remark:impforall}, formula~\eqref{eq:donkey-compact-meaning-3} can be represented in a more familiar way:
+\begin{align}
+ \all2 (\lambda \x2.  \tr{\cfarmer}  \x2 \impK2   \all2 (\lambda \z2. ( \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2 )   \impK2    ( \lambda e \phi. \tr{\cbeat}  \x2 ( \selK_{it} e ) e \phi ) )) 
+ \label{eq:donkey-compact-meaning-4}
+\end{align}
+
+
+\subsection*{Analysis 2}
+
+
+Although it is sufficient to apply Proposition~\ref{thrm:scopeextension-G} to see that indeed~\eqref{eq:donkey-compact-meaning} is the desirable interpretation of the donkey sentence, it is worth to inspect the term itself for gaining more intuition why this is so.
+
+In order to see that the proposition $\tr{\cbeat}  \x2 ( \selK_{it} e )$ enters inside the scope of the existential quantifier related to \txt{a donkey} in~\eqref{eq:donkey-compact-meaning-2}, it is important to understand how the continuation of the subterm $\tr{\cfarmer}  \x2 \cnj2 \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2  )$ ends up inside the scope of the existential quantifier. 
+
+Recall Formula~\eqref{def:DLCnst-FO-cnj}. The dynamic conjunction is defined in a way that its second argument $\B2$ is a subterm of the continuation $(\lambda e. \B2 e \phi)$ of the first argument $\A2$. As a result, the continuation of the term $\A2 \cnj2 \B2$ itself is deep inside the formula. Particularly, in the subterm $ \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2 $, the term $\tr{\cown}  \x2 \z2$ is a subterm of the continuation of $\tr{\cdonkey}  \z2$. Consequently, the continuation $\phi$ of the term $\tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2$ is deep inside the formula, as shown in~\eqref{eq:app1}.  
+Consequently, arguments of $ \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2  ) $ will end up getting bound by the existential quantifier.
+\begin{align}
+\tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2 \bred  \lambda e \phi. \cdonkey \z1 \cnj1 ( \cown \x1  \z1 \cnj1 \phi e)  \label{eq:app1}
+\end{align}
+ Now, consider Formula~\eqref{def:DLCnst-FO-ex}. $\ex2$ applied to $ ( \lambda \z2. \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2)$ results in a formula shown in~\eqref{eq:app2}. Note that the continuation remains deep inside the formula and, what is the most important, it occurs \emph{inside the scope of the existential quantifier}:
+ \begin{align}
+ \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2  ) \bred  \lambda e \phi. \ex1 ( \lambda \z1. \cdonkey \z1  \cnj1 ( \cown \x1 \z1 \cnj1 \phi (\z1::e)) )  \label{eq:app2}
+ \end{align}
+
+Consider now the dynamic conjunction $ \tr{\cfarmer}  \x2  \cnj2 \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2  )$ of $\tr{\cfarmer}  \x2 $ and $\ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2  ) $. By~\eqref{def:DLCnst-FO-cnj}, the whole term $\ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2  ) $ is a subterm of the continuation of $\tr{\cfarmer}  \x2 $. The term normalizes as~\eqref{eq:app3}. Importantly, the continuation $\phi$ of the term continues to be deep inside the formula and \emph{inside} \emph{the scope of the existential quantifier}.
+\begin{align}
+ \tr{\cfarmer}  \x2  \cnj2 \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2  )  \bred  \lambda e \phi. \cfarmer \x1  \cnj1 \ex1 ( \lambda \z1. \cdonkey \z1  \cnj1 ( \cown \x1  \z1 \cnj1 \phi  (\z1::e) ) )  \label{eq:app3}
+\end{align}
+
+Next the subterms $(\tr{\cfarmer}  \x2 \cnj2  \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2  ) )$ and $ \n2 ( \lambda e \phi. \tr{\cbeat}  \x2  ( \selK_{it} e ) e \phi  ) $ are dynamically conjoint. Similarly to above, by~\eqref{def:DLCnst-FO-cnj}, the term $ \n2 ( \lambda e \phi. \tr{\cbeat}  \x2  ( \selK_{it} e ) e \phi  )$ is a subterm of the continuation of the term $(\tr{\cfarmer}  \x2  \cnj2   \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2  ) ) $.  As shown in~\eqref{eq:app3}, the continuation $\phi$ is under the scope of the existential quantifier, and, therefore, this is the very reason why the formula interpreting \txt{beats it} goes (via $\beta$-reduction) inside the scope of the existential quantifier that binds the variable interpreting \txt{a donkey}. The normalized resulting term is shown in~\eqref{eq:app4}:
+\begin{align}
+& (\tr{\cfarmer}  \x2  \cnj2   \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2  ) )  \cnj2  \n2 ( \lambda e \phi. \tr{\cbeat}  \x2  ( \selK_{it} e ) e \phi  )  \notag \\
+ \bred \ &  \lambda e \phi. \cfarmer \x1  \cnj1 \ex1 ( \lambda \z1. \cdonkey \z1  \cnj1 ( \cown \x1  \z1 \cnj1 ( \n1 \cbeat  \x1 ( \selK_{it} e ) \cnj1 \phi  (\z1::e) ) ))\label{eq:app4}
+\end{align}
+Since, due to the definition of $\cnj2$,  $\n1 \cbeat  \x1 ( \selK_{it} e )$ entered deep inside the formula $   \lambda e \phi. \cfarmer \x1  \cnj1 \ex1 ( \lambda \z1. \cdonkey \z1  \cnj1 ( \cown \x1  \z1 \cnj1 \phi  (\z1::e) ) )$, the selection function responsible for solving anaphor for \txt{it} can become bound with the quantified variable resulted from interpreting \txt{a donkey} without violating any law of logic. %In other words, pronoun \txt{it} can become bound to \txt{a donkey} and this is achieved by notion of $\beta$-reduction only. 
+
+We continue with analizing $$\ex2 (\lambda \x2.  \tr{\cfarmer}  \x2 \cnj2   \ex2 (\lambda \z2.  \tr{\cdonkey}  \z2 \cnj2 \tr{\cown}  \x2 \z2  )  \cnj2  \n2 ( \lambda e \phi. \tr{\cbeat}  \x2  ( \selK_{it} e ) e \phi  )) $$ which is, according to~\eqref{eq:app4}, $\beta$-equivalent to $$\ex2 (\lambda \x1. \lambda e \phi. \cfarmer \x1  \cnj1 \ex1 ( \lambda \z1. \cdonkey \z1  \cnj1 ( \cown \x1  \z1 \cnj1 ( \n1 \cbeat  \x1 ( \selK_{it} e ) \cnj1 \phi  (\z1::e) ) ))) $$ By~\eqref{def:DLCnst-FO-ex}, it is equivalent to the following term:
+\begin{align}
+\lambda e \phi. \ex1 (\lambda \x1.  \cfarmer \x1  \cnj1 \ex1 ( \lambda \z1. \cdonkey \z1  \cnj1 ( \cown \x1  \z1 \cnj1 ( \n1 \cbeat  \x1 ( \selK_{it} e ) \cnj1 \phi  (\z1::\x1::e) ) ))) \label{eq:app7}
+\end{align}
+Now we only need to apply $\n2$ to the term~\eqref{eq:app7} using Equation~\eqref{def:DLCnst-FO-neg}. This results in the final desired interpretation:
+\begin{align}
+& \lambda e \phi. \n1 \ex1 (\lambda \x1.  \cfarmer \x1  \cnj1 \ex1 ( \lambda \z1. \cdonkey \z1  \cnj1 ( \cown \x1  \z1 \cnj1 ( \n1 \cbeat  \x1 ( \selK_{it} e )  ) ))) \cnj1 \phi e \notag
+\end{align}
+
+\TODOK{Finish this example... Context $(\z1::\x1::e)$ was erased ...  mention DRT accessibility constraints...}
+
+% consider commented text below!!!
 \comments{
 
 However, this is not always the case. For example, assuming accessibility constraint requirements of DRT, the individuals introduced by quantifiers in Sentence~\eqref{donkey-every-2006} should not be accessible for anaphoric triggers outside of the sentence. However, they clearly should be accessible for anaphoric pronouns within the sentence. 
@@ -170,7 +204,7 @@ Note that in Equation~\eqref{eq:everyfarmerwhoownsadonkey-nf-2006} the context c
 
 Note that the second argument of $\cbeat$, standing for the anaphoric pronoun, is not a free dummy variable, but a term $( \selK_{it} (\y1 :: \x1 :: e))$. This term consists of the selection function $\selK$ that takes as argument a context containing the available individuals ``collected'' during the computation. The function $\selK$, which implements an anaphora resolution algorithm, selects a required individual from the context, which, in the current case, is the individual $\y1$. This  leads to the final dynamic meaning~\eqref{eq:donkey-nf-meaning-3-2006} of Sentence~\eqref{donkey-every-2006}:
 \begin{align}
-\lambda e \phi. \forall ( \lambda \x1.  \cfarmer \x1  \rightarrow  \forall ( \lambda \y1.  ( \cdonkey \y1 \land  \cown \x1 \y1 ) \rightarrow   \cbeat \x1 \y1  ) )  \land \phi e  \label{eq:donkey-nf-meaning-3-2006}
+\lambda e \phi. \forall ( \lambda \x1.  \cfarmer \x1  \rightarrow  \forall ( \lambda \y1.  ( \cdonkey \y1 \cnj1  \cown \x1 \y1 ) \rightarrow   \cbeat \x1 \y1  ) )  \cnj1 \phi e  \label{eq:donkey-nf-meaning-3-2006}
 \end{align}
 
 Moreover, the formula $\cbeat \x1 \y1 $ is within the scope of the quantifier binding the variable $y$, exactly as desired.  Furthermore, the quantifier binding $y$ has been changed during the computation from existential to universal. This is achieved by employing a continuation-passing technique. 
@@ -186,7 +220,7 @@ Finally, in accordance with DRT's accessibility constraint, the individuals boun
 \begin{align}
 & \tr{\I{beats}}  \ \etr{\I{it}} (\tr{\I{every}}  ((\tr{\I{who}}  (\tr{\I{owns}}  (\tr{\I{a}} \ \tr{\I{donkey}} ) ) ) \tr{\I{farmer}}  ))  \label{eq:FO-donkey-int0} \\
 \bred \ &  \all2 (\lambda \x1. (\tr{\textbf{f}} \x1  \cnj2     \ex2 (\lambda \z1.   \tr{\textbf{d}}   \z1  \cnj2      \tr{\textbf{o}}  \x1  \z1 ))    \impK2    (\lambda e \phi. \tr{\textbf{b}}  \x1 ( \selK_{it} e ) e \phi ) )  \label{eq:FO-donkey-int1} \\
-\bred \ & \lambda e \phi. \forall (\lambda \x1. \cfarmer \x1  \rightarrow \forall  (\lambda \z1.  (\cdonkey  \z1 \land \cown  \x1 \z1 )   \rightarrow  \cbeat  \x1 ( \selK_{it}  (\upii{\x1}{\upii{\z1}{e}}) )))\land \phi e  \label{eq:FO-donkey-int1-equiv}
+\bred \ & \lambda e \phi. \forall (\lambda \x1. \cfarmer \x1  \rightarrow \forall  (\lambda \z1.  (\cdonkey  \z1 \cnj1 \cown  \x1 \z1 )   \rightarrow  \cbeat  \x1 ( \selK_{it}  (\upii{\x1}{\upii{\z1}{e}}) )))\cnj1 \phi e  \label{eq:FO-donkey-int1-equiv}
 \end{align}
 
 

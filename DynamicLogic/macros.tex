@@ -233,8 +233,8 @@
 % New Commands: Miscelaneous abbreviations
 %------------------------------------------------------------------------------------
 
-
-
+\newcommand{\TDL}{TDL} %name of the framework
+\newcommand{\FullName}{Typed Dynamic Logic} %name of the framework, Typed Dynamic Logic ???
 \newcommand{\comments}[1]{} % comments
 
 \newcommand{\qex}{\qed}
@@ -265,12 +265,18 @@
 \newcommand{\etr}[1]{ \widetilde{#1}} % non-conventional dynamic term
 
 
+\newcommand{\dnm}[2]{\mathbb{D}_{#1} [ #2] } % dynamization function with arguments
+\newcommand{\std}[2]{\mathbb{S}_{#1} [ #2] } % reading function with arguments
+
+
 \newcommand{\state}{\mathsf{state}}
 \newcommand{\expr}{\mathsf{expr}} 
 \newcommand{\Boolexpr}{\mathsf{Bool\_expr}} 
 \newcommand{\abort}{\mathsf{abort}} 
 \newcommand{\vvar}{\mathsf{var}} 
 \newcommand{\Print}{\mathsf{Print}} 
+
+
 
 %------------------------------------------------------------------------------------
 % New Commands: Lambda Calculus
@@ -296,10 +302,13 @@
 \newcommand{\y}[1]{\ifcase #1 \or \yA\or\yB\fi}
 \newcommand{\z}[1]{\ifcase #1 \or \zA\or\zB\fi}
 \renewcommand{\t}[1]{\ifcase #1 \or \tA\or\tB\fi}
+\renewcommand{\k}[1]{\ifcase #1 \or \kA\or\kB\fi}
 \newcommand{\h}[1]{\ifcase #1 \or \hA\or\hB\fi}
 \renewcommand{\v}[1]{\ifcase #1 \or \vA\or\vB\fi}
 \renewcommand{\u}[1]{\ifcase #1 \or \uA\or\uB\fi}
 \newcommand{\w}[1]{\ifcase #1 \or \wA\or\wB\fi}
+\renewcommand{\a}[1]{\ifcase #1 \or \aA\or\aB\fi}
+
 
 %------------------------------------------------------------------------------------
 
@@ -336,6 +345,9 @@
 \newcommand{\tA}{t}
 \newcommand{\tB}{\mathbf{t}}
 
+\newcommand{\kA}{k}
+\newcommand{\kB}{\mathbf{k}}
+
 \newcommand{\hA}{h}
 \newcommand{\hB}{\mathbf{h}}
 
@@ -347,6 +359,9 @@
 
 \newcommand{\wA}{w}
 \newcommand{\wB}{\mathbf{w}}
+
+\newcommand{\aA}{\mathtt{a}}
+\newcommand{\aB}{\mathbf{a}}
 
 
 %------------------------------------------------------------------------------------
@@ -446,4 +461,12 @@
 \else
  \newcommand{\todo}[1]{}
  \newcommand{\TODO}[1]{}
+\fi
+
+\ifcomments
+ \newcommand{\TODOK}[1]{\par\noindent{ \color{red} \sf  Katya: #1}\par\medskip}
+ \newcommand{\todoK}[1]{\marginpar{ \color{red} \footnotesize{\sf Katya: #1}}}
+\else
+ \newcommand{\todoK}[1]{}
+ \newcommand{\TODOK}[1]{}
 \fi

@@ -1,27 +1,24 @@
 \section{A continuation-based account of dynamics} \label{sec:cont_based_dyn}
 
-%This section reviews a continuation-based approach introduced in~\cite{deGroote:2006:Towards-a-Montagovian-Account-of-Dynamics} and shows how it handles cross-sentential and donkey anaphora. The approach uses standard tools of mathematical logic, such as simply-typed lambda calculus, and is, therefore, loyal to the Montague's program. 
- 
-This section provides an intuition for the continuation-based framework based on dynamic logic formally defined in Section~\ref{sec:dyn_log}. We begin with discussing the dynamic type of a sentence and its dynamic interpretation in simply-typed lambda calculus. \todo{improve this paragraph}
- 
-The meaning of a sentence is a function of the context. This can be expressed in lambda calculus by defining the interpretation of a sentence as an abstraction over a variable standing for the context. The notion of context is a complex notion and its formalization is not trivial. Indeed, there exist various proposals of its formalization. \TODO{Put references. Briefly mention these approaches.} 
+  
+The meaning of a sentence is a function of the context. This can be expressed in lambda calculus by defining the interpretation of a sentence as an abstraction over a variable standing for the context. The notion of context is a complex notion and its formalization is not trivial. Indeed, there exist various proposals for its formalization. \todoK{Put references. Briefly mention these approaches.} 
 
-The framework we propose is not restricted to any specific formalization of a context. In contrast, it provides room for integrating a desired context's representation and the context can be elaborated without affecting the core of the framework. This is achieved by defining the context as a term of a special type $\gamma$ viewed as a parameter. Hence, $\gamma$ can define any complex type.
+{\FullName} we propose is not restricted to any specific representation of context. In contrast, it is generic: it is able to incorporate any desired context representation; and the context can be elaborated without affecting the core of the framework. This is achieved by defining the context as a term of a special type parameter $\gamma$, which can stand for any complex type.
 
 
 \begin{definition}[Context, Environment] A \textbf{context} or \textbf{environment} is a term of type $\gamma$ that stores the essential information from what has already been processed in the computation of the meaning of the whole discourse.
 \end{definition}
 
-Therefore, a sentence is defined as an abstraction over a variable of type $\gamma$. In other words, the sentence awaits for a context. Moreover, the sentence may have a potential to change (update) the context. The update of the context can easily be implemented within the body of the lambda term interpreting the sentence. Importantly, the updated context has to become available for a \emph{subsequent} sentence. The challenge is to implement this requirement within the interpretation of the current sentence in order to satisfy the compositionality principle. Here is where the notion of continuation is useful. We define the interpretation of a sentence in a way that it takes the second argument standing for a continuation. In the body of the sentence, the continuation is provided the updated context as an argument and, therefore, this context becomes available for the future of the computation (and, particularly, for the subsequent sentence). We consider the continuation fed with the context to be an additional conjunct in the body of the term interpreting the sentence.
+Therefore, a sentence is defined as an abstraction over a variable of type $\gamma$. In other words, the sentence expects a context. Moreover, the sentence may have a potential to change (update) the context. The update of the context can easily be implemented within the body of the lambda term interpreting the sentence. Importantly, the updated context has to become available for a \emph{subsequent} sentence. The challenge is to implement this requirement within the interpretation of the current sentence in order to satisfy the compositionality principle. Here is where the notion of continuation is useful. We define the interpretation of a sentence in a way that it takes a second argument standing for a continuation. In the body of the sentence, a continuation is provided the updated context as an argument and, therefore, this context becomes available for the future of the computation (and, particularly, for the subsequent sentence). We consider the continuation fed with the context to be an additional conjunct in the body of the term interpreting the sentence.
 
 
- We shall now clarify the type of continuation. As discussed above, it serves for providing current (possibly updated) context to the future of the computation. Therefore, it is a function that has an argument of type $\gamma$. Since continuation applied to the context is an additional conjunct in the logical interpretation of the sentence, the continuation should return a proposition when given a context. Consequently, the continuation is defined as a term of type $(\gamma \rightarrow o)$.
+ As discussed above, the continuation serves for providing current (possibly updated) context to the future of the computation. Therefore, it is a function that has an argument of type $\gamma$. Since the continuation applied to the context is an additional conjunct in the logical interpretation of the sentence, the continuation should return a proposition when given a context. Consequently, the continuation is defined as a term of type $(\gamma \rightarrow o)$.
 
 
 \begin{definition}[Continuation] A \textbf{continuation} is a term of type $(\gamma \rightarrow o)$ that denotes what is still to be processed in the computation of the meaning of the whole discourse. 
 \end{definition}
 
- Thereupon, we define the meaning of a sentence as a function of two arguments, a context $e$ of type $\gamma$ and a continuation $\phi$ of type $(\gamma \rightarrow o)$, that returns a proposition:
+ Thus, we define the meaning of a sentence as a function of two arguments, a context $e$ of type $\gamma$ and a continuation $\phi$ of type $(\gamma \rightarrow o)$, that returns a proposition:
 \begin{align}
 \I{s} = \underbrace{\gamma}_{\begin{smallmatrix}
 \text{type of}\\
@@ -41,8 +38,8 @@ Accordingly, we consider $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow
 \end{definition}
 
 
-Example~\ref{ex:2006-jlm} shows the dynamic meaning~\eqref{eq:ex:lovejm} of the simple sentence~\eqref{sent:JlovesM-2006}. Note the presence of the conjunct $\phi e^*$ in~\eqref{eq:ex:lovejm} that conveys that an updated context is passed as an argument to the continuation of a proposition, and is, therefore, accessible in the rest of the computation. As mentioned above, this kind of conjunct is a subterm of every proposition in the dynamic approach.
- \begin{example} \label{ex:2006-jlm} The meaning of the sentence~\eqref{sent:JlovesM-2006} is the lambda-term~\eqref{eq:ex:lovejm}:\footnote{We interpret objects as variables, i.e. as terms of type $\iota$.}
+Example~\ref{ex:2006-jlm} shows the dynamic meaning~\eqref{eq:ex:lovejm} of the simple sentence~\eqref{sent:JlovesM-2006}. Note the presence of the conjunct $\phi e^*$ in~\eqref{eq:ex:lovejm} that conveys that an updated context is passed as an argument to the continuation of a proposition, and is, therefore, accessible in the rest of the computation. As mentioned above, this kind of conjunct is a subterm of every proposition in the dynamic approach described here.
+ \begin{example} \label{ex:2006-jlm} The meaning of the sentence~\eqref{sent:JlovesM-2006} is the lambda-term~\eqref{eq:ex:lovejm}:
 \enumsentence{ \txt{John loves Mary.} \label{sent:JlovesM-2006}}
 \begin{align}
 \underbrace{\lambda \overbrace{\underbrace{e^{\gamma}}_{\text{context}} \underbrace{\phi^{\gamma \rightarrow o}}_{\text{continuation}}.  \overbrace{\overbrace{ \overbrace{\textbf{love}^{\iota \rightarrow \iota \rightarrow o}  \ \textbf{j}^{\iota}}^{\iota \rightarrow o} \ \textbf{m}^{\iota}}^{o} \land \overbrace{\phi e^*}^{o}}^{o}}^{\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o} }_{\text{dynamic proposition}} \label{eq:ex:lovejm}
@@ -56,7 +53,7 @@ Example~\ref{ex:2006-jlm} shows the dynamic meaning~\eqref{eq:ex:lovejm} of the 
 \gamma \defeq \texttt{ list of } [ \ \iota \ ]  
 \end{align}
  
- This choice of the simple representation of the context is motivated  by our preference to focus on the mechanism of our compositional framework and avoid being distracted from this goal with the discussion what the ideal interpretation of the context should be. Indeed, the definition~\eqref{def:gammaislistofiota} of $\gamma$ is already sufficient for illustrating the basic idea of the approach on handling cross-sentential and donkey anaphora.
+ This simple choice of representation for contexts is motivated  by our preference to focus on the mechanism of {\FullName} and avoid being distracted from this goal with the discussion what the ideal interpretation of the context should be. Indeed, the definition~\eqref{def:gammaislistofiota} of $\gamma$ is already sufficient for illustrating the basic idea of {\FullName} for handling cross-sentential and donkey anaphora.
  
 The context defined in~\eqref{def:gammaislistofiota}  stores interpretations of objects that previously occurred in the discourse. When a new object is interpreted as an individual $x$, the current context $e$ is updated with $x$, resulting in $(x::e)$, where $::$ is a list constructor of type $(\iota \rightarrow \gamma \rightarrow \gamma)$:
 
@@ -70,7 +67,7 @@ The context defined in~\eqref{def:gammaislistofiota}  stores interpretations of 
 Operation $::$ is right associative. For example, $(x::y::e)$ is equivalent to $(x::(y::e))$.
 \end{remark}
 
-Having defined the list constructor, we can substitute $e^*$ with the more precise $(\textbf{m} :: \textbf{j} ::{e})$ in Example~\ref{ex:2006-jlm}. Consequently, Sentence~\eqref{sent:JlovesM-2006} is more accuratly interpreted as follows:
+Having defined the list constructor, we can substitute $e^*$ with the more precise $(\textbf{m} :: \textbf{j} ::{e})$ in Example~\ref{ex:2006-jlm}. Consequently, Sentence~\eqref{sent:JlovesM-2006} is more accurately interpreted as follows:
 \begin{align}
 \lambda e \phi. \textbf{love}  \ \textbf{j} \ \textbf{m} \land \phi (\textbf{m} :: \textbf{j} ::{e}) \label{eq:ex:lovejm-2}
 \end{align}
@@ -81,9 +78,9 @@ Having defined the list constructor, we can substitute $e^*$ with the more preci
 \caption{Syntactic parse tree of sentence \txt{John loves Mary}.} \label{fig:JohnLovesMary}
 \end{figure}
 
-Term~\eqref{eq:ex:lovejm-2} has to be computed compositionally from lexical meanings $\I{John}$, $\I{Mary}$ and $\I{loves}$. More precisely, it has to be the result of normalizing  $\I{loves} \I{Mary} \I{John}$, as can be seen from the syntactic tree in Figure~\ref{fig:JohnLovesMary}. For this purpose, let us discuss what these lexical interpretations in our dynamic framework are.
+Term~\eqref{eq:ex:lovejm-2} has to be computed compositionally from lexical meanings $\I{John}$, $\I{Mary}$ and $\I{loves}$. More precisely, it has to be the result of normalizing  $\I{loves} \I{Mary} \I{John}$, as can be seen from the syntactic tree in Figure~\ref{fig:JohnLovesMary}. 
 
-A noun phrase in Montague semantics is a term taking a static property with the type $(\iota \rightarrow o)$ as an argument and returning a static proposition with the type $o$. Our dynamic framework has dynamic propositions with type $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o)$ in place of static propositions with type $o$.
+A noun phrase in Montague semantics is a term taking a static property with the type $(\iota \rightarrow o)$ as an argument and returning a static proposition with the type $o$. {\TDL} has dynamic propositions with type $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o)$ in place of static propositions with type $o$.
 This can be easily seen comparing~\eqref{eq:np:M:1} and~\eqref{eq:np:dG:1}, where $\Omega$ is an abbreviation for $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o)$.
 Equation~\eqref{eq:np:dG:2} shows the dynamic type of a noun phrase without abbeviating $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o)$. It can be seen from this equation that the interpretation of a noun phrase is a function of three arguments (namely, a dynamic property, a context and a continuation) that returns a static proposition:
 \begin{subequations}
@@ -123,7 +120,7 @@ Equation~\eqref{eq:np:dG:2} shows the dynamic type of a noun phrase without abbe
 \end{subequations}
 
 Having discussed the dynamic type of noun phrases, we can now analyse the interpretation of proper names. 
-Consider, for example, the interpretation of \txt{Mary} shown in Equation~\eqref{eq:dG:Mary}. It has three arguments which are a dynamic property $\P2$, a context $e$ and a continuation $\phi$. In the body of the term, property $\P2$ receives respectively constant $\textbf{m}$ (standing for \txt{Mary}), unchanged context $e$ and a continuation $(\lambda e'.\phi (\textbf{m}::{e'}))$ as arguments. Note that in $(\lambda e'.\phi (\textbf{m}::{e'}))$ an updated context $(\textbf{m}::{e'})$ is passed as an argument to the continuation $\phi$. Therefore, this updated context becomes available to the future of the computation with respect to $\etr{\I{Mary}}$. \todo{Explain what tilda means.}
+Consider, for example, the interpretation of \txt{Mary} shown in Equation~\eqref{eq:dG:Mary}. It has three arguments: a dynamic property $\P2$, a context $e$ and a continuation $\phi$. In the body of the term, property $\P2$ receives respectively constant $\textbf{m}$ (standing for \txt{Mary}), unchanged context $e$ and a continuation $(\lambda e'.\phi (\textbf{m}::{e'}))$ as arguments. Note that in $(\lambda e'.\phi (\textbf{m}::{e'}))$ an updated context $(\textbf{m}::{e'})$ is passed as an argument to the continuation $\phi$. Therefore, this updated context becomes available to the future of the computation with respect to $\etr{\I{Mary}}$. \todoK{Explain what tilda means.}
 \begin{align}
 \etr{\I{Mary}} =  \lambda \underbrace{{\P2}^{\iota \rightarrow \gamma \rightarrow (\gamma \rightarrow o) \rightarrow o}}_{\begin{smallmatrix}
 \text{dynamic}\\
@@ -232,10 +229,10 @@ Then the subject wide scope interpretation $\tr{\I{loves}}$ of \txt{loves} is as
 Note that the dynamic interpretation~\eqref{eq:dG:love} is analogous to the static interpretation of the verb. Indeed, compare~\eqref{eq:lovedyn} showing dynamic $\tr{\I{loves}}$ and~\eqref{eq:lovestat} showing static  $\I{loves}$:
 \begin{align}
 \I{loves} = \  & \lambda \Y1 \X1. \X1( \lambda \x1. \Y1 (\lambda \y1. \textbf{love} \x1 \y1 ))  \label{eq:lovestat} \\
-\tr{\I{loves}} = \ & \lambda \Y2 \X2. \X2( \lambda \x1. \Y2 (\lambda \y1. ( \lambda e' \phi. \textbf{love} \x1 \y1 \land \phi e' )))  \label{eq:lovedyn}
+\tr{\I{loves}} = \ & \lambda \Y2 \X2. \X2( \lambda \x1. \Y2 (\lambda \y1. ( \lambda e \phi. \textbf{love} \x1 \y1 \land \phi e )))  \label{eq:lovedyn}
 \end{align}
-The terms are stucturally similar. The only deviation in this structural similarity is the subterm  $( \lambda e' \phi. \textbf{love} \x1 \y1 \land \phi e' )$ in~\eqref{eq:lovedyn} in place of $\textbf{love} \x1 \y1$ in~\eqref{eq:lovestat}. This deviation is explained by the fact that all static propositions, i.e. terms of type $o$, are translated into dynamic propositions, i.e. terms of type $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o )$.
-The subterm  $( \lambda e' \phi. \textbf{love} \x1 \y1 \land \phi e' )$ is such a dynamic proposition.
+The terms are stucturally similar. The only deviation in structure is the subterm  $( \lambda e \phi. \textbf{love} \x1 \y1 \land \phi e )$ in~\eqref{eq:lovedyn} in place of $\textbf{love} \x1 \y1$ in~\eqref{eq:lovestat}. This deviation is explained by the fact that all static propositions, i.e. terms of type $o$, are translated into dynamic propositions, i.e. terms of type $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o )$.
+The subterm  $( \lambda e \phi. \textbf{love} \x1 \y1 \land \phi e )$ is such a dynamic proposition.
 
 Now, given dynamic lexical interpretations~\eqref{eq:lovedyn},~\eqref{eq:dG:Mary} and~\eqref{eq:dG:John} of \txt{loves}, \txt{Mary} and \txt{John} respectively, the meaning~\eqref{eq:ex:lovejm-2} of Sentence~\eqref{sent:JlovesM-2006}  can be compositionally computed. Example~\ref{ex:S1} illustrates this computation.
 
@@ -258,16 +255,16 @@ Now, given dynamic lexical interpretations~\eqref{eq:lovedyn},~\eqref{eq:dG:Mary
 \end{example}
 
 We have analyzed how, using continuation technique, a context can be made available in the following computation. For example, in the subterm $\phi (\textbf{j}::\textbf{m}::e)$ of the computed dynamic interpretation~\eqref{eq:2006:JohnLovesMary} constants $\textbf{m}$ for \txt{Mary} and $\textbf{j}$ for \txt{John} are provided for the future of the computation of the meaning of whole discourse from the perspective of the interpretation $\S_1$. 
-We shall now discuss a way to \emph{access} these constants when necessary.
+These constants should be \emph{accessed} when necessary. 
 
-A common situation when a context has to be accessed is to decide an anaphoric reference. To implement this situation, we define a special function $\selK$ of type $(\gamma \rightarrow \iota)$ that takes a context as an argument and returns an individual. The mechanism of anaphora resolution is to be implemented within $\selK$. For the sake of simplicity and for keeping focus on developing the core of the our dynamic framework, we avoid the implementation of any particular anaphora resolution algorithm\footnote{Avoidance of anaphora resolution implementation is also motivated by our desire to emphasise that the framework is not restricted by any particular anaphora resolution algorithm. In contrast, it is flexible to incorporate any desirable algorithm within $\selK$. This is particularly relevant, as the research in anaphora resolution is steadily evolving.} in this paper and assume that $\selK$ always returns a correct individual from a given context. 
+A common task when accessing a context is the choice of an anaphoric reference. For this, we define a special function $\selK$ of type $(\gamma \rightarrow \iota)$ that takes a context as an argument and returns an individual. The mechanism of anaphora resolution is to be implemented within $\selK$. For the sake of simplicity and for keeping focus on developing the core of \TDL, we avoid the implementation of any particular anaphora resolution algorithm\footnote{The avoidance of anaphora resolution implementation is also motivated by our desire to emphasise that the framework is not restricted by any particular anaphora resolution algorithm. In contrast, it is flexible to incorporate any desirable algorithm within $\selK$. This is particularly relevant, as the research in anaphora resolution is steadily evolving.} in this paper and assume that $\selK$ always returns a correct individual from a given context. 
 
-Function $\selK$ allows us to interpret pronouns, as illistrated for pronoun \txt{he} in~\eqref{eq:he:2006}:
+Function $\selK$ allows us to interpret pronouns, as illustrated for the pronoun \txt{he} in~\eqref{eq:he:2006}:
 \begin{align}
 \etr{\I{he}} =  \lambda \P2^{\iota \rightarrow \gamma \rightarrow (\gamma \rightarrow o) \rightarrow o}. \lambda e^{\gamma} \phi^{\gamma \rightarrow o}. \P2 ( \selK_{he} e ) e \phi  \label{eq:he:2006}
 %\I{he} = \lambda \P2. \lambda e \phi. \P2 (\selK_{he}e)e\phi
 \end{align}
-Compare interpretation $\etr{\I{he}}$~\eqref{eq:he:2006} and interpretation $\etr{\I{Mary}}$~\eqref{eq:dG:Mary}. They differ in two respects. Firstly, while the dynamic property $\P2$ is fed with a specific individual which is the constant $\textbf{m}$ in $\etr{\I{Mary}}$, it is fed with $( \selK_{he} e )$ in $\etr{\I{he}}$. It is the responsibility of the selection function to return the required individual. Secondly, while the third argument of $\P2$ in $\etr{\I{Mary}}$ is the continuation containing context updated with $\textbf{m}$, no context update happens in $\etr{\I{he}}$.
+Compare interpretation $\etr{\I{he}}$~\eqref{eq:he:2006} and interpretation $\etr{\I{Mary}}$~\eqref{eq:dG:Mary}. They differ in two respects. Firstly, while the dynamic property $\P2$ is applied to a specific individual which is the constant $\textbf{m}$ in $\etr{\I{Mary}}$, it is applied to $( \selK_{he} e )$ in $\etr{\I{he}}$. It is the responsibility of the selection function to return the required individual. Secondly, while the third argument of $\P2$ in $\etr{\I{Mary}}$ is the continuation containing context updated with $\textbf{m}$, no context update happens in $\etr{\I{he}}$.
 
 \begin{figure}[h]
  \centering
@@ -275,7 +272,7 @@ Compare interpretation $\etr{\I{he}}$~\eqref{eq:he:2006} and interpretation $\et
 \caption{Syntactic parse tree of sentence \txt{He smiles at her}.} \label{fig:ptS3-2006}
 \end{figure}
 
-Having defined dynamic interpretations of pronouns, we can now compute the dynamic meaning of the sentence~\eqref{HeSmilesAtHer-2006}. Its parse-tree is presented in Figure~\ref{fig:ptS3-2006} 
+Having defined dynamic interpretations of pronouns, we can now compute the dynamic meaning of the sentence~\eqref{HeSmilesAtHer-2006}. Its parse-tree is presented in Figure~\ref{fig:ptS3-2006}.
 \enumsentence{\txt{He smiles at her.} \label{HeSmilesAtHer-2006}}
 
 
@@ -299,9 +296,9 @@ Having defined dynamic interpretations of pronouns, we can now compute the dynam
 
 Sentence~\eqref{HeSmilesAtHer-2006} is meaningful in the sense that it has interpretation~\eqref{eq:2006:HeSmilesAtHer}. However, when the sentence is isolated, anaphora cannot be resolved. Function $\selK$ can return individuals for \txt{he} and \txt{her} only when the sentence is evaluated over some context containing the corresponding antecedents. This happens when the sentence is uttered in a certain discourse. 
 
-Following the principle of compositionality, the meaning a discourse is computed compositionaly from meanings of sentences composing it. Since a discourse is a sequence of sentences, we perform the computation of its meaning incrementally, starting from the first sentence in the order as the sentences appear. We say that each newcoming sentence \emph{updates} the meaning of the current discourse. The pronominal anaphora can then be resolved during this discourse update. 
+Following the principle of compositionality, the meaning of a discourse is computed compositionaly from from the meanings of its sentences. Since a discourse is a sequence of sentences, we perform the computation of its meaning incrementally, starting from the first sentence in the order as the sentences appear. We say that each new sentence \emph{updates} the meaning of the current discourse. The pronominal anaphora can then be resolved during this discourse update. 
 
-To define the discourse update function we shall deside the type of discourse´s meaning. Recall the type $( \gamma \rightarrow (\gamma \rightarrow o) \rightarrow o )$ of sentence´s meaning first. Informally, one can think of the meaning of an individual sentence as something that has to be evaluated with respect to a context to be fully understood.  A discourse, on the other hand, can be seen as something that already has a concrete context. Therefore, interpretations of discourses can be defined as the terms of type~\eqref{eq:typediscourse}:
+To define the discourse update function we shall decide the type of discourse meaning. Recall the type $( \gamma \rightarrow (\gamma \rightarrow o) \rightarrow o )$ of sentence meaning first. Informally, one can think of the meaning of an individual sentence as something that has to be evaluated with respect to a context to be fully understood.  A discourse, on the other hand, can be seen as something that already has a concrete context. Therefore, interpretations of discourses can be defined as the terms of type~\eqref{eq:typediscourse}:
 \begin{align}
 \I{d} =  (\gamma \rightarrow o) \rightarrow o \label{eq:typediscourse}
 \end{align}
@@ -309,21 +306,21 @@ Thus, we represent the meaning of the current discourse as a term that takes a c
 
 
 Now the discourse update function $\updt$ can be defined. This function takes two arguments, namely, the meaning of the current discourse and the meaning of the new sentence.
-\begin{definition}{Discourse update} Let $\D$ be a term of type $( (\gamma \rightarrow o) \rightarrow o)$ and $\S$ be a term of type $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o)$. Then the function $ \updt$ is defined by the following equation:
+\begin{definition}[Discourse update] Let $\D$ be a term of type $( (\gamma \rightarrow o) \rightarrow o)$ and $\S$ be a term of type $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o)$. Then the function $ \updt$ is defined by the following equation:
 \begin{align} %\label{eq:DisUpd-simple} 
  \updt \ \D \ \S \defeq  \lambda \phi.   \D (\lambda e. \S e \phi) \label{eq:updt}
 \end{align} \label{def:updt-prelim}
 \end{definition}
-The update of the interpretation $\D$ of the current discourse with the interpretation $\S$ of a new sentence results in the interpretation of the discourse containing the new sentence (as its last sentence). Therefore, the resulting term has to be of type $((\gamma \rightarrow o) \rightarrow o)$. Hence, the term should have only one argument of type $(\gamma \rightarrow o)$. This explains the abstraction over the variable $\phi$ in~\eqref{eq:updt-prelim}. The body of the term must be a term of type $o$ contributed by $\D$ and $\S$. $\D$ should go first in the logical formula. It requires one argument of type $(\gamma \rightarrow o)$, which should be constructed with $\S$ of type $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o)$. This explains the subterm $(\lambda e. \S e \phi) $. Importantly, $(\lambda e. \S e \phi) $ functions as a continuation of $\D$. Therefore, the context of $\D$ is available for $\S$ (and $\S$ can update the context!). Indeed, the context of $\D$ is passed as the first argument of $\S$ due to the fact that the subterm $(\lambda e. \S e \phi) $ is an abstraction.
+The update of the interpretation $\D$ of the current discourse with the interpretation $\S$ of a new sentence results in the interpretation of the discourse containing the new sentence (as its last sentence). Therefore, the resulting term has to be of type $((\gamma \rightarrow o) \rightarrow o)$. Hence, the term should have only one argument of type $(\gamma \rightarrow o)$. This explains the abstraction over the variable $\phi$ in~\eqref{eq:updt}. The body of the term must be a term of type $o$ contributed by $\D$ and $\S$. $\D$ should go first in the logical formula. It requires one argument of type $(\gamma \rightarrow o)$, which should be constructed with $\S$ of type $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o)$. This explains the subterm $(\lambda e. \S e \phi) $. Importantly, $(\lambda e. \S e \phi) $ functions as a continuation of $\D$. Therefore, the context of $\D$ is available for $\S$ (and $\S$ can update the context!). Indeed, the context of $\D$ is passed as the first argument of $\S$ due to the fact that the subterm $(\lambda e. \S e \phi) $ is an abstraction.
 
 We consider that the very first sentence is always uttered in a context-empty discourse interpreted in the following way:
-\begin{definition}[Interpretation of initial content-empty discourse] Let $c$ be a context. Then the initial (content-empty) discourse $\D_0$ containing context $c$ is interpreted as the following term:
+\begin{definition}[Interpretation of initial content-empty discourse] Let $c$ be a context. Then the initial (content-empty) discourse containing context $c$ is interpreted as the following term:
 \begin{align}
 \D_0 \defeq \lambda \phi. \phi c \label{eq:D0}
 \end{align}
 \end{definition}
 
-A realistic context $c$ should contain common knowledge and information learned since an agent interpreting the discourse was put into functioning. For simplification, however, context $c$ in the initial discourse can be considered either empty or containing only a necessary part of some knowledge. By letting context be a list of individuals (i.e. by letting $\gamma$ be $\texttt{ list of } [  \iota  ]$), the empty context can be represented by~$\nil$.
+A realistic context $c$ should contain common knowledge and information learned since an agent interpreting the discourse was put into functioning. For simplification, however, context $c$ in the initial discourse can be considered either empty or containing only a necessary part of some knowledge. By letting context be a list of individuals (i.e. by letting $\gamma$ be $\texttt{ list of } [  \iota  ]$), the empty context can be represented by the empty list~$\nil$.
 
 Now we can compute the meaning of discourse~\eqref{sent:JlovesMHesmilesatHer}, given the meanings $\S_1$~\eqref{ex:S1} and $\S_2$~\eqref{eq:2006:HeSmilesAtHer} of the sentences composing it. Example~\eqref{ex:D2} illustrates this computation.
 \enumsentence{ \txt{John loves Mary. He smiles at her.} \label{sent:JlovesMHesmilesatHer}}
@@ -352,9 +349,11 @@ Now we can compute the meaning of discourse~\eqref{sent:JlovesMHesmilesatHer}, g
 
 %Interpretation~\eqref{eq:D2} of discourse~\eqref{sent:JlovesMHesmilesatHer} was obtained in a truly compositional fashion. 
 
-Observe that during the computation of $\D2$, the context $(\textbf{j} :: \textbf{m}::\nil)$ coming from the interpretation $\S1$ of the first sentence was passed via $\beta$-reduction to $\selK$ operators coming from interpretation $\S_2$ of the second sentence. In other words, $\selK$ operators compositionally obtained access to the context $(\textbf{j} :: \textbf{m}::\nil)$ in a compositional manner. Having an anaphora resolution algorithm implemented, $\selK$ would select appropriate individuals from $(\textbf{j} :: \textbf{m}::\nil)$. Then
+Observe that during the computation of $\D_2$, the context $(\textbf{j} :: \textbf{m}::\nil)$ coming from the interpretation $\S_1$ of the first sentence was passed via $\beta$-reduction to $\selK$ operators coming from interpretation $\S_2$ of the second sentence. In other words, $\selK$ operators compositionally obtained access to the context $(\textbf{j} :: \textbf{m}::\nil)$ in a compositional manner. Having an anaphora resolution algorithm implemented, $\selK$ would select appropriate individuals from $(\textbf{j} :: \textbf{m}::\nil)$. Then
 the following semantic representation of~\eqref{sent:JlovesMHesmilesatHer} would be obtained: 
 \begin{align}
 \lambda \phi.\textbf{love} \  \textbf{j} \ \textbf{m} \land    \textbf{smile}  \ \textbf{j} \ \textbf{m} \land \phi   (\textbf{j} :: \textbf{m}::\nil) \label{int:JLMHeSH:2006-2}
 \end{align}
-The context $ (\textbf{j} :: \textbf{m}::\nil)$ in~\eqref{int:JLMHeSH:2006-2} being the argument of the continuation $\phi$ of the discourse is accessible for future computation. This means that the individuals $\textbf{j}$ and $\textbf{m}$ can continue to serve as ancestors for anaphoric pronouns in the following sentences. 
+
+
+Since the context $ (\textbf{j} :: \textbf{m}::\nil)$ in~\eqref{int:JLMHeSH:2006-2} is the argument of the continuation $\phi$ of the discourse, it is accessible for future computation. This means that the individuals $\textbf{j}$ and $\textbf{m}$ can continue to serve as ancestors for anaphoric pronouns in the following sentences. 

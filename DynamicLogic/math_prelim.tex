@@ -305,7 +305,7 @@ $
 
 \subsection{Continuation}
 
-Montague's program requires the meaning of an expression to be computed compositionally from meanings of its lexical constituents. Dynamics of natural language makes, however, this task non-trivial. A similar kind of problem occurred in the mathematical semantics of programming languages, particularly in formalizing full jumps (``goto'' statements) in a compositional way. To solve this problem, the method of continuations was introduced in~\cite{StracheyWadsworth:1974:Continuations:-A-Mathematical-Semantics-for-Handling-Full-Jumps} to extend the mathematical semantics of programming languages~\cite{ScottStrachey:1971:Toward-a-Mathematical-Semantics-for-Computer-Languages} with a general formalized notion of control of full jumps. According to this method, if the evaluation of a program is in a state $s$, and the following command is $c$, continuation represents the state transition which would be produced up to the end of the program (i.e. the rest of the computation) after performing the state transformation specified by $c$. Every function of a program written in continuation-passing style is given as an argument to the continuation of the program with respect to this function. 
+Montague's program requires the meaning of an expression to be computed compositionally from meanings of its lexical constituents. Dynamics of natural language makes, however, this task non-trivial. A similar kind of problem occurred in the mathematical semantics of programming languages, particularly in formalizing full jumps (``goto'' statements) in a compositional way. To solve this problem, the method of continuations was introduced in~\cite{StracheyWadsworth:1974:Continuations:-A-Mathematical-Semantics-for-Handling-Full-Jumps} to extend the mathematical semantics of programming languages~\cite{ScottStrachey:1971:Toward-a-Mathematical-Semantics-for-Computer-Languages} with a general formalized notion of control of full jumps. According to this method, if the evaluation of a program is in a state $s$, and the following command is $c$, continuation represents the state transition which would be produced up to the end of the program (i.e. the rest of the computation) after performing the state transformation specified by $c$. Every function of a program written in continuation-passing style is receives as an argument the continuation of the program with respect to this function. 
 
 
 A program can be transformed from direct style to continuation-passing style (CPS).
@@ -330,7 +330,7 @@ where $\phi$ of type $(\rho' \rightarrow o)$ is a \textbf{continuation} of $t$. 
 \end{align*}
 \end{definition}
 
-For a better understanding of CPS-transformation, it is important to keep the type assignments in mind. That is why terms in Definition~\ref{def:CPS-transformation} are presented together with their types as superscripts. Equations~\eqref{eqs:cps} repeat equations in Definition~\ref{def:CPS-transformation} with types omitted for better readability:
+For a better understanding of the CPS-transformation, it is important to keep the type assignments in mind. That is why terms in Definition~\ref{def:CPS-transformation} are presented together with their types as superscripts. Equations~\eqref{eqs:cps} repeat equations in Definition~\ref{def:CPS-transformation} with types omitted for better readability:
 %
 \begin{subequations}
 \begin{align}
@@ -368,94 +368,6 @@ Continuation-like approaches can already be found in earlier work on formal comp
 %\end{subequations}
 More recent research confirms that continuation-passing technique is very useful for formalizing natural language (discourse) semantics. For example Barker~\cite{Barker:2002:Continuations-and-the-Nature-of-Quantification} investigates in more details how continuized $\lambda$-terms expressing natural language meanings provide a way of dealing with phenomena related to quantification, such as scope displacement and scope ambiguity, and give a unified account of quantificational and non-quantificational noun phrases. Additionaly, Barker~\cite{Barker:2004:Continuations-in-Natural-Language} shows that CPS can be used to deal with focus, coordination and misplaced quantifiers.\footnote{Other interesting continuation-based analyses of different natural language phenomena include~\cite{Shan:2002:A-continuation-semantics-of-interrogatives-that-accounts-for-Bakers-ambiguity,Shan:2004:Delimited-continuations-in-natural-language,BarkerShan:2008:Donkey-Anaphora-is-In-Scope-Binding}.}
 
-Definition~\ref{def:CPS-transformation} transforms a program into an equivalent CPS program. The advantage of a program written in continuation passing style is that it can be expanded with unusual expressions, e.g. non-local transfers of control, in order to manage the execution of the program. For example, one of the possible control expressions of a function can be to  discard all the future of the computation (i.e. its continuation) and return the error as a result of the whole program, in the case an error happens within this function. Examples~\ref{ex:divbyzero}--\ref{ex:CPScontrolfinal} show how it can be done in the case of division by zero.
-%
-
-Example~\ref{ex:divbyzero} considers a $\lambda$-term $t$ equal to $(\lambda xy. \mathsf{sqrt} (\mathsf{div} \ x \ y)) $ that computes $\sqrt{ \dfrac{x}{y}}$. During the evaluation of $t$, if the execution of $\mathsf{div}$ leads to an error, the error message is passed to the function $\mathsf{sqrt}$ as the argument. Assuming that $\mathsf{sqrt}$ is defined simply as a square root of its argument, this leads to $\mathsf{sqrt}$ being applied to a value for which it is not defined. 
-\begin{example} \label{ex:divbyzero} $t  = \lambda xy. \mathsf{sqrt} (\mathsf{div} \ x \ y) $
-\begin{align}
-%t & = \lambda xy. \mathsf{sqrt} (\mathsf{div} \ x \ y) \notag \\ % \label{eq:tstat}
-%\end{align}
-%
-%
-%\begin{align}
-t(9)(0) & =  (\lambda xy. \mathsf{sqrt} (\mathsf{div} \ x \ y))(9)(0)  \notag \\
-& \bconv   (\lambda y. \mathsf{sqrt} (\mathsf{div} \ 9 \ y) ) (0)  \notag \\
-& \bconv \mathsf{sqrt} (\mathsf{div} \ 9 \ 0)  \notag \\
-& = \mathsf{sqrt} (\mathtt{error} ) \label{sqrterrow}\\
-& =  \ ??? \notag
-\end{align} \qex
-\end{example}
-
-This situation could be handled in the original direct program by adding at the beginning of $\mathsf{sqrt}$ a conditional expression that checks whether the argument is an $\mathtt{error}$ (and returning an  $\mathtt{error}$ in this case) or a number (and calculating the square root of the number in this case). However, this means that, following this style, such a condition would have to be added to all other possible functions of the program. In contrast, the CPS technique allows to provide control to the division function itself in a way that it terminates the whole program when an error occurs during its execution.
-
-Equation shows the result $\overline{t}$ of CPS-transformation of $t$ according to Definition~\ref{def:CPS-transformation}.
-The transformations of functions $\mathsf{sqrt} $ and $\mathsf{div} $, shown below, were used in intermediary steps of the transformation:
-\todo{How were these transformations obtained?}
-\begin{subequations}
-\begin{align}
-\overline{\mathsf{sqrt}} & = \lambda \phi . \phi ( \lambda x \phi'  . \phi'(  \mathsf{sqrt}  x))  \label{sqrt-3} \\
-\overline{\mathsf{div}} & = \lambda \phi . \phi  (  \lambda x \phi' . \phi' ( \lambda y \phi''. \phi '' ( \mathsf{div} \ x \ y))) \label{div-3}  \\
-\overline{\lambda xy. \mathsf{sqrt} (\mathsf{div} \ x \ y)}  & = \lambda \phi. \phi ( \lambda x \phi'. \phi' ( \lambda y \phi ''. \phi''  (\mathsf{sqrt} ( \mathsf{div} \ x\ y )))) \label{eq:exdivbyzero} 
-\end{align} 
-\end{subequations}
-
-
-%\overline{t} & =  \lambda \phi. \phi (\lambda x \phi'. \phi' ( \lambda y \phi''. \phi''(\mathsf{sqrt} (\mathsf{div} \ x \ y) ))) \label{eq:exdivbyzeroCPS}
-
-Since normalized term $\overline{t}$ is obtained from $t$ only by applying definitions of CPS-transformation, it is equivalent to $t$  and behaves analogously when an error happens inside the division function. To demonstrate this, $\overline{t}$ is given in Example~\ref{ex:divbyzeroCPStransformed} the same (continuized) arguments 9 and 0 as $t$ in Example~\ref{ex:divbyzero}. The fact that the result is equally undesirable can be seen by comparing Equations~\eqref{sqrterrow} and~\eqref{sqrterrowCPS}:
-
-\begin{example}
-\begin{align}
-& \lambda \phi'''. \overline{t} (\lambda \phi''''. \phi'''' 9 (\lambda \phi'''''. \phi''''' 0 \phi''')) \notag \\
- = \ & \lambda \phi'''. (\lambda \phi. \phi ( \lambda x \phi'. \phi' ( \lambda y \phi ''. \phi''  (\mathsf{sqrt} ( \mathsf{div} \ x\ y ))))) (\lambda \phi''''. \phi'''' 9 (\lambda \phi'''''. \phi''''' 0 \phi''')) \notag \\
-  \bconv  \ & \lambda \phi'''.  (\lambda \phi''''. \phi'''' 9 (\lambda \phi'''''. \phi''''' 0 \phi''')) ( \lambda x \phi'. \phi' ( \lambda y \phi ''. \phi''  (\mathsf{sqrt} ( \mathsf{div} \ x\ y ))))\notag \\  
-    \bconv  \ & \lambda \phi'''.  ( \lambda x \phi'. \phi' ( \lambda y \phi ''. \phi''  (\mathsf{sqrt} ( \mathsf{div} \ x\ y )))) 9 (\lambda \phi'''''. \phi''''' 0 \phi''')\notag \\
-     \bred  \ & \lambda \phi'''.   (\lambda \phi'''''. \phi''''' 0 \phi''') ( \lambda y \phi ''. \phi''  (\mathsf{sqrt} ( \mathsf{div} \ 9\ y ))) \notag \\ 
- \bconv  \ & \lambda \phi'''.    ( \lambda y \phi ''. \phi''  (\mathsf{sqrt} ( \mathsf{div} \ 9\ y )))  0 \phi'''\notag \\
-\bred \ & \lambda \phi'''. \phi''' \mathsf{sqrt} (\mathsf{div} \ 9 \ 0)  \notag \\
- =  \ & \lambda \phi'''. \phi''' (\mathsf{sqrt} (\mathtt{error} )) \label{sqrterrowCPS}\\
- =   \ & ??? \notag
-\end{align} \qex \label{ex:divbyzeroCPStransformed}
-\end{example}
-
-However, an advantage of the CPS-written program~\eqref{eq:exdivbyzero} is that it can be extended with an unusual control due to the fact that it, as well as its functions, have continuations as arguments. Particularly, division can be refined in a way so that when the divisor is zero, it disregards the continuation and immediately returns an error message as a result of the whole program; and otherwise provides the result of the division to its continuation. 
-Thus, one can modify $\overline{\mathsf{div}}$ given in~\eqref{div-3} by adding a control on whether $y$ is equal to zero or not, as shown in~\eqref{div-4}:
-%
-\begin{align}
-\overline{\mathsf{div}} = \ & \lambda \phi . \phi ( \lambda x \phi'. \phi' ( \lambda y .  \mathsf{if} \ (y =0)  \ \mathsf{then} \ \mathtt{error}  \ \mathsf{else}  \  (\lambda \phi''. \phi'' (\mathsf{div} \ x \ y) )) ) \label{div-4}
-\end{align} 
-
-With Equation~\eqref{div-4} a CPS program~\eqref{eq:exdivbyzeroCPScontrol} that has a special treatment for division by zero can be obtained:
-%
-\begin{example}
-%\begin{footnotesize}
-\begin{align}
- \overline{\lambda xy. \mathsf{sqrt} (\mathsf{div} \ x \ y)} 
-  = \ & \lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.    \mathsf{if} \ (y = 0)  \ \mathsf{then} \ \mathtt{error}  \notag \\
-  & \phantom{\lambda \phi. \phi   }
-   \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ x \ y) )  (\lambda n.  \phi''(  \mathsf{sqrt}  n)) ) ))) \label{eq:exdivbyzeroCPScontrol} 
-\end{align} \qex
-%\end{footnotesize}
-\end{example}
-
-%
-Term~\eqref{eq:exdivbyzeroCPScontrol}, abbreviated below as $\overline{t}^{control}$, computes a square root of a result of a division, as programs $t$ and $\overline{t}$ do. However, since $\overline{t}^{control}$ has the control over division by zero it, unlike $t$ and $\overline{t}$, terminates with an error when the divisor is equal to zero:
-%
-\begin{example} \label{ex:CPScontrolfinal}
-%\begin{footnotesize}
-\begin{align}
-& \lambda \phi. \overline{t}^{control} (\lambda \phi'. \phi' 9 (\lambda \phi''. \phi'' 0 \phi)) \notag \\
-%= \ & \lambda \phi. (\lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.    \mathsf{if} \ (y = 0)  \ \mathsf{then} \ \mathtt{error}  \notag \\
-%& \phantom{\lambda \phi. (\lambda \phi. \phi ( \lambda x. ( \lambda \phi'. \phi' ( \lambda y. ( \lambda \phi''.} 
-% \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ x \ y) )  (\lambda n.  \phi''(  \mathsf{sqrt}  n)) ) )))) \notag \\
-% & \phantom{\lambda \phi.} (\lambda \phi'. \phi' 9 (\lambda \phi''. \phi'' 0 \phi)) \notag \\
-  \bred \ & \lambda \phi.   ( \lambda y. ( \lambda \phi''.    \mathsf{if} \ (y = 0)  \ \mathsf{then} \ \mathtt{error} \ \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ 9 \ y) )  (\lambda n.  \phi''(  \mathsf{sqrt}  n)) ) ) 0 \phi \notag \\
-    \bred \ & \lambda \phi. \mathsf{if} \ (0 = 0)  \ \mathsf{then} \ \mathtt{error} \ \mathsf{else}  \  (\lambda \phi'''. \phi''' (\mathsf{div} \ 9 \ 0) )  (\lambda n.  \phi(  \mathsf{sqrt}  n))  \notag \\
-=  \ & \ \mathtt{error} \notag %\label{errormsg}
-\end{align} \qex
-%\end{footnotesize}
-\end{example}
 
 As mentioned above, the method of continuation was introduced to give compositional semantics to full jumps in programming languages. Next example illustrates on the example of a simple language that continuation-based interpretation of $\abort$ operation leads to desired evaluation of a program, while a direct interpretation does not.
 
@@ -535,4 +447,7 @@ I_{S}(x:=3; x:=5) \xi \phi = \ & \phi(\xi[x:=3][x:=5]) \notag \\
 \end{align} \qex
 \end{example}
 
-%Next chapter proposes an approach that uses continuations in order to implement the influential pragmatic ideas of Stalnaker~\cite{Stalnaker:1978:Assertion} in Montague's settings. This is done by providing two additional arguments to each $\lambda$-term interpreting a natural language proposition. One argument stands for the continuation of the term. Another argument represents a (previously computed) context. Moreover, within the body of the $\lambda$-term, the continuation is applied to the (possibly updated) context (therefore, the continuation is dependent on the context). This is inspired by Stalnaker's idea that each assertion is made in context, is dependent upon the context and updates the context.\footnote{\cite{Heim:1982:The-Semantics-of-Definite-and-Indefinite-Noun-Phrases} and \cite{Kamp:1981:A-Theory-of-Truth-and-Semantic-Representation} also elaborate the work of Stalnaker~\cite{Stalnaker:1978:Assertion}. They do it, however, in a fundamentally different, non-compositional, way. }
+
+Definition~\ref{def:CPS-transformation} transforms a program into an \emph{equivalent} CPS program. However, the advantage of a program written in continuation passing style is that it can be expanded with unusual expressions, e.g. non-local transfers of control, in order to manage the execution of the program. We apply this technique for interpreting unconventional lexical constituents of the natural language, such as proper names and pronouns. The rest of the paper develops a modular continuation-based approach of natural language semantics, {\FullName}. Its functioning is illustrated on pronominal and donkey anaphora.
+
+%For example, one of the possible control expressions of a function can be to  discard all the future of the computation (i.e. its continuation) and return the error as a result of the whole program, in the case an error happens within this function.
