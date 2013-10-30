@@ -38,7 +38,7 @@ Accordingly, we consider $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow
 \end{definition}
 
 
-Example~\ref{ex:2006-jlm} shows the dynamic meaning~\eqref{eq:ex:lovejm} of the simple sentence~\eqref{sent:JlovesM-2006}. Note the presence of the conjunct $\phi e^*$ in~\eqref{eq:ex:lovejm} that conveys that an updated context is passed as an argument to the continuation of a proposition, and is, therefore, accessible in the rest of the computation. As mentioned above, this kind of conjunct is a subterm of every proposition in the dynamic approach described here.
+Example~\ref{ex:2006-jlm} shows the dynamic meaning~\eqref{eq:ex:lovejm} of the simple sentence~\eqref{sent:JlovesM-2006}. Observe the presence of the conjunct $\phi e^*$ in~\eqref{eq:ex:lovejm} that conveys that an updated context is passed as an argument to the continuation of a proposition, and is, therefore, accessible in the rest of the computation. As mentioned above, this kind of conjunct is a subterm of every proposition in the dynamic approach described here.
  \begin{example} \label{ex:2006-jlm} The meaning of the sentence~\eqref{sent:JlovesM-2006} is the lambda-term~\eqref{eq:ex:lovejm}:
 \enumsentence{ \txt{John loves Mary.} \label{sent:JlovesM-2006}}
 \begin{align}
@@ -53,7 +53,7 @@ Example~\ref{ex:2006-jlm} shows the dynamic meaning~\eqref{eq:ex:lovejm} of the 
 \gamma \defeq \texttt{ list of } [ \ \iota \ ]  
 \end{align}
  
- This simple choice of representation for contexts is motivated  by our preference to focus on the mechanism of {\FullName} and avoid being distracted from this goal with the discussion what the ideal interpretation of the context should be. Indeed, the definition~\eqref{def:gammaislistofiota} of $\gamma$ is already sufficient for illustrating the basic idea of {\FullName} for handling cross-sentential and donkey anaphora.
+ This simple choice of representation for contexts is motivated  by our preference to focus on the mechanism of {\FullName} and avoid being distracted from this goal with the discussion what the ideal interpretation of the context should be. Indeed, the definition~\eqref{def:gammaislistofiota} of $\gamma$ is already sufficient for illustrating the basic idea of {\TDL} for handling cross-sentential and donkey anaphora.
  
 The context defined in~\eqref{def:gammaislistofiota}  stores interpretations of objects that previously occurred in the discourse. When a new object is interpreted as an individual $x$, the current context $e$ is updated with $x$, resulting in $(x::e)$, where $::$ is a list constructor of type $(\iota \rightarrow \gamma \rightarrow \gamma)$:
 
@@ -349,7 +349,7 @@ Now we can compute the meaning of discourse~\eqref{sent:JlovesMHesmilesatHer}, g
 
 %Interpretation~\eqref{eq:D2} of discourse~\eqref{sent:JlovesMHesmilesatHer} was obtained in a truly compositional fashion. 
 
-Observe that during the computation of $\D_2$, the context $(\textbf{j} :: \textbf{m}::\nil)$ coming from the interpretation $\S_1$ of the first sentence was passed via $\beta$-reduction to $\selK$ operators coming from interpretation $\S_2$ of the second sentence. In other words, $\selK$ operators compositionally obtained access to the context $(\textbf{j} :: \textbf{m}::\nil)$ in a compositional manner. Having an anaphora resolution algorithm implemented, $\selK$ would select appropriate individuals from $(\textbf{j} :: \textbf{m}::\nil)$. Then
+Observe that during the computation of $\D_2$, the context $(\textbf{j} :: \textbf{m}::\nil)$ coming from the interpretation $\S_1$ of the first sentence was passed via $\beta$-reduction to $\selK$ operators coming from interpretation $\S_2$ of the second sentence. In other words, $\selK$ operators compositionally obtained access to the context $(\textbf{j} :: \textbf{m}::\nil)$. Having an anaphora resolution algorithm implemented, $\selK$ would select appropriate individuals from $(\textbf{j} :: \textbf{m}::\nil)$. Then
 the following semantic representation of~\eqref{sent:JlovesMHesmilesatHer} would be obtained: 
 \begin{align}
 \lambda \phi.\textbf{love} \  \textbf{j} \ \textbf{m} \land    \textbf{smile}  \ \textbf{j} \ \textbf{m} \land \phi   (\textbf{j} :: \textbf{m}::\nil) \label{int:JLMHeSH:2006-2}
