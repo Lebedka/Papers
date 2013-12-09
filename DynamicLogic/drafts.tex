@@ -1,0 +1,96 @@
+Each static type can be dynamized in the following way:
+\begin{definition}[Dynamization of types]\label{def:DTypes-FO} Let $\iota$ and $o$ be atomic types, $\gamma$ be a type parameter, $\alpha$ and $\beta$ be arbitrary types. Then the types are \textbf{dynamized} in the following way:
+\begin{subequations}
+\begin{align}
+\tr{\iota} \defeq \ &  \iota  \label{def:DTypes-FO:iota}\\
+ \tr{o} \defeq \ & \gamma \rightarrow (\gamma \rightarrow o) \rightarrow o \label{def:DTypes-FO:o}\\
+  \tr{\alpha \rightarrow \beta} \defeq \ & \tr{\alpha}  \rightarrow \tr{\beta} \label{def:DTypes-FO:atob}
+\end{align}
+\end{subequations}
+\end{definition}
+Note that the type $o$ of a static proposition is transformed to type $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o)$. Type $(\gamma \rightarrow (\gamma \rightarrow o) \rightarrow o)$ is thus the type of a dynamic proposition. Therefore, dynamic propositions are functions from $\gamma$ (type of context) and $(\gamma \rightarrow o)$ (type of continuation) to $o$ (type of static proposition).
+Static and dynamic individuals are defined to have the same type.
+
+Definition~\ref{def:DTerms} formalizes a systematic translation of every term $\t1$ to its dynamic equivalent $\tr{\t1}$. The translation is relatively straightforward for all kinds of terms except non-logical constants. Non-logical constants have various types, therefore their dynamization should be defined in a special way. This is accomplished with the dynamic embedding $\dyn{\delta}{}$ and static projection $\stat{\delta}{}$ functions defined in~\ref{def:DnmStd}. The dynamic embedding function transforms static terms into equivalent dynamic terms. The static projection function is a function that transforms dynamic terms (obtained via $\dyn{\delta}{}$) into original static terms. Note that the dynamic embedding function and the static projection functions are mutually dependent.
+
+
+\begin{definition}[Dynamic embedding and static projection functions]\label{def:DnmStd}
+\textbf{Dynamic embedding function} is a function $\dyn{\delta}{}$ that has type  $( \delta \rightarrow \tr{\delta})$ and is inductively defined on the type $\delta$ as follows:
+\begin{subequations}
+\begin{align}
+\dnm{\iota}{\x1} \ \defeq \ & \x2 \label{def:D_iota}\\
+\dnm{o}{\P1}  \ \defeq \ & \lambda e \phi. \P1 \land \phi e \label{def:D_o}\\
+\dnm{\alpha \rightarrow \beta}{\h1} \ \defeq \ &  \lambda \x2. \dnm{\beta}{ \h1 \ \std{\alpha}{\x2}} \label{def:D_atob}
+\end{align}
+\end{subequations}
+
+\textbf{Static projection function} is a function $\stat{\delta}{}$ that has type $(\tr{\delta} \rightarrow  \delta)$ and is inductively defined on the type $\delta$ as follows:
+\begin{subequations}
+\begin{align}
+\std{\iota}{ \x2}\ \defeq \ & \x1 \label{def:S_iota}\\
+\std{o}{\P2} \ \defeq \ & \P2 e (\lambda e. \top) \label{def:S_o}\\
+\std{\alpha \rightarrow \beta}{\h2} \  \defeq \ & \lambda \x1. \std{\beta}{\h2 \ \dnm{\alpha}{\x1}}  \label{def:S_atob}
+\end{align}
+\end{subequations}
+\end{definition}
+
+
+Equation~\eqref{def:D_iota} says that if $\x1$ is a term of type $\iota$, then the result of its dynamic embedding is a itself. According to Equation~\eqref{def:D_o}, dynamic embedding of a term $\P1$ of type $ o$ leads to a dynamic proposition. Equation~\eqref{def:D_atob} specifies dynamic embedding of a term $\h1$ of the complex type $(\alpha \rightarrow \beta)$. The resulting term has to be of type $(\tr{\alpha} \rightarrow \tr{\beta})$. It is defined by abstracting over a variable of type $\tr{\alpha}$ and specifying the body of type $\tr{\beta}$. The body has to be obtained by dynamic embedding of a term of which $\h1$ is a subterm. Since the body of the argument of the function $\dyn{\beta}{}$ has to be the term of type $\beta$, $\h1$ is given the static version $\std{\alpha}{\x2}$ of $\x2$ as the argument. 
+
+
+The static projection function is the inverse of the dynamic embedding function. Equation~\eqref{def:S_iota} says that if $\x2$ is a dynamic term of type $ \iota$, then the static projection function returns the same term. Equation~\eqref{def:S_o} shows that a dynamic proposition is provided the context and an empty continuation to become a static proposition. Finally, Equation~\eqref{def:S_atob} defines the translation of a dynamic term $\h2$ of a complex type $(\tr{\alpha} \rightarrow \tr{\beta})$ to its static equivalent of type $(\alpha \rightarrow \beta)$. First, there is an abstraction over a variable of type $\alpha$, then the body of type $\beta$ is obtained by applying $\stat{\beta}{}$ to a term of which $\h2$ is a subterm. Therefore, to return a term of type $\tr{\beta}$, $\h2$ has to be provided a term of type $\tr{\alpha}$ as an argument. This term is obtained by applying dynamic embedding function $\dnm{\alpha}{x}$ to $ \x1$.
+
+
+Now, we can define the modular dynamization of any static term:
+\begin{definition}[Dynamization of $\lambda$-terms] A term $\t1$ of type $\delta$ is \textbf{dynamized} into a term $\tr{\t1}$ of type $\tr{\delta}$ in the following way:
+\begin{subequations}
+\begin{itemize}
+
+\item If $\t1$ is a non-logical constant $\k1$, then
+\begin{align}
+ \tr{\k1} \defeq \dnm{\delta}{\k1} \label{def:DTerms:cnst}
+ \end{align}
+ 
+ \item If $t$ is a variable $\x1$, then
+\begin{align}
+\tr{\x1} \defeq \x2 \label{def:DTerms:var}
+\end{align}
+
+ 
+ \item If $\t1$ is an application $vu$, then 
+\begin{align} 
+\tr{vu}   \defeq  \tr{v} \ \tr{u} \label{def:DTerms:app}
+\end{align}
+
+\item If $\t1$ is an abstraction $\lambda \x1. \v1$, then
+\begin{align}
+ \tr{\lambda \x1. \v1} \defeq \lambda \x2. \tr{\v1} \label{def:DTerms:abs}
+ \end{align}
+ 
+ \item If $\t1$ is of the form $v \land u$, then
+\begin{align} 
+ \tr{v \land u} \defeq \tr{v} \cnj2 \tr{u}  \label{def:DTerms:cnj}
+\end{align} 
+  
+\item If $\t1$ is of the form $\ex1 (\lambda x. v[x])$, then
+\begin{align}
+ \tr{\ex1 (\lambda x. v[x])} \defeq \ex2 (\tr{\lambda \x1. v[\x1]}) \label{def:DTerms:exist}
+ \end{align} 
+
+\item If $\t1$ is of the form $\n1 \tr{v}$, then
+\begin{align}
+ \tr{\n1 v} \defeq  \n2 v  \label{def:DTerms:neg}
+\end{align}
+ 
+ \end{itemize}
+ \end{subequations}
+
+ 
+\label{def:DTerms}
+\end{definition}
+
+A non-logical constant $\k1$ is dynamized by applying function $\dyn{}{}$ to it. Dynamization of a variable is the same variable. Dynamization of an application is the application of each of the terms dynamized separately. Dynamization of an abstraction is the dynamization of the body of it, abstracted over the same variable. Dynamic conjunction is a dynamic composition of two terms. Dynamization of a term bound by an existential quantifier is defined as a term in which $\ex2$ is applied to the dynamized term. Dynamization of a negated term is defined as dynamic negation $\n2$ applied to the dynamized term.
+
+ Rules defined in~\ref{def:DTerms} allow the presentation of dynamic terms in a compact way. They ensure that dynamic terms are structurally analogous to their static counterparts and, therefore, are more intuitive.
+
+
